@@ -656,6 +656,14 @@ section:nth-child(5){
   }
 }
 
+.project-card .btn-secondary{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin-top: 20px;
+}
+
 /* projects end */
 
 .btn-secondary {
