@@ -1,0 +1,209 @@
+/* AppleStyleWebsite.css */
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* Prevents both horizontal and vertical overflow */
+}
+.mega-container {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0; /* Optional: Set a neutral background */
+  overflow: hidden; /* Prevent body scrolling */
+}
+
+.phone-container {
+  border: 5px solid black;
+  background-image: url("../images/car.jpg");
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Let inner containers handle overflow */
+  position: relative;
+  transition: all 0.3s ease-in-out;
+  transform: translateY(10%); /* Start off-screen */
+  animation: slideIn 1s forwards; /* Slide in animation */
+}
+
+@keyframes slideIn {
+  to {
+    transform: translateY(0); /* End at original position */
+  }
+}
+
+.phone-container.phone-initial {
+  width: 375px;
+  height: 812px;
+}
+
+.phone-container.phone-expanded {
+  width: 100vw;
+  height: 100vh;
+  border-width: 0;
+}
+
+.phone-content {
+  height: 100%; /* Full height of container */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: 20px;
+}
+
+.date-time {
+  color: white;
+  font-size: 1.5rem;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  top: 35px; /* Adjust this value to position it right under the dynamic island */
+  width: 100%;
+}
+
+.date-time h4 {
+  font-size: 1.3rem;
+  margin-top: 15px;
+  color: rgba(255, 255, 255, 0.8); /* Slightly accented color */
+  padding: 2px 8px;
+  border-radius: 5px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* Apple lock screen font */
+}
+
+.date-time h2 {
+  font-size: 6rem;
+  margin: -40px;
+  color: rgba(255, 255, 255, 0.8); /* Bright white color */
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* Apple lock screen font */
+}
+
+
+
+
+.status-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 50px;
+}
+
+.dynamic-island {
+  background-color: black;
+  border-radius: 20px;
+  width: 35%;
+  height: 25px;
+  z-index: 1000;
+  transition: border-radius 0.5s ease-in-out;
+  /* Center horizontally */
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.phone-container.phone-expanded .dynamic-island {
+  width: calc(100% - 40px);
+  height: 60px;
+  top: 10px;
+  border-radius: 50px;
+}
+
+.lock-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  position: absolute;
+  bottom: 30px; /* Adjusted to fit within container */
+  width: 100%;
+}
+
+.slide-bar {
+  width: 80%;
+  height: 70px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  padding-left: 8px;
+}
+
+.drag-circle {
+  width: 60px;
+  height: 60px;
+  background-color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+}
+
+.unlock-text {
+  color: white;
+  margin-left: 16px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: colorChange 3s ease-out infinite;
+}
+
+@keyframes colorChange {
+  0% {
+    background-position: -100% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: -100% 50%;
+  }
+}
+
+.phone-icon {
+  color: green;
+}
+
+/* Remove background-attachment: fixed to prevent interference with scroll-snap in Safari */
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .phone-container {
+    width: 300px;
+    height: 667px;
+    border-radius: 40px;
+  }
+
+  .phone-container.phone-expanded {
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+  }
+
+  .header {
+    left: 10px;
+    width: calc(100vw - 20px);
+  }
+
+  .hero h1 {
+    font-size: 3rem;
+  }
+
+  .hero h2 {
+    font-size: 1.5rem;
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
+}
