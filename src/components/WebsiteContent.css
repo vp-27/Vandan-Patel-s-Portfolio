@@ -606,13 +606,12 @@ section:nth-child(5){
 .tech-chip {
   color: var(--text-color);
   background-color: var(--card-background);
-  color: #fff;
   padding: 5px 10px;
   border-radius: 20px;
   font-size: 0.9rem;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2), -1px -1px 4px rgba(255, 255, 255, 0.7);
 }
 
 .tech-chip:hover {

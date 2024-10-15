@@ -158,27 +158,6 @@ const Projects = () => {
     },
   ];
 
-  // Effect to handle mouse leave event to collapse expanded project card
-  useEffect(() => {
-    let timer;
-    const handleMouseLeave = () => {
-      timer = setTimeout(() => {
-        setExpandedProject(null);
-      }, 2000);
-    };
-
-    if (projectsRef.current) {
-      projectsRef.current.addEventListener('mouseleave', handleMouseLeave);
-    }
-
-    return () => {
-      if (projectsRef.current) {
-        projectsRef.current.removeEventListener('mouseleave', handleMouseLeave);
-      }
-      clearTimeout(timer);
-    };
-  }, []);
-
   return (
     <motion.section 
       id="projects" 
