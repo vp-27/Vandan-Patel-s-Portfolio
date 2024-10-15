@@ -1,12 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
 import { ExternalLink, Github, X } from 'lucide-react';
+import bluPrintImage from '../images/bluPrintShot.png';
+import orogenieImage from '../images/orogenieShot.png';
+import personalWebsiteImage from '../images/personalWebsiteShot.png';
 
 // Component for individual project card
-const ProjectCard = ({ project, isExpanded, onExpand, onClose }) => {
+const ProjectCard = ({ project, isExpanded, onExpand, onClose, index }) => {
   const cardRef = useRef(null);
 
-  // Effect to handle clicks outside the expanded card to close it
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (cardRef.current && !cardRef.current.contains(event.target)) {
@@ -29,9 +31,13 @@ const ProjectCard = ({ project, isExpanded, onExpand, onClose }) => {
       layout
       className={`project-card ${isExpanded ? 'expanded' : ''}`}
       initial={{ opacity: 0, y: 50 }}
-      animate={{ opacity: 1, y: 0 }}
+      animate={{ 
+        opacity: 1, 
+        y: 0,
+        zIndex: isExpanded ? 10 : 0
+      }}
       exit={{ opacity: 0, y: 50 }}
-      transition={{ duration: 0.1, layout: { duration: 0.1, type: "spring" } }}
+      transition={{ duration: 0.3 }}
       onClick={() => !isExpanded && onExpand()}
     >
       <motion.div layout="position" className="project-image" style={{ backgroundImage: `url(${project.image})` }}>
@@ -129,25 +135,25 @@ const Projects = () => {
     {
       title: "OroGenie Trading Platform",
       description: "A comprehensive online store with secure payment processing and real-time inventory management. This platform offers a seamless shopping experience for customers and powerful tools for store owners.",
-      image: "https://i.ytimg.com/vi/BfEcLruyksE/sddefault.jpg",
-      link: "https://ecommerce-demo.com",
-      github: "https://github.com/johndoe/ecommerce-platform",
+      image: orogenieImage,
+      link: "https://orogenie.vercel.app",
+      github: "https://github.com/vp-27/OroGenie",
       technologies: ["React", "Flask", "Selenium", "SQL-Alchemy", "JWT", "TradingView Widget API", "CSS", "ReCharts"]
     },
     {
-      title: "Task Management App",
-      description: "A collaborative task manager designed for teams. Features include real-time updates, task assignment, progress tracking, and team chat functionality.",
-      image: "/path/to/taskmanager-image.jpg",
-      link: "https://taskmanager-demo.com",
-      github: "https://github.com/johndoe/task-management-app",
-      technologies: ["Vue.js", "Firebase", "Vuex", "Element UI"]
+      title: "BluPrint - Room Organizer",
+      description: "Developed a web-based room organization tool combining visual design with inventory management. BluPrint features an interactive canvas for room layouts, customizable storage boxes, and Excel import/export functionality. Built entirely through frontend React with data handling through XLSX file creation.",
+      image: bluPrintImage,
+      link: "https://bluprint-orpin.vercel.app",
+      github: "https://github.com/vp-27/BluPrint",
+      technologies: ["Framer Motion", "React", "HTML", "CSS", "XLSX", "JavaScript"]
     },
     {
-      title: "Weather Dashboard",
-      description: "An interactive weather application providing location-based forecasts, historical weather data, and severe weather alerts. Utilizes multiple weather APIs for accurate and up-to-date information.",
-      image: "/path/to/weather-image.jpg",
-      link: "https://weather-dashboard.com",
-      github: "https://github.com/johndoe/weather-dashboard",
+      title: "iPhone-Style Personal Website",
+      description: "You're looking at it! This website was designed to mimic the iOS home screen, complete with app icons and a dynamic wallpaper, but with a twist. It actually doubles as a personal website, showcasing my achievements! The site is built with React and Framer Motion for animations.",
+      image: personalWebsiteImage,
+      link: "https://vandan-patel.vercel.app/",
+      github: "https://github.com/vp-27/Vandan-Patel-s-Portfolio",
       technologies: ["React", "Redux", "OpenWeatherMap API", "Chart.js"]
     },
   ];
@@ -188,7 +194,7 @@ const Projects = () => {
         Projects
       </motion.h2>
       <LayoutGroup>
-        <motion.div layout className={`project-grid ${expandedProject !== null ? 'expanded' : ''}`}>
+        <motion.div layout className={`project-grid ${expandedProject !== null ? 'focused' : ''}`}>
           <AnimatePresence>
             {projects.map((project, index) => (
               <ProjectCard 
@@ -197,6 +203,7 @@ const Projects = () => {
                 isExpanded={expandedProject === index}
                 onExpand={() => setExpandedProject(index)}
                 onClose={() => setExpandedProject(null)}
+                index={index}
               />
             ))}
           </AnimatePresence>

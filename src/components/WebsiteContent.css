@@ -629,12 +629,18 @@ section:nth-child(5){
 .close-button {
   position: absolute;
   top: 20px;
-  right: 20px;
-  background: none;
+  left: 20px;
+  background: red;
   border: none;
-  color: var(--text-color);
+  color: black;
   cursor: pointer;
   z-index: 11;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .close-button:hover {

@@ -323,7 +323,7 @@ const Footer = () => {
     {
       name: 'Portfolio',
       icon: <img src="https://images.freeimages.com/fic/images/icons/2443/bunch_of_cool_bluish_icons/512/reload.png" alt="Portfolio" />,
-      link: 'https://johndoeportfolio.com',
+      link: 'https://vandan-patel.vercel.app/',
     },
     {
       name: 'OroGenie',
