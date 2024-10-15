@@ -311,7 +311,7 @@ section:nth-child(5){
 }
 
 .about-image img {
-  width: 100%;
+  width: 20rem;
   border-radius: 15px;
   box-shadow: var(--card-shadow);
   transition: box-shadow 0.3s, transform 0.3s;
