@@ -141,16 +141,18 @@ const About = () => (
         <img src={profileImage} alt="Vandan Patel" loading="lazy" />
       </div>
       <div className="about-text">
-        <p>
-          I’ve always valued function over form—but never when function lacks form. For me, that's where passion meets purpose.
-        </p>
-        <p>
-          As I pursue a Bachelor of Science in Computer Science and Finance, I carry a keen focus on blending intuitive design with functional components. I love to nitpick on the design of applications, creating a responsive frontend dynamic that follows the data organization of the backend.
-          My project work, such as OroGenie—a revamped trading dashboard with paper trading capabilities and an upcoming Python algorithmic trading interface—reflects my commitment to creating seamless, user-friendly interfaces that merge financial analysis with software development. Additionally, during my internship, I contributed to a data warehousing project working with SQL queries and DBT, and spearheaded the introduction of prompt engineering strategies of large language models to the team, significantly impacting our workflow.
-        </p>
-        <p>
-        Outside of academics and work, I’m a black belt in Taekwondo, an avid mountain biker, and enjoy both video and photo editing—because sometimes, it’s the details that make all the difference.
-        </p>
+        <div className="about-text-content">
+          <p>
+            I've always valued function over form—but never when function lacks form. For me, that's where passion meets purpose.
+          </p>
+          <p>
+            As I pursue a Bachelor of Science in Computer Science and Finance, I carry a keen focus on blending intuitive design with functional components. I love to nitpick on the design of applications, creating a responsive frontend dynamic that follows the data organization of the backend.
+            My project work, such as OroGenie—a revamped trading dashboard with paper trading capabilities and an upcoming Python algorithmic trading interface—reflects my commitment to creating seamless, user-friendly interfaces that merge financial analysis with software development. Additionally, during my internship, I contributed to a data warehousing project working with SQL queries and DBT, and spearheaded the introduction of prompt engineering strategies of large language models to the team, significantly impacting our workflow.
+          </p>
+          <p>
+            Outside of academics and work, I'm a black belt in Taekwondo, an avid mountain biker, and enjoy both video and photo editing—because sometimes, it's the details that make all the difference.
+          </p>
+        </div>
         <motion.a
           href="#contact"
           className="btn btn-primary"
@@ -425,8 +427,13 @@ const WebsiteContent = () => {
   const handleHeaderClick = (e, sectionId) => {
     e.preventDefault();
     const section = document.getElementById(sectionId);
-    if (section) {
-      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const container = websiteContentRef.current;
+    if (section && container) {
+      const sectionTop = section.offsetTop;
+      container.scrollTo({
+        top: sectionTop,
+        behavior: 'smooth'
+      });
     }
   };
 

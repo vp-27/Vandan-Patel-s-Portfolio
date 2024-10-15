@@ -297,7 +297,7 @@ section:nth-child(5){
 
 .about-content {
   display: flex;
-  align-items: center;
+  align-items: flex-start; /* Changed from center to align items at the top */
   justify-content: space-between;
   gap: 60px;
   flex-wrap: wrap;
@@ -325,13 +325,30 @@ section:nth-child(5){
 .about-text {
   flex: 2;
   min-width: 300px;
+  max-height: 60vh; /* Limit the height of the text container */
+  overflow-y: auto; /* Allow vertical scrolling if content exceeds max-height */
+  padding-right: 20px; /* Add some padding for the scrollbar */
 }
 
 .about-text p {
   margin-bottom: 25px;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   line-height: 1.9;
   color: var(--text-color);
+}
+
+/* Style the scrollbar for webkit browsers */
+.about-text::-webkit-scrollbar {
+  width: 8px;
+}
+
+.about-text::-webkit-scrollbar-track {
+  background: var(--background-color);
+}
+
+.about-text::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color);
+  border-radius: 4px;
 }
 
 .btn-primary {
@@ -344,6 +361,8 @@ section:nth-child(5){
   transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
   font-size: 1rem;
   position: relative;
+  display: inline-block; /* Change to inline-block */
+  margin-top: 20px; /* Add some space above the button */
 }
 
 .btn-primary::after {
@@ -366,6 +385,20 @@ section:nth-child(5){
 .btn-primary:active {
   transform: translateY(2px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+  .about-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .about-text {
+    max-height: none; /* Remove max-height on smaller screens */
+    overflow-y: visible; /* Remove scrolling on smaller screens */
+    padding-right: 0; /* Remove padding on smaller screens */
+  }
 }
 
 /* Skills Section */
