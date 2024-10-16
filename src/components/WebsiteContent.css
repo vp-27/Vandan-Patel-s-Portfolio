@@ -646,20 +646,7 @@ section:nth-child(5){
   color: var(--primary-color);
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .expanded-content {
-    flex-direction: column;
-  }
 
-  .expanded-content .project-image {
-    height: 200px;
-  }
-
-  .project-details {
-    padding: 20px;
-  }
-}
 
 .project-card .btn-secondary{
   display: flex;
@@ -761,11 +748,7 @@ section:nth-child(5){
   color: var(--text-color);
 }
 
-@media (max-width: 768px) {
-  .leadership-grid {
-    grid-template-columns: 1fr;
-  }
-}
+
 
 /* Contact Section */
 .contact {
@@ -1043,58 +1026,3 @@ section:nth-child(5){
   
 }
 
-@media (max-width: 768px) {
-  
-  .dynamic-island {
-    width: 50%;
-    height: 20px;
-    top: 20px;
-  }
-
-  .phone-container.phone-expanded .dynamic-island {
-    width: calc(100% - 40px);
-    height: 50px;
-    top: 10px;
-  }
-
-  .header {
-    padding: 15px;
-    width: 50%;
-    top: 20px;
-  }
-
-  .phone-container.phone-expanded .header {
-    width: calc(100% - 40px);
-    top: 10px;
-    padding: 10px 15px; /* Responsive padding */
-  }
-
-  .hero h1 {
-    font-size: 3rem;
-    margin-top: -200px;
-  }
-
-  .hero h2 {
-    font-size: 1.5rem;
-  }
-
-  .about-content {
-    padding: 0 20px;
-  }
-
-  .project-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .skills-list .skill-item {
-    width: 90%;
-  }
-
-  .header nav ul li a {
-    font-size: 0.7rem;
-  }
-
-  .theme-toggle {
-    font-size: 0.7rem;
-  }
-}
