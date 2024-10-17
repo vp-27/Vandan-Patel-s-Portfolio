@@ -154,7 +154,7 @@ const Projects = () => {
       image: personalWebsiteImage,
       link: "https://vandan-patel.vercel.app/",
       github: "https://github.com/vp-27/Vandan-Patel-s-Portfolio",
-      technologies: ["React", "Redux", "OpenWeatherMap API", "Chart.js"]
+      technologies: ["React", "Framer-Motion", "HTML", "CSS", "JavaScript"]
     },
   ];
 
