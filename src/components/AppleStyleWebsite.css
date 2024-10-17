@@ -2,16 +2,14 @@
 
 .mega-container {
   margin: 0;
-  padding: 0;
-  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f0f0f0; /* Optional: Set a neutral background */
   overflow: hidden; /* Prevent body scrolling */
 }
 
 .phone-container {
+  margin-top: 30px;
   border: 5px solid black;
   background-image: url("../images/car.jpg");
   background-size: cover;
@@ -35,7 +33,10 @@
   height: 812px;
 }
 
+
+
 .phone-container.phone-expanded {
+  margin-top: 0px;
   width: 100vw;
   height: 100vh;
   border-width: 0;
