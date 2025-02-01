@@ -826,10 +826,13 @@ section:nth-child(5){
 
 /* Contact Section */
 .contact {
-  padding: 120px 40px;
   position: relative;
-  background-color: transparent; /* Transparent to allow background blend */
+  padding: 120px 40px;
+  background-color: transparent;
   color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .contact h2 {
@@ -842,36 +845,30 @@ section:nth-child(5){
 /* Customized Contact Form */
 .contact-form-custom {
   max-width: 600px;
+  width: 100%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  background-color: rgba(255, 255, 255, 0.1); /* Light theme */
-  padding: 30px;
-  border-radius: 15px;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s, border 0.3s;
+  gap: 24px;
+  background: var(--card-background);
+  padding: 40px;
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
-[data-theme="dark"] .contact-form-custom {
-  background-color: rgba(44, 44, 44, 0.5); /* Dark theme */
-  border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-/* Adjust form inputs for better contrast */
 .contact-form-custom input,
 .contact-form-custom textarea {
-  padding: 15px 20px;
-  border: 2px solid var(--primary-color);
-  border-radius: 8px;
-  font-size: 1rem;
-  background-color: rgba(255, 255, 255, 0.2); /* Light theme */
-  color: var(--text-color);
-  transition: border-color 0.3s, background-color 0.3s;
   width: 100%;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: var(--text-color);
+  font-size: 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  transition: all 0.3s ease;
 }
 
 .contact-form-custom input::placeholder,
@@ -879,21 +876,69 @@ section:nth-child(5){
   color: var(--text-color);
 }
 
-[data-theme="dark"] .contact-form-custom input,
-[data-theme="dark"] .contact-form-custom textarea {
-  background-color: rgba(44, 44, 44, 0.3); /* Dark theme */
-}
-
 .contact-form-custom input:focus,
 .contact-form-custom textarea:focus {
   outline: none;
-  border-color: var(--secondary-color);
-  background-color: rgba(255, 255, 255, 0.3);
+  border-color: var(--primary-color);
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.1);
 }
 
 .contact-form-custom textarea {
-  resize: vertical;
   min-height: 150px;
+  resize: vertical;
+}
+
+.contact-form-custom button {
+  background: var(--primary-color);
+  color: white;
+  padding: 16px 32px;
+  border: none;
+  border-radius: 980px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 8px;
+}
+
+.contact-form-custom button:hover {
+  background: var(--button-hover);
+  transform: translateY(-1px);
+}
+
+.success-message,
+.error-message {
+  text-align: center;
+  font-size: 0.9rem;
+  padding: 12px 20px;
+  border-radius: 12px;
+  margin-top: 16px;
+  font-weight: 500;
+  animation: messageSlide 0.3s ease forwards;
+}
+
+.success-message {
+  background: rgba(52, 199, 89, 0.1);
+  color: #34C759;
+  border: 1px solid rgba(52, 199, 89, 0.2);
+}
+
+.error-message {
+  background: rgba(255, 59, 48, 0.1);
+  color: #FF3B30;
+  border: 1px solid rgba(255, 59, 48, 0.2);
+}
+
+@keyframes messageSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Success and Error Messages */

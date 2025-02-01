@@ -283,18 +283,15 @@ const Contact = () => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [formStatus, setFormStatus] = useState({ submitted: false, error: false });
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Simple form validation
     if (formData.name && formData.email && formData.message) {
-      // Simulate form submission
-      console.log("Form submitted:", formData);
       setFormStatus({ submitted: true, error: false });
       setFormData({ name: '', email: '', message: '' });
+      
+      // Add animation class to form
+      e.target.classList.add('form-submitted');
+      setTimeout(() => e.target.classList.remove('form-submitted'), 500);
     } else {
       setFormStatus({ submitted: false, error: true });
     }
@@ -304,10 +301,6 @@ const Contact = () => {
     <motion.section
       id="contact"
       className="contact"
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.7, delay: 0.2 }}
     >
       <motion.h2
         initial={{ opacity: 0, y: 50 }}
@@ -319,49 +312,60 @@ const Contact = () => {
       </motion.h2>
       <motion.form
         onSubmit={handleSubmit}
-        initial={{ opacity: 0, y: 50 }}
+        className="contact-form-custom"
+        initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.7, delay: 0.3 }}
-        className="contact-form contact-form-custom"
+        transition={{ duration: 0.7, delay: 0.2 }}
       >
-        <input 
+        <motion.input 
           type="text" 
           name="name" 
           placeholder="Name" 
           value={formData.name}
-          onChange={handleChange}
-          required 
-          aria-label="Name"
+          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+          whileFocus={{ scale: 1.01 }}
         />
-        <input 
+        <motion.input 
           type="email" 
           name="email" 
           placeholder="Email" 
           value={formData.email}
-          onChange={handleChange}
-          required 
-          aria-label="Email"
+          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+          whileFocus={{ scale: 1.01 }}
         />
-        <textarea 
+        <motion.textarea 
           name="message" 
           placeholder="Message" 
           value={formData.message}
-          onChange={handleChange}
-          required 
-          aria-label="Message"
-        ></textarea>
+          onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+          whileFocus={{ scale: 1.01 }}
+        />
         <motion.button
           type="submit"
-          className="btn btn-primary"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          transition={{ duration: 0.3 }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
         >
           Send Message
         </motion.button>
-        {formStatus.submitted && <p className="success-message">Thank you for your message!</p>}
-        {formStatus.error && <p className="error-message">Please fill out all fields.</p>}
+        {formStatus.submitted && (
+          <motion.p 
+            className="success-message"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            Thank you for your message!
+          </motion.p>
+        )}
+        {formStatus.error && (
+          <motion.p 
+            className="error-message"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            Please fill out all fields.
+          </motion.p>
+        )}
       </motion.form>
       <Footer />
     </motion.section>
