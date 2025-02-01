@@ -6,121 +6,107 @@ import orogenieImage from '../images/orogenieShot.png';
 import personalWebsiteImage from '../images/personalWebsiteShot.png';
 
 // Component for individual project card
-const ProjectCard = ({ project, isExpanded, onExpand, onClose, index }) => {
-  const cardRef = useRef(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (cardRef.current && !cardRef.current.contains(event.target)) {
-        onClose();
-      }
-    };
-
-    if (isExpanded) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isExpanded, onClose]);
+const ProjectCard = ({ project, index }) => {
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <motion.div 
-      ref={cardRef}
+      className="project-card"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       layout
-      className={`project-card ${isExpanded ? 'expanded' : ''}`}
-      initial={{ opacity: 0, y: 50 }}
       animate={{ 
-        opacity: 1, 
-        y: 0,
-        zIndex: isExpanded ? 10 : 0
+        height: isHovered ? "auto" : "400px",
+        transition: { 
+          duration: 0.6,
+          ease: [0.16, 1, 0.3, 1], // Spring-like easing
+          layout: { duration: 0.6 }
+        }
       }}
-      exit={{ opacity: 0, y: 50 }}
-      transition={{ duration: 0.3 }}
-      onClick={() => !isExpanded && onExpand()}
     >
-      <motion.div layout="position" className="project-image" style={{ backgroundImage: `url(${project.image})` }}>
-        {!isExpanded && (
-          <motion.div
-            className="project-overlay"
-            initial={{ opacity: 0 }}
-            whileHover={{ opacity: 1 }}
-            transition={{ duration: 0.3 }}
+      <motion.div className="project-image" style={{ backgroundImage: `url(${project.image})` }}>
+        <motion.div
+          className="project-overlay"
+          initial={{ opacity: 0 }}
+          whileHover={{ opacity: 1 }}
+          transition={{ duration: 0.2 }}
+        >
+          <motion.a
+            href={project.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="project-link"
+            whileHover={{ scale: 1.2 }}
+            whileTap={{ scale: 0.9 }}
           >
+            <ExternalLink size={24} />
+          </motion.a>
+          <motion.a
+            href={project.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="project-github"
+            whileHover={{ scale: 1.2 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            <Github size={24} />
+          </motion.a>
+        </motion.div>
+      </motion.div>
+      <motion.div 
+        className="project-content"
+        layout
+        animate={{ 
+          height: isHovered ? "auto" : "180px",
+          transition: { 
+            duration: 0.6,
+            ease: [0.16, 1, 0.3, 1]
+          }
+        }}
+      >
+        <h3>{project.title}</h3>
+        <p>{project.description}</p>
+        <motion.div 
+          initial={false}
+          animate={{ 
+            opacity: isHovered ? 1 : 0,
+            height: isHovered ? "auto" : 0,
+            transition: {
+              duration: 0.4,
+              ease: [0.16, 1, 0.3, 1],
+              opacity: { duration: 0.3 }
+            }
+          }}
+        >
+          <div className="technologies">
+            {project.technologies.map((tech, index) => (
+              <span key={index} className="tech-chip">{tech}</span>
+            ))}
+          </div>
+          <div className="project-links">
             <motion.a
               href={project.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="project-link"
-              whileHover={{ scale: 1.2 }}
-              whileTap={{ scale: 0.9 }}
+              className="btn btn-primary"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              <ExternalLink size={24} />
+              Live Demo
             </motion.a>
             <motion.a
               href={project.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="project-github"
-              whileHover={{ scale: 1.2 }}
-              whileTap={{ scale: 0.9 }}
+              className="btn btn-secondary"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              <Github size={24} />
+              GitHub
             </motion.a>
-          </motion.div>
-        )}
+          </div>
+        </motion.div>
       </motion.div>
-      <motion.div layout="position" className="project-content">
-        <h3>{project.title}</h3>
-        <p>{project.description}</p>
-        {isExpanded && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-          >
-            <div className="technologies">
-              {project.technologies.map((tech, index) => (
-                <span key={index} className="tech-chip">{tech}</span>
-              ))}
-            </div>
-            <div className="project-links">
-              <motion.a
-                href={project.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-primary"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Live Demo
-              </motion.a>
-              <motion.a
-                href={project.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-secondary"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                GitHub
-              </motion.a>
-            </div>
-          </motion.div>
-        )}
-      </motion.div>
-      {isExpanded && (
-        <motion.button 
-          className="close-button" 
-          onClick={(e) => { e.stopPropagation(); onClose(); }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-        >
-          <X size={24} />
-        </motion.button>
-      )}
     </motion.div>
   );
 };
@@ -164,6 +150,26 @@ const Projects = () => {
       className="projects"
       ref={projectsRef}
     >
+      {/* 
+      {expandedProject !== null && (
+        <motion.div
+          className="project-backdrop"
+          initial={false}
+          animate={{ opacity: 0.5 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'black',
+            zIndex: 5
+          }}
+        />
+      )}
+      */}
       <motion.h2
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -179,9 +185,6 @@ const Projects = () => {
               <ProjectCard 
                 key={project.title}
                 project={project}
-                isExpanded={expandedProject === index}
-                onExpand={() => setExpandedProject(index)}
-                onClose={() => setExpandedProject(null)}
                 index={index}
               />
             ))}

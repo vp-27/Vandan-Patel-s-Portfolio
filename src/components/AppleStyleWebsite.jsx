@@ -12,11 +12,33 @@ const AppleStyleWebsite = () => {
   const constraintsRef = useRef(null);
   const x = useMotionValue(0);
   const opacity = useTransform(x, [0, 100], [1, 0]);
+  const autoUnlockTimer = useRef(null);
+
+  useEffect(() => {
+    // Auto unlock after 10 seconds
+    autoUnlockTimer.current = setTimeout(() => setIsUnlocked(true), 10000);
+    return () => clearTimeout(autoUnlockTimer.current);
+  }, []);
 
   useEffect(() => {
     if (isUnlocked) {
       setTimeout(() => setIsExpanded(true), 500);
     }
+  }, [isUnlocked]);
+
+  useEffect(() => {
+    // Clear timer once unlocked
+    if (isUnlocked && autoUnlockTimer.current) {
+      clearTimeout(autoUnlockTimer.current);
+    }
+  }, [isUnlocked]);
+
+  useEffect(() => {
+    const handleGlobalWheel = () => {
+      if (!isUnlocked) setIsUnlocked(true);
+    };
+    window.addEventListener('wheel', handleGlobalWheel, { passive: true });
+    return () => window.removeEventListener('wheel', handleGlobalWheel);
   }, [isUnlocked]);
 
   const handleDragEnd = (event, info) => {

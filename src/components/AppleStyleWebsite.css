@@ -2,10 +2,12 @@
 
 .mega-container {
   margin: 0;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; /* Center vertically now */
   overflow: hidden; /* Prevent body scrolling */
+  padding-bottom: 0;   /* Remove extra bottom padding */
 }
 
 .phone-container {
@@ -14,17 +16,28 @@
   background-image: url("../images/car.jpg");
   background-size: cover;
   background-position: center;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 
+    0 -5px 20px rgba(255, 255, 255, 0.2),
+    0 5px 20px rgba(255, 255, 255, 0.2),
+    20px 0 20px rgba(255, 255, 255, 0.1),
+    -20px 0 20px rgba(255, 255, 255, 0.1),
+    inset 0 0 50px rgba(255, 255, 255, 0.1);
   overflow: hidden; /* Let inner containers handle overflow */
   position: relative;
-  transition: all 0.3s ease-in-out;
-  transform: translateY(10%); /* Start off-screen */
-  animation: slideIn 1s forwards; /* Slide in animation */
+  transition: none; /* Disable transition so keyframes handle the movement */
+  transform: none; /* Remove initial 3D transform, rely on keyframes */
+  animation: slideIn 1.3s ease forwards;
 }
 
 @keyframes slideIn {
-  to {
-    transform: translateY(0); /* End at original position */
+  0% {
+    transform: translateY(120%) perspective(1000px) rotateX(25deg);
+  }
+  60% {
+    transform: translateY(10%) perspective(1000px) rotateX(5deg);
+  }
+  100% {
+    transform: translateY(0) perspective(1000px) rotateX(0deg);
   }
 }
 
@@ -33,13 +46,13 @@
   height: 812px;
 }
 
-
-
 .phone-container.phone-expanded {
   margin-top: 0px;
   width: 100vw;
   height: 100vh;
   border-width: 0;
+  transform: perspective(1000px) rotateX(0deg) translateY(0);
+  box-shadow: none;
 }
 
 .phone-content {
@@ -80,9 +93,6 @@
   border-radius: 5px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* Apple lock screen font */
 }
-
-
-
 
 .status-bar {
   display: flex;

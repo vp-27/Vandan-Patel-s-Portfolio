@@ -173,9 +173,43 @@ const About = () => (
   </motion.section>
 );
 
-// Skills Section
+// Skills Section update
 const Skills = () => {
-  const skills = ['JavaScript', 'React', 'Node.js', 'CSS3', 'HTML5', 'TypeScript', 'Git', 'AWS'];
+  const skills = {
+    technical: [
+      'Python (Financial Modeling)',
+      'React',
+      'SQL',
+      'Flask',
+      'JavaScript',
+      'HTML/CSS',
+      'Excel (VBA)',
+      'Git',
+      'JWT',
+      'WebSockets',
+      'Selenium',
+      'SQL-Alchemy'
+    ],
+    financial: [
+      'Financial Modeling',
+      'Valuation Analysis',
+      'Financial Statement Analysis',
+      'Risk Management',
+      'Bloomberg Terminal',
+      'Options Trading',
+      'Portfolio Management'
+    ],
+    languages: [
+      'English (Native)',
+      'Gujarati (Native)',
+      'Hindi (Native)',
+      'Spanish (Basic)'
+    ],
+    certifications: [
+      'Data Build Tool Fundamentals',
+      'Bloomberg Market Concepts'
+    ]
+  };
 
   return (
     <motion.section id="skills" className="skills">
@@ -194,13 +228,51 @@ const Skills = () => {
         viewport={{ once: true }}
         transition={{ duration: 0.7, delay: 0.2 }}
       >
-        <ul className="skills-list">
-          {skills.map((skill, index) => (
-            <li key={index} className="skill-item">
-              {skill}
-            </li>
-          ))}
-        </ul>
+        <div className="skills-categories">
+          <div className="skills-category">
+            <h3>Technical Skills</h3>
+            <ul className="skills-list">
+              {skills.technical.map((skill, index) => (
+                <li key={index} className="skill-item">
+                  {skill}
+                </li>
+              ))}
+            </ul>
+          </div>
+          
+          <div className="skills-category">
+            <h3>Financial Skills</h3>
+            <ul className="skills-list">
+              {skills.financial.map((skill, index) => (
+                <li key={index} className="skill-item">
+                  {skill}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="skills-category">
+            <h3>Languages</h3>
+            <ul className="skills-list">
+              {skills.languages.map((skill, index) => (
+                <li key={index} className="skill-item">
+                  {skill}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="skills-category">
+            <h3>Certifications</h3>
+            <ul className="skills-list">
+              {skills.certifications.map((skill, index) => (
+                <li key={index} className="skill-item">
+                  {skill}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
       </motion.div>
     </motion.section>
   );

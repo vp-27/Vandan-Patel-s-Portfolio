@@ -2,25 +2,25 @@
 
 /* Reset and Global Styles */
 :root {
-  --primary-color: #3498db;
-  --secondary-color: #2ecc71;
-  --background-color: #ffffff;
-  --text-color: #333333;
-  --card-background: rgba(255, 255, 255, 0.2); /* Semi-transparent for glass effect */
-  --card-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  --header-background: black;
-  --button-hover: #176091;
+  --primary-color: #007AFF; /* Apple's blue */
+  --secondary-color: #34C759; /* Apple's green */
+  --background-color: rgba(255, 255, 255, 0.98);
+  --text-color: #1D1D1F; /* Apple's dark text */
+  --card-background: rgba(255, 255, 255, 0.8);
+  --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  --header-background: rgba(0, 0, 0, 0.8);
+  --button-hover: #0051D5;
 }
 
 [data-theme="dark"] {
-  --primary-color: #61dafb;
-  --secondary-color: #4ecca3;
-  --background-color: #1a1a1a;
-  --text-color: #f4f4f4;
-  --card-background: rgba(44, 44, 44, 0.2); /* Semi-transparent for glass effect */
-  --card-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.37);
-  --header-background: black;
-  --button-hover: #0d98ba;
+  --primary-color: #0A84FF; /* Apple's dark mode blue */
+  --secondary-color: #32D74B;
+  --background-color: rgba(0, 0, 0, 0.95);
+  --text-color: #F5F5F7; /* Apple's light text */
+  --card-background: rgba(28, 28, 30, 0.8);
+  --card-shadow: 0 8px 32px rgba(255, 255, 255, 0.1);
+  --header-background: rgba(0, 0, 0, 0.8);
+  --button-hover: #409CFF;
 }
 
 * {
@@ -28,8 +28,6 @@
   padding: 0;
   box-sizing: border-box;
 }
-
-
 
 body {
   font-family: 'Inter', sans-serif;
@@ -199,9 +197,9 @@ section:nth-child(5){
 .glass {
   background: var(--card-background);
   border-radius: 15px;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 20px;
 }
 
@@ -223,7 +221,6 @@ section:nth-child(5){
   visibility: visible;
 }
 
-
 .hero-content {
   z-index: 1; /* Ensure content is above background */
 }
@@ -241,20 +238,22 @@ section:nth-child(5){
 }
 
 .hero h1 {
-  font-size: 5rem;
+  font-size: 5.5rem;
   margin-bottom: 10px;
-  color: #3498db;
+  color: #007AFF;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-  font-weight: bold;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-weight: 700;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+  letter-spacing: -0.02em;
 }
 
 .hero h2 {
-  font-size: 2rem;
+  font-size: 2.2rem;
   margin-bottom: 20px;
   text-shadow: 1px 1px 3px rgba(0,0,0,0.3); /* Subtle shadow for better readability */
-  font-family: 'Inter', sans-serif; /* Consistent font family */
-  font-weight: normal;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; /* Consistent font family */
+  font-weight: 400;
+  letter-spacing: -0.01em;
 }
 
 .hero p {
@@ -354,15 +353,16 @@ section:nth-child(5){
 .btn-primary {
   background-color: var(--primary-color);
   color: #fff;
-  padding: 12px 25px;
-  border-radius: 8px;
+  padding: 12px 24px;
+  border-radius: 980px; /* Apple's rounded button style */
   text-decoration: none;
   font-weight: 500;
   transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
-  font-size: 1rem;
+  font-size: 1.1rem;
   position: relative;
   display: inline-block; /* Change to inline-block */
   margin-top: 20px; /* Add some space above the button */
+  letter-spacing: -0.01em;
 }
 
 .btn-primary::after {
@@ -438,10 +438,18 @@ section:nth-child(5){
   padding: 15px 25px;
   border-radius: 25px;
   box-shadow: var(--card-shadow);
-  transition: transform 0.3s, background-color 0.3s;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   font-weight: 600;
   font-size: 1.1rem;
   color: var(--text-color);
+  opacity: 0;
+  animation: revealSkills 0.6s forwards ease;
+}
+
+@keyframes revealSkills {
+  to {
+    opacity: 1;
+  }
 }
 
 .skill-item:hover {
@@ -450,7 +458,45 @@ section:nth-child(5){
   color: #fff;
 }
 
-/* Projects Section */
+.skills-categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  width: 100%;
+  padding: 2rem;
+}
+
+.skills-category {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.skills-category h3 {
+  color: var(--primary-color);
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.skill-item {
+  background: var(--card-background);
+  padding: 0.75rem 1.25rem;
+  border-radius: 25px;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  opacity: 0;
+  animation: revealSkills 0.6s forwards ease;
+  animation-delay: calc(var(--index) * 0.1s);
+}
+
 /* Projects Section */
 .projects {
   padding: 120px 40px;
@@ -483,30 +529,33 @@ section:nth-child(5){
   border-radius: 15px;
   overflow: hidden;
   box-shadow: var(--card-shadow);
-  transition: all 0.5s ease;
-  display: flex;
-  flex-direction: column;
-  background-image: linear-gradient(135deg, #ececec 0%, #ffffff 100%);
-  cursor: pointer;
-
   position: relative;
-  height: auto;
-  will-change: transform;
+  will-change: transform, height;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  height: 400px;
 }
 
 .project-card:hover {
-  box-shadow: 0 12px 24px var(--primary-color);
-  transform: translateY(-7px);
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
 }
 
-.project-card.expanded {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 10;
-  cursor: default;
+.project-card::after,
+.project-content::before,
+.close-button,
+.window-controls {
+  display: none;
+}
+
+.project-content {
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  overflow: hidden;
+  height: 180px;
+  transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .project-image {
@@ -567,6 +616,21 @@ section:nth-child(5){
   color: var(--text-color);
 }
 
+.technologies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 15px;
+  transition: opacity 0.3s ease;
+  will-change: opacity, transform;
+}
+
+.project-links {
+  margin-top: 20px;
+  display: flex;
+  gap: 15px;
+}
+
 /* Expanded ProjectCard Styles */
 .expanded-content {
   display: flex;
@@ -606,12 +670,13 @@ section:nth-child(5){
 .tech-chip {
   color: var(--text-color);
   background-color: var(--card-background);
-  padding: 5px 10px;
-  border-radius: 20px;
+  padding: 6px 12px;
+  border-radius: 6px;
   font-size: 0.9rem;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2), -1px -1px 4px rgba(255, 255, 255, 0.7);
+  font-family: "SF Mono", SFMono-Regular, Consolas, monospace;
 }
 
 .tech-chip:hover {
@@ -619,47 +684,24 @@ section:nth-child(5){
   transition: box-shadow 0.3s ease-in-out;
 }
 
-
 .project-links {
   display: flex;
   gap: 20px;
 }
 
-.close-button {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  background: red;
-  border: none;
-  color: black;
-  cursor: pointer;
-  z-index: 11;
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  animation: colorTransition 2s forwards;
+.project-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  z-index: 999;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
 }
-
-@keyframes colorTransition {
-  0% {
-    color: black;
-  }
-  100% {
-    color: transparent;
-  }
-}
-
-.close-button:hover {
-  color: black;
-  transform: scale(1.1);
-  transition: background 0.3s, transform 0.3s, color 0.3s;
-  animation: none;
-}
-
-
 
 .project-card .btn-secondary{
   display: flex;
@@ -674,14 +716,15 @@ section:nth-child(5){
 .btn-secondary {
   background-color: var(--secondary-color);
   color: #fff;
-  padding: 12px 25px;
-  border-radius: 8px;
+  padding: 12px 24px;
+  border-radius: 980px; /* Apple's rounded button style */
   text-decoration: none;
   font-weight: 500;
   transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
-  font-size: 1rem;
+  font-size: 1.1rem;
   text-align: center;
   position: relative;
+  letter-spacing: -0.01em;
 }
 
 .btn-secondary::after {
@@ -733,35 +776,53 @@ section:nth-child(5){
   border-radius: 15px;
   padding: 30px;
   box-shadow: var(--card-shadow);
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .leadership-card:hover {
   transform: translateY(-10px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
 }
 
 .leadership-icon {
-  font-size: 3rem;
-  margin-bottom: 15px;
+  font-size: 3.5rem;
+  margin-bottom: 20px;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
 
 .leadership-card h3 {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   color: var(--primary-color);
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  font-weight: 600;
 }
 
-.leadership-card p {
-  font-size: 1rem;
-  color: var(--text-color);
+.leadership-card ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }
 
+.leadership-card ul li {
+  margin-bottom: 12px;
+  line-height: 1.6;
+  position: relative;
+  padding-left: 20px;
+  text-align: left;
+}
 
+.leadership-card ul li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: var(--primary-color);
+}
 
 /* Contact Section */
 .contact {
@@ -852,9 +913,18 @@ section:nth-child(5){
   color: #e74c3c;
 }
 
+/* Make a sticky bar at the bottom of contact section */
+.contact-sticky-bar {
+  position: sticky;
+  bottom: 0;
+  background-color: var(--primary-color);
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+  z-index: 999;
+}
+
 /* Footer Section */
-
-
 
 /* Footer Styles */
 /* Footer.css */
@@ -946,7 +1016,6 @@ section:nth-child(5){
   }
 }
 
-
 /* Responsive Design */
 @media (min-width: 769px) and (max-width: 1024px) {
   .dynamic-island {
@@ -1036,6 +1105,5 @@ section:nth-child(5){
   .theme-toggle {
     font-size: 0.8rem;
   }
-  
 }
 
