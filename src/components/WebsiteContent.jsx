@@ -297,6 +297,25 @@ const Contact = () => {
     }
   };
 
+  const handleSendMessage = (e) => {
+    e.preventDefault();
+    
+    // Define recipient email
+    const recipientEmail = 'vrp77@scarletmail.rutgers.edu'; // Replace with your email address
+    
+    // Create email content
+    const mailtoSubject = encodeURIComponent(`Message from ${formData.name}`);
+    const mailtoBody = encodeURIComponent(
+      `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
+    );
+    
+    // Create mailto URL
+    const mailtoLink = `mailto:${recipientEmail}?subject=${mailtoSubject}&body=${mailtoBody}`;
+    
+    // Open email client
+    window.location.href = mailtoLink;
+  };
+
   return (
     <motion.section
       id="contact"
@@ -345,6 +364,7 @@ const Contact = () => {
           type="submit"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
+          onClick={handleSendMessage}
         >
           Send Message
         </motion.button>
