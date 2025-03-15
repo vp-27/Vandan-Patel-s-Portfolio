@@ -6,20 +6,43 @@ import orogenieImage from '../images/orogenieShot.png';
 import personalWebsiteImage from '../images/personalWebsiteShot.png';
 
 // Component for individual project card
-const ProjectCard = ({ project, index }) => {
+const ProjectCard = ({ project, index, isFocused, onFocus }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const cardRef = useRef(null);
+
+  useEffect(() => {
+    // Scroll into view with smooth behavior when focused
+    if (isFocused && cardRef.current) {
+      cardRef.current.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'center'
+      });
+      // Auto-trigger hover state when focused
+      setIsHovered(true);
+      // Reset focus after animation completes
+      const timer = setTimeout(() => {
+        onFocus(null);
+      }, 5000); // Keep highlighted for 5 seconds
+      return () => clearTimeout(timer);
+    }
+  }, [isFocused, onFocus]);
 
   return (
     <motion.div 
-      className="project-card"
+      ref={cardRef}
+      className={`project-card ${isFocused ? 'focused-card' : ''}`}
       onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseLeave={() => !isFocused && setIsHovered(false)}
       layout
       animate={{ 
-        height: isHovered ? "auto" : "400px",
+        height: isHovered || isFocused ? "auto" : "400px",
+        scale: isFocused ? 1.03 : 1,
+        boxShadow: isFocused 
+          ? "0 25px 50px rgba(0, 0, 0, 0.2)" 
+          : "0 10px 30px rgba(0, 0, 0, 0.12)",
         transition: { 
           duration: 0.6,
-          ease: [0.16, 1, 0.3, 1], // Spring-like easing
+          ease: [0.16, 1, 0.3, 1],
           layout: { duration: 0.6 }
         }
       }}
@@ -28,7 +51,7 @@ const ProjectCard = ({ project, index }) => {
         <motion.div
           className="project-overlay"
           initial={{ opacity: 0 }}
-          whileHover={{ opacity: 1 }}
+          animate={{ opacity: isHovered || isFocused ? 1 : 0 }}
           transition={{ duration: 0.2 }}
         >
           <motion.a
@@ -57,7 +80,7 @@ const ProjectCard = ({ project, index }) => {
         className="project-content"
         layout
         animate={{ 
-          height: isHovered ? "auto" : "180px",
+          height: isHovered || isFocused ? "auto" : "180px",
           transition: { 
             duration: 0.6,
             ease: [0.16, 1, 0.3, 1]
@@ -69,8 +92,8 @@ const ProjectCard = ({ project, index }) => {
         <motion.div 
           initial={false}
           animate={{ 
-            opacity: isHovered ? 1 : 0,
-            height: isHovered ? "auto" : 0,
+            opacity: isHovered || isFocused ? 1 : 0,
+            height: isHovered || isFocused ? "auto" : 0,
             transition: {
               duration: 0.4,
               ease: [0.16, 1, 0.3, 1],
@@ -98,7 +121,7 @@ const ProjectCard = ({ project, index }) => {
               href={project.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn btn-secondary"
+              className="btn btn-primary"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -113,12 +136,13 @@ const ProjectCard = ({ project, index }) => {
 
 // Main Projects component
 const Projects = () => {
-  const [expandedProject, setExpandedProject] = useState(null);
+  const [focusedProject, setFocusedProject] = useState(null);
   const projectsRef = useRef(null);
 
   // List of projects
   const projects = [
     {
+      id: "orogenie",
       title: "OroGenie Trading Platform",
       description: "A comprehensive online store with secure payment processing and real-time inventory management. This platform offers a seamless shopping experience for customers and powerful tools for store owners.",
       image: orogenieImage,
@@ -127,6 +151,7 @@ const Projects = () => {
       technologies: ["React", "Flask", "Selenium", "SQL-Alchemy", "JWT", "TradingView Widget API", "CSS", "ReCharts"]
     },
     {
+      id: "bluprint",
       title: "BluPrint - Room Organizer",
       description: "Developed a web-based room organization tool combining visual design with inventory management. BluPrint features an interactive canvas for room layouts, customizable storage boxes, and Excel import/export functionality. Built entirely through frontend React with data handling through XLSX file creation.",
       image: bluPrintImage,
@@ -135,6 +160,7 @@ const Projects = () => {
       technologies: ["Framer Motion", "React", "HTML", "CSS", "XLSX", "JavaScript"]
     },
     {
+      id: "personal-website",
       title: "iPhone-Style Personal Website",
       description: "You're looking at it! This website was designed to mimic the iOS home screen, complete with app icons and a dynamic wallpaper, but with a twist. It actually doubles as a personal website, showcasing my achievements! The site is built with React and Framer Motion for animations.",
       image: personalWebsiteImage,
@@ -144,32 +170,25 @@ const Projects = () => {
     },
   ];
 
+  // Function to be called from WebsiteContent.jsx to focus a specific project
+  window.focusProject = (projectId) => {
+    // Scroll to projects section first
+    const projectsSection = document.getElementById('projects');
+    if (projectsSection) {
+      projectsSection.scrollIntoView({ behavior: 'smooth' });
+      // Then focus on specific project after scrolling
+      setTimeout(() => {
+        setFocusedProject(projectId);
+      }, 500);
+    }
+  };
+
   return (
     <motion.section 
       id="projects" 
       className="projects"
       ref={projectsRef}
     >
-      {/* 
-      {expandedProject !== null && (
-        <motion.div
-          className="project-backdrop"
-          initial={false}
-          animate={{ opacity: 0.5 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'black',
-            zIndex: 5
-          }}
-        />
-      )}
-      */}
       <motion.h2
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -179,13 +198,14 @@ const Projects = () => {
         Projects
       </motion.h2>
       <LayoutGroup>
-        <motion.div layout className={`project-grid ${expandedProject !== null ? 'focused' : ''}`}>
+        <motion.div layout className="project-grid">
           <AnimatePresence>
-            {projects.map((project, index) => (
+            {projects.map((project) => (
               <ProjectCard 
-                key={project.title}
+                key={project.id}
                 project={project}
-                index={index}
+                isFocused={focusedProject === project.id}
+                onFocus={setFocusedProject}
               />
             ))}
           </AnimatePresence>

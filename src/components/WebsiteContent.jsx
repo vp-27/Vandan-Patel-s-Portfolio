@@ -177,38 +177,149 @@ const About = () => (
 const Skills = () => {
   const skills = {
     technical: [
-      'Python (Financial Modeling)',
-      'React',
-      'SQL',
-      'Flask',
-      'JavaScript',
-      'HTML/CSS',
-      'Excel (VBA)',
-      'Git',
-      'JWT',
-      'WebSockets',
-      'Selenium',
-      'SQL-Alchemy'
+      { 
+        name: 'Python (Financial Modeling)', 
+        projects: [
+          { name: 'OroGenie', link: 'orogenie' }
+        ] 
+      },
+      { 
+        name: 'React', 
+        projects: [
+          { name: 'This Website', link: 'personal-website' },
+          { name: 'BluPrint', link: 'bluprint' },
+          { name: 'OroGenie', link: 'orogenie' }
+        ] 
+      },
+      { 
+        name: 'SQL', 
+        projects: [
+          { name: 'Data Warehousing Internship', link: '#' },
+          { name: 'OroGenie Database', link: 'orogenie' }
+        ] 
+      },
+      { 
+        name: 'Flask', 
+        projects: [
+          { name: 'OroGenie Backend', link: 'orogenie' }
+        ] 
+      },
+      { 
+        name: 'JavaScript', 
+        projects: [
+          { name: 'BluPrint', link: 'bluprint' },
+          { name: 'This Website', link: 'personal-website' }
+        ] 
+      },
+      { 
+        name: 'HTML/CSS', 
+        projects: [
+          { name: 'All Web Projects', link: '#' }
+        ] 
+      },
+      { 
+        name: 'Excel (VBA)', 
+        projects: [
+          { name: 'Financial Models', link: '#' },
+          { name: 'Budget Tracker', link: '#' }
+        ] 
+      },
+      { 
+        name: 'Git', 
+        projects: [
+          { name: 'All Projects', link: 'https://github.com/vp-27' }
+        ] 
+      },
+      { 
+        name: 'JWT', 
+        projects: [
+          { name: 'OroGenie Authentication', link: 'https://orogenie.vercel.app' }
+        ] 
+      },
+      { 
+        name: 'WebSockets', 
+        projects: [
+          { name: 'OroGenie Live Updates', link: 'https://orogenie.vercel.app' }
+        ] 
+      },
+      { 
+        name: 'Selenium', 
+        projects: [
+          { name: 'OroGenie Web Scraping', link: 'https://orogenie.vercel.app' }
+        ] 
+      },
+      { 
+        name: 'SQL-Alchemy', 
+        projects: [
+          { name: 'OroGenie ORM', link: 'https://orogenie.vercel.app' }
+        ] 
+      }
     ],
     financial: [
-      'Financial Modeling',
-      'Valuation Analysis',
-      'Financial Statement Analysis',
-      'Risk Management',
-      'Bloomberg Terminal',
-      'Options Trading',
-      'Portfolio Management'
+      { 
+        name: 'Financial Modeling', 
+        projects: [
+          { name: 'DCF Models', link: '#' },
+          { name: 'Portfolio Analysis', link: '#' }
+        ] 
+      },
+      { 
+        name: 'Valuation Analysis', 
+        projects: [
+          { name: 'Equity Research Project', link: '#' }
+        ] 
+      },
+      { 
+        name: 'Financial Statement Analysis', 
+        projects: [
+          { name: 'Case Competition', link: '#' }
+        ] 
+      },
+      { 
+        name: 'Risk Management', 
+        projects: [
+          { name: 'Portfolio Hedging Strategy', link: '#' }
+        ] 
+      },
+      { 
+        name: 'Bloomberg Terminal', 
+        projects: [
+          { name: 'Market Research', link: '#' }
+        ] 
+      },
+      { 
+        name: 'Options Trading', 
+        projects: [
+          { name: 'OroGenie Strategy Analysis', link: 'https://orogenie.vercel.app' }
+        ] 
+      },
+      { 
+        name: 'Portfolio Management', 
+        projects: [
+          { name: 'Investment Competition', link: '#' }
+        ] 
+      }
     ],
     languages: [
-      'English (Native)',
-      'Gujarati (Native)',
-      'Hindi (Native)',
-      'Spanish (Basic)'
+      { name: 'English (Native)', projects: [] },
+      { name: 'Gujarati (Native)', projects: [] },
+      { name: 'Hindi (Native)', projects: [] },
+      { name: 'Spanish (Basic)', projects: [] }
     ],
     certifications: [
-      'Data Build Tool Fundamentals',
-      'Bloomberg Market Concepts'
+      { name: 'Data Build Tool Fundamentals', date: '2023', issuer: 'dbt Labs' },
+      { name: 'Bloomberg Market Concepts', date: '2022', issuer: 'Bloomberg LP' }
     ]
+  };
+
+  // Function to handle project reference clicks
+  const handleProjectClick = (projectLink) => {
+    if (projectLink === '#') return;
+    
+    // Use the global function defined in Projects component to focus on a project
+    if (window.focusProject) {
+      window.focusProject(projectLink);
+    }
   };
 
   return (
@@ -231,46 +342,121 @@ const Skills = () => {
         <div className="skills-categories">
           <div className="skills-category">
             <h3>Technical Skills</h3>
-            <ul className="skills-list">
+            <div className="skills-list modern">
               {skills.technical.map((skill, index) => (
-                <li key={index} className="skill-item">
-                  {skill}
-                </li>
+                <motion.div 
+                  key={index} 
+                  className="skill-card"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.05 }}
+                >
+                  <div className="skill-header">
+                    <span className="skill-name">{skill.name}</span>
+                    {skill.projects.length > 0 && (
+                      <div className="skill-projects">
+                        {skill.projects.map((project, i) => (
+                          <span 
+                            key={i} 
+                            className="project-reference"
+                            onClick={() => handleProjectClick(project.link)}
+                          >
+                            {project.name}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
               ))}
-            </ul>
+            </div>
           </div>
           
           <div className="skills-category">
             <h3>Financial Skills</h3>
-            <ul className="skills-list">
+            <div className="skills-list modern">
               {skills.financial.map((skill, index) => (
-                <li key={index} className="skill-item">
-                  {skill}
-                </li>
+                <motion.div 
+                  key={index} 
+                  className="skill-card"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.05 }}
+                >
+                  <div className="skill-header">
+                    <span className="skill-name">{skill.name}</span>
+                    {skill.projects.length > 0 && (
+                      <div className="skill-projects">
+                        {skill.projects.map((project, i) => (
+                          <span 
+                            key={i} 
+                            className="project-reference"
+                            onClick={() => handleProjectClick(project.link)}
+                          >
+                            {project.name}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
               ))}
-            </ul>
+            </div>
           </div>
 
           <div className="skills-category">
             <h3>Languages</h3>
-            <ul className="skills-list">
+            <div className="skills-list modern">
               {skills.languages.map((skill, index) => (
-                <li key={index} className="skill-item">
-                  {skill}
-                </li>
+                <motion.div 
+                  key={index} 
+                  className="skill-card"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.05 }}
+                >
+                  <div className="skill-header">
+                    <span className="skill-name">{skill.name}</span>
+                    <span className="fluency-level">
+                      {skill.name.includes('Native') ? 'Fluent' : 'Conversational'}
+                    </span>
+                  </div>
+                </motion.div>
               ))}
-            </ul>
+            </div>
           </div>
 
           <div className="skills-category">
             <h3>Certifications</h3>
-            <ul className="skills-list">
-              {skills.certifications.map((skill, index) => (
-                <li key={index} className="skill-item">
-                  {skill}
-                </li>
+            <div className="certifications-list">
+              {skills.certifications.map((cert, index) => (
+                <motion.div 
+                  key={index} 
+                  className="certification-card"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                >
+                  <div className="certification-content">
+                    <h4>{cert.name}</h4>
+                    <div className="certification-details">
+                      <span className="certification-date">{cert.date}</span>
+                      <span className="certification-issuer">• {cert.issuer}</span>
+                    </div>
+                  </div>
+                  <div className="certification-badge">
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M12 15l-2-2h4l-2 2z"></path>
+                      <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path>
+                    </svg>
+                  </div>
+                </motion.div>
               ))}
-            </ul>
+            </div>
           </div>
         </div>
       </motion.div>
