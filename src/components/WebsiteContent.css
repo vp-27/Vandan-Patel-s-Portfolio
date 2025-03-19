@@ -661,6 +661,7 @@ section:nth-child(5){
   background-position: center;
   transition: height 0.3s ease;
   overflow: hidden;
+  z-index: 1; /* Ensure proper stacking */
 }
 
 .project-image::after {
@@ -689,12 +690,14 @@ section:nth-child(5){
   align-items: center;
   gap: 20px;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  visibility: hidden; /* Add this to prevent interaction when hidden */
+  transition: opacity 0.3s ease, visibility 0.3s ease; /* Add visibility to transition */
   z-index: 2;
 }
 
 .project-card:hover .project-overlay {
   opacity: 1;
+  visibility: visible; /* Make it visible on hover */
 }
 
 .project-link, .project-github {
@@ -707,23 +710,29 @@ section:nth-child(5){
   justify-content: center;
   transform: translateY(20px);
   opacity: 0;
+  position: relative; /* Add position relative */
+  z-index: 3; /* Higher than overlay */
+  transition: opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s, background-color 0.2s ease; /* Add delay for smoother appearance */
+  pointer-events: none; /* Initially disable pointer events */
 }
-
-
 
 .project-card:hover .project-link, 
 .project-card:hover .project-github {
-  opacity: 1
+  opacity: 1;
+  transform: translateY(0); /* Reset the transform on hover */
+  pointer-events: auto; /* Enable pointer events when visible */
 }
 
 .project-link:hover {
   background-color: var(--primary-color);
   color: #fff;
+  transform: scale(1.1); /* Add scale effect on hover */
 }
 
 .project-github:hover {
   background-color: var(--secondary-color);
   color: #fff;
+  transform: scale(1.1); /* Add scale effect on hover */
 }
 
 /* Target specifically the Github button */
@@ -1101,27 +1110,25 @@ section:nth-child(5){
 
 /* Footer Section */
 
-/* Footer Styles */
-/* Footer.css */
-
 /* Glass Effect for the Footer */
 .dock-footer {
-  border-radius: 30px;
-  position: absolute;
+  border-radius: 18px;
+  position: fixed;
   left: 50%;
   transform: translateX(-50%);
-  bottom: 20px; /* Slightly raised above the bottom */
+  bottom: 20px;
   width: auto;
-  height: 5vw;
-  padding: 20px;
+  height: 70px; /* Fixed height */
+  padding: 10px 25px;
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-top: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
+  z-index: 1000;
 }
 
 /* Dock Container */
@@ -1129,53 +1136,106 @@ section:nth-child(5){
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 30px; /* Space between icons */
+  gap: 5px;
+  height: 100%;
+  position: relative;
 }
 
 /* Dock Icons */
 .dock-icon {
   position: relative;
-  width: 4vw;
-  height: 4vw;
-  /* force shrink image sizes based on this */
-  background: rgba(255, 255, 255, 0.25);
-  border-radius: 30%;
+  margin: 5px;
+  width: 50px;
+  height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #fff;
-  transition: background 0.3s;
+  transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1);
+  transform-origin: bottom center; /* Important: transform from bottom */
+  will-change: transform; /* Optimize for animations */
 }
 
 .dock-icon img {
-  width: 60px;
-  height: 60px;
-  border-radius: 30%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
 }
 
-.dock-icon:hover {
-  background: rgba(255, 255, 255, 0.4);
-}
-
-/* Tooltip Styling */
-.tooltip {
+/* Reflection effect */
+.dock-reflection {
   position: absolute;
-  bottom: 80px; /* Position above the icon */
+  bottom: -4px;
+  left: 5px;
+  right: 5px;
+  height: 2px;
+  background: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,0.5), rgba(255,255,255,0));
+  border-radius: 50%;
+  filter: blur(1px);
+  opacity: 0.3;
+}
+
+/* macOS style tooltips */
+.mac-tooltip {
+  position: absolute;
+  bottom: 100%;
   left: 50%;
-  transform: translateX(-50%);
-  background: rgba(50, 50, 50, 0.9);
-  color: #fff;
+  transform: translateX(-50%);  /* Changed from -60% to -50% for proper centering */
+  background-color: var(--background-color);
+  color: var(--text-color);
   padding: 5px 10px;
-  border-radius: 8px;
-  font-size: 0.8rem;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 500;
   white-space: nowrap;
   opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  margin-bottom: 10px;
   pointer-events: none;
-  transition: opacity 0.3s;
+  z-index: 1001;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  letter-spacing: 0.2px;
+  text-align: center;
+  will-change: transform, opacity;
+  /* Add containment to prevent overflow */
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.dock-icon:hover .tooltip {
-  opacity: 1;
+/* Triangle pointer for tooltip */
+.mac-tooltip:after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: var(--background-color) transparent transparent transparent;
+}
+
+/* Hide the old tooltip */
+.tooltip {
+  display: none;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .dock-footer {
+    padding: 8px 15px;
+  }
+  
+  .dock-icon {
+    width: 42px;
+    height: 42px;
+  }
+  
+  .mac-tooltip {
+    font-size: 11px;
+    padding: 4px 8px;
+  }
 }
 
 /* Responsive Adjustments */
@@ -1248,7 +1308,7 @@ section:nth-child(5){
 
   .about-content {
     flex-direction: column;
-    align-items: center;
+    align-items: center.
   }
 
   .about-image, .about-text {

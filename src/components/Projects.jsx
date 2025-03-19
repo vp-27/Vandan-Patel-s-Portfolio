@@ -27,6 +27,23 @@ const ProjectCard = ({ project, index, isFocused, onFocus }) => {
     }
   }, [isFocused, onFocus]);
 
+  // Create separate state for overlay buttons to prevent glitching
+  const [buttonsVisible, setButtonsVisible] = useState(false);
+  
+  // Use effect to delay the button visibility change
+  useEffect(() => {
+    let timer;
+    if (isHovered) {
+      // Small delay before showing buttons
+      timer = setTimeout(() => setButtonsVisible(true), 100);
+    } else {
+      // Hide buttons immediately when not hovered
+      setButtonsVisible(false);
+    }
+    
+    return () => clearTimeout(timer);
+  }, [isHovered]);
+
   return (
     <motion.div 
       ref={cardRef}
@@ -54,26 +71,38 @@ const ProjectCard = ({ project, index, isFocused, onFocus }) => {
           animate={{ opacity: isHovered || isFocused ? 1 : 0 }}
           transition={{ duration: 0.2 }}
         >
-          <motion.a
-            href={project.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="project-link"
-            whileHover={{ scale: 1.2 }}
-            whileTap={{ scale: 0.9 }}
-          >
-            <ExternalLink size={24} />
-          </motion.a>
-          <motion.a
-            href={project.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="project-github"
-            whileHover={{ scale: 1.2 }}
-            whileTap={{ scale: 0.9 }}
-          >
-            <Github size={24} />
-          </motion.a>
+          {(isHovered || isFocused) && (
+            <>
+              <motion.a
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="project-link"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: buttonsVisible ? 1 : 0, y: buttonsVisible ? 0 : 20 }}
+                transition={{ duration: 0.3, delay: 0.1 }}
+                whileHover={{ scale: 1.2 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <ExternalLink size={24} />
+              </motion.a>
+              <motion.a
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="project-github"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: buttonsVisible ? 1 : 0, y: buttonsVisible ? 0 : 20 }}
+                transition={{ duration: 0.3, delay: 0.2 }}
+                whileHover={{ scale: 1.2 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <Github size={24} />
+              </motion.a>
+            </>
+          )}
         </motion.div>
       </motion.div>
       <motion.div 

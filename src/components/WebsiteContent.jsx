@@ -578,14 +578,14 @@ const Contact = () => {
   );
 };
 
-// Footer Component remains unchanged
+// Footer Component with enhanced macOS dock
 const Footer = () => {
   const apps = [
     {
-      name: '\"Find\" My Resume ',
+      name: 'Find My Resume',
       icon: <img src={finder} alt="Resume" loading="lazy" />,
-      link: resume, // Use the imported resume path
-      download: true, // This attribute makes it a download link
+      link: resume,
+      download: true,
     },
     {
       name: 'GitHub',
@@ -617,14 +617,124 @@ const Footer = () => {
       icon: <img src={bluPrint} alt="BluPrint" loading="lazy" />,
       link: 'https://bluprint-orpin.vercel.app',
     },
-    
-    // Add more app icons as needed
   ];
 
+  const dockRef = useRef(null);
+  const containerRef = useRef(null);
   
+  // Function to handle dock magnification with adaptive background
+  const handleMouseMove = (e) => {
+    if (!dockRef.current) return;
+    
+    const dock = dockRef.current;
+    const dockRect = dock.getBoundingClientRect();
+    const icons = dock.querySelectorAll('.dock-icon');
+    
+    let hoveredIcon = null;
+    
+    icons.forEach(icon => {
+      const iconRect = icon.getBoundingClientRect();
+      const iconCenter = iconRect.left + iconRect.width / 2;
+      
+      // Calculate distance from mouse to center of icon
+      const distanceFromMouse = Math.abs(e.clientX - iconCenter);
+      // Maximum distance for magnification effect (in pixels)
+      const maxDistance = 100;
+      
+      if (distanceFromMouse < maxDistance) {
+        // Calculate scale based on proximity (closer = larger)
+        const scale = 1 + 0.5 * (1 - distanceFromMouse / maxDistance);
+        icon.style.transform = `scale(${scale})`;
+        // Adjust z-index to bring magnified icon to front
+        icon.style.zIndex = Math.floor((1 - distanceFromMouse / maxDistance) * 10);
+        
+        // Track the icon with the smallest distance (the one being hovered)
+        if (!hoveredIcon || distanceFromMouse < hoveredIcon.distance) {
+          hoveredIcon = {
+            element: icon,
+            distance: distanceFromMouse,
+            scale: scale
+          };
+        }
+      } else {
+        // Reset scaling when mouse is far away
+        icon.style.transform = 'scale(1)';
+        icon.style.zIndex = 0;
+        
+        // Hide tooltip for non-hovered icons
+        const tooltip = icon.querySelector('.mac-tooltip');
+        if (tooltip) {
+          tooltip.style.opacity = '0';
+          tooltip.style.transform = 'translateY(0) translateX(-50%)';
+        }
+      }
+    });
+    
+    // Show tooltip only for the closest icon to mouse cursor
+    icons.forEach(icon => {
+      const tooltip = icon.querySelector('.mac-tooltip');
+      if (tooltip) {
+        if (hoveredIcon && icon === hoveredIcon.element) {
+          tooltip.style.opacity = '1';
+          tooltip.style.transform = 'translateY(-10px) translateX(-50%)';
+          
+          // Check if tooltip extends beyond viewport edges and adjust if needed
+          const tooltipRect = tooltip.getBoundingClientRect();
+          const viewportWidth = window.innerWidth;
+          
+          if (tooltipRect.left < 10) {
+            // Too close to left edge
+            tooltip.style.left = '0';
+            tooltip.style.transform = 'translateY(-10px) translateX(0)';
+            // Also adjust the arrow
+            const arrow = tooltip.querySelector(':after');
+            if (arrow) arrow.style.left = '10px';
+          } else if (tooltipRect.right > viewportWidth - 10) {
+            // Too close to right edge
+            tooltip.style.left = '100%';
+            tooltip.style.transform = 'translateY(-10px) translateX(-100%)';
+            // Also adjust the arrow
+            const arrow = tooltip.querySelector(':after');
+            if (arrow) arrow.style.left = 'calc(100% - 10px)';
+          }
+        } else {
+          tooltip.style.opacity = '0';
+          tooltip.style.transform = 'translateY(0) translateX(-50%)';
+        }
+      }
+    });
+    
+    // Don't adjust the dock's height - let icons pop up instead
+    // This resembles the macOS behavior more closely
+  };
+  
+  // Reset all icons when mouse leaves the dock
+  const handleMouseLeave = () => {
+    if (!dockRef.current) return;
+    
+    const dock = dockRef.current;
+    const icons = dock.querySelectorAll('.dock-icon');
+    
+    icons.forEach(icon => {
+      icon.style.transform = 'scale(1)';
+      icon.style.zIndex = 0;
+      
+      // Hide all tooltips
+      const tooltip = icon.querySelector('.mac-tooltip');
+      if (tooltip) {
+        tooltip.style.opacity = '0';
+        tooltip.style.transform = 'translateY(0)';
+      }
+    });
+  };
 
   return (
-    <footer className="dock-footer glass">
+    <footer 
+      className="dock-footer glass"
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      ref={dockRef}
+    >
       <div className="dock-container">
         {apps.map((app, index) => (
           <motion.a
@@ -633,13 +743,14 @@ const Footer = () => {
             target="_blank"
             rel="noopener noreferrer"
             className="dock-icon"
-            whileHover={{ scale: 1.2 }}
             whileTap={{ scale: .9 }}
-            transition={{ type: 'spring', stiffness: 90 }}
+            transition={{ type: 'spring', stiffness: 300 }}
             aria-label={app.name}
+            download={app.download}
           >
             {app.icon}
-            <span className="tooltip">{app.name}</span>
+            <div className="dock-reflection"></div>
+            <div className="mac-tooltip">{app.name}</div>
           </motion.a>
         ))}
       </div>
