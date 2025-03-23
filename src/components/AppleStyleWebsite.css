@@ -124,6 +124,84 @@
   border-radius: 50px;
 }
 
+/* Improved Lock Screen Slider */
+.lock-bar {
+  position: absolute;
+  bottom: 50px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.slide-bar {
+  position: relative;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  width: 80%;
+  height: 60px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.slide-track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.drag-circle {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+  pointer-events: auto;
+  cursor: grab;
+  transition: box-shadow 0.3s ease;
+}
+
+.drag-circle:active {
+  cursor: grabbing;
+}
+
+.phone-icon {
+  color: #007AFF;
+}
+
+.unlock-text {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  font-size: 16px;
+  color: #fff;
+  font-weight: 500;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  z-index: 1;
+  transition: opacity 0.3s ease;
+}
+
+/* Animation for successful unlock */
+@keyframes successPulse {
+  0% { box-shadow: 0 0 0 0 rgba(52, 199, 89, 0.7); }
+  70% { box-shadow: 0 0 0 15px rgba(52, 199, 89, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(52, 199, 89, 0); }
+}
+
 .lock-bar {
   display: flex;
   justify-content: center;
@@ -145,6 +223,8 @@
 }
 
 .drag-circle {
+  margin-top: 5px;
+  margin-left: 5px;
   width: 60px;
   height: 60px;
   background-color: white;

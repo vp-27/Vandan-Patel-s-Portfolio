@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence, useMotionValue, useTransform, LayoutGroup, color } from 'framer-motion';
+import { motion, AnimatePresence, useMotionValue, useTransform, LayoutGroup, animate } from 'framer-motion';
 import { Phone } from 'lucide-react';
 import WebsiteContent from './WebsiteContent';
-import InteractiveBackground from './InteractiveBackground'; // Import the new component
+import InteractiveBackground from './InteractiveBackground'; 
 import AppleLockScreenClock from './AppleLockScreenClock';
 import './AppleStyleWebsite.css';
 
@@ -10,13 +10,37 @@ const AppleStyleWebsite = () => {
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const constraintsRef = useRef(null);
+  const slideBarRef = useRef(null);
   const x = useMotionValue(0);
   const opacity = useTransform(x, [0, 100], [1, 0]);
   const autoUnlockTimer = useRef(null);
+  const slideDistance = useRef(0);
+  const maxSlideDistance = useRef(0);
 
   useEffect(() => {
-    // Auto unlock after 10 seconds
-    autoUnlockTimer.current = setTimeout(() => setIsUnlocked(true), 10000);
+    // Get slide bar width for calculations
+    if (slideBarRef.current) {
+      const slideBarWidth = slideBarRef.current.offsetWidth;
+      const dragCircleWidth = 55; // Approximate width of the drag circle
+      maxSlideDistance.current = slideBarWidth - dragCircleWidth - 15; // Subtract padding
+    }
+  }, []);
+
+  // Auto unlock timer with animation
+  useEffect(() => {
+    autoUnlockTimer.current = setTimeout(() => {
+      // Animate the slider before unlocking
+      if (!isUnlocked) {
+        animate(x, maxSlideDistance.current, {
+          type: "spring",
+          duration: 0.8,
+          onComplete: () => {
+            setIsUnlocked(true);
+          }
+        });
+      }
+    }, 10000);
+    
     return () => clearTimeout(autoUnlockTimer.current);
   }, []);
 
@@ -34,18 +58,72 @@ const AppleStyleWebsite = () => {
   }, [isUnlocked]);
 
   useEffect(() => {
-    const handleGlobalWheel = () => {
-      if (!isUnlocked) setIsUnlocked(true);
+    // Handle scroll event - animate slide then unlock
+    const handleGlobalWheel = (event) => {
+      if (!isUnlocked) {
+        // Prevent default scroll behavior
+        event.preventDefault();
+        
+        // Calculate slide progress based on scroll amount
+        const scrollAmount = event.deltaY * 0.5; // Scale down the scroll effect
+        slideDistance.current += scrollAmount;
+        
+        // Clamp the slide distance
+        slideDistance.current = Math.max(0, Math.min(slideDistance.current, maxSlideDistance.current));
+        
+        // Animate the slider to the new position
+        x.set(slideDistance.current);
+        
+        // If scrolled enough, trigger unlock after a small delay
+        if (slideDistance.current > maxSlideDistance.current * 0.7) {
+          setTimeout(() => {
+            animate(x, maxSlideDistance.current, {
+              type: "spring",
+              duration: 0.3,
+              onComplete: () => {
+                setIsUnlocked(true);
+              }
+            });
+          }, 200);
+        }
+      }
     };
-    window.addEventListener('wheel', handleGlobalWheel, { passive: true });
+    
+    window.addEventListener('wheel', handleGlobalWheel, { passive: false });
     return () => window.removeEventListener('wheel', handleGlobalWheel);
   }, [isUnlocked]);
 
+  const handleDragStart = () => {
+    // Clear auto unlock timer when user starts dragging
+    if (autoUnlockTimer.current) {
+      clearTimeout(autoUnlockTimer.current);
+    }
+  };
+
+  const handleDrag = (event, info) => {
+    // Update our slide distance tracker during drag
+    slideDistance.current = info.point.x;
+  };
+
   const handleDragEnd = (event, info) => {
-    if (info.offset.x > 100) {
-      setIsUnlocked(true);
+    // Check if dragged past unlock threshold (70% of max distance)
+    if (info.offset.x > maxSlideDistance.current * 0.7) {
+      // Animate to the end position before unlocking
+      animate(x, maxSlideDistance.current, {
+        type: "spring",
+        duration: 0.3,
+        onComplete: () => {
+          setIsUnlocked(true);
+        }
+      });
     } else {
-      x.set(0);
+      // Spring back to start if not dragged far enough
+      animate(x, 0, {
+        type: "spring",
+        stiffness: 500,
+        damping: 30
+      });
+      slideDistance.current = 0;
     }
   };
 
@@ -61,7 +139,7 @@ const AppleStyleWebsite = () => {
 
   return (
     <div className="mega-container">
-      <InteractiveBackground /> {/* Add the InteractiveBackground here */}
+      <InteractiveBackground />
       <LayoutGroup>
         <motion.div
           className={`phone-container ${isExpanded ? "phone-expanded" : "phone-initial"}`}
@@ -91,17 +169,33 @@ const AppleStyleWebsite = () => {
                 <AppleLockScreenClock />
 
                 <div className="lock-bar">
-                  <motion.div className="slide-bar" ref={constraintsRef}>
-                    <motion.div
-                      className="drag-circle"
-                      drag="x"
-                      dragConstraints={constraintsRef}
-                      dragElastic={0.1}
-                      onDragEnd={handleDragEnd}
-                      whileDrag={{ scale: 1.1 }}
-                      style={{ x }}
+                  <motion.div 
+                    className="slide-bar" 
+                    ref={slideBarRef}
+                  >
+                    <motion.div 
+                      className="slide-track" 
+                      ref={constraintsRef}
                     >
-                      <Phone className="phone-icon" size={35} />
+                      <motion.div
+                        className="drag-circle"
+                        drag="x"
+                        dragConstraints={constraintsRef}
+                        dragElastic={0}
+                        dragMomentum={false}
+                        onDragStart={handleDragStart}
+                        onDrag={handleDrag}
+                        onDragEnd={handleDragEnd}
+                        whileDrag={{ scale: 1.1 }}
+                        animate={{ 
+                          boxShadow: isUnlocked 
+                            ? "0px 0px 15px 5px rgba(52, 199, 89, 0.6)" 
+                            : "0px 0px 10px 2px rgba(255, 255, 255, 0.3)"
+                        }}
+                        style={{ x }}
+                      >
+                        <Phone className="phone-icon" size={35} />
+                      </motion.div>
                     </motion.div>
                     <motion.p className="unlock-text" style={{ opacity }}>
                       Slide to unlock
