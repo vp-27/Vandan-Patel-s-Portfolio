@@ -640,18 +640,20 @@ section:nth-child(5){
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
   position: relative;
-  will-change: transform, height;
+  will-change: transform;
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
               box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   height: 400px;
   display: flex;
   flex-direction: column;
   border: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 1;
 }
 
 .project-card:hover {
-  transform: translateY(-8px) scale(1.01);
+  transform: translateY(-8px);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.16);
+  z-index: 1002;
 }
 
 .project-image {
@@ -659,9 +661,13 @@ section:nth-child(5){
   height: 200px;
   background-size: cover;
   background-position: center;
-  transition: height 0.3s ease;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   overflow: hidden;
-  z-index: 1; /* Ensure proper stacking */
+  z-index: 1;
+}
+
+.project-card:hover .project-image {
+  transform: scale(1.05);
 }
 
 .project-image::after {
@@ -672,10 +678,12 @@ section:nth-child(5){
   width: 100%;
   height: 100%;
   background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-.project-card:hover .project-image {
-  height: 220px; /* Slightly expand image on hover */
+.project-card:hover .project-image::after {
+  opacity: 1;
 }
 
 .project-overlay {
@@ -690,14 +698,14 @@ section:nth-child(5){
   align-items: center;
   gap: 20px;
   opacity: 0;
-  visibility: hidden; /* Add this to prevent interaction when hidden */
-  transition: opacity 0.3s ease, visibility 0.3s ease; /* Add visibility to transition */
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
   z-index: 2;
 }
 
 .project-card:hover .project-overlay {
   opacity: 1;
-  visibility: visible; /* Make it visible on hover */
+  visibility: visible;
 }
 
 .project-link, .project-github {
@@ -710,40 +718,29 @@ section:nth-child(5){
   justify-content: center;
   transform: translateY(20px);
   opacity: 0;
-  position: relative; /* Add position relative */
-  z-index: 3; /* Higher than overlay */
-  transition: opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s, background-color 0.2s ease; /* Add delay for smoother appearance */
-  pointer-events: none; /* Initially disable pointer events */
+  position: relative;
+  z-index: 3;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
 }
 
 .project-card:hover .project-link, 
 .project-card:hover .project-github {
   opacity: 1;
-  transform: translateY(0); /* Reset the transform on hover */
-  pointer-events: auto; /* Enable pointer events when visible */
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 .project-link:hover {
   background-color: var(--primary-color);
   color: #fff;
-  transform: scale(1.1); /* Add scale effect on hover */
+  transform: scale(1.1);
 }
 
 .project-github:hover {
   background-color: var(--secondary-color);
   color: #fff;
-  transform: scale(1.1); /* Add scale effect on hover */
-}
-
-/* Target specifically the Github button */
-.project-links .btn.btn-primary:last-child {
-  background-color: #2ea44f; /* GitHub's green color */
-  color: white;
-}
-
-/* Add hover state if desired */
-.project-links .btn.btn-primary:last-child:hover {
-  background-color: #2c974b; /* Slightly darker shade for hover */
+  transform: scale(1.1);
 }
 
 .project-content {
@@ -754,11 +751,11 @@ section:nth-child(5){
   justify-content: space-between;
   background-color: var(--card-background);
   transform: translateY(0);
-  transition: transform 0.3s ease;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .project-card:hover .project-content {
-  transform: translateY(-15px);
+  transform: translateY(-5px);
 }
 
 .project-content h3 {
@@ -781,6 +778,12 @@ section:nth-child(5){
   margin-bottom: 25px;
   color: var(--text-color);
   line-height: 1.6;
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+}
+
+.project-card:hover .project-content p {
+  opacity: 1;
 }
 
 .technologies {
@@ -788,8 +791,12 @@ section:nth-child(5){
   flex-wrap: wrap;
   gap: 8px;
   margin-top: 15px;
+  opacity: 0.8;
   transition: opacity 0.3s ease;
-  will-change: opacity, transform;
+}
+
+.project-card:hover .technologies {
+  opacity: 1;
 }
 
 .tech-chip {
@@ -800,7 +807,7 @@ section:nth-child(5){
   font-size: 0.85rem;
   font-weight: 500;
   letter-spacing: -0.01em;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   border: 1px solid rgba(0, 122, 255, 0.2);
 }
 
@@ -827,7 +834,6 @@ section:nth-child(5){
   opacity: 1;
 }
 
-.project-card .btn-secondary,
 .project-card .btn-primary {
   display: inline-flex;
   align-items: center;
@@ -836,37 +842,21 @@ section:nth-child(5){
   padding: 12px 24px;
   font-size: 0.95rem;
   opacity: 0.9;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   color: #fff;
   border-radius: 980px;
   text-decoration: none;
   font-weight: 500;
   letter-spacing: -0.01em;
-  min-width: 120px; /* Ensure consistent width */
+  min-width: 120px;
   text-align: center;
-}
-
-.project-card .btn-primary {
   background-color: var(--primary-color);
 }
 
-.project-card .btn-secondary {
-  background-color: var(--secondary-color);
-}
-
-/* Remove these styles that are causing the differences */
-.project-card .btn-secondary svg {
-  transition: transform 0.3s ease;
-}
-
-.project-card:hover .btn-secondary svg {
-  transform: translateX(3px);
-}
-
-/* Replace with unified hover styles for both buttons */
-.project-card .btn-primary:hover,
-.project-card .btn-secondary:hover {
+.project-card .btn-primary:hover {
   opacity: 1;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.2);
 }
 
 .project-card.focused-card {
@@ -921,11 +911,54 @@ section:nth-child(5){
 
 .leadership-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 40px;
   max-width: 1400px;
   margin: 0 auto;
   padding: 20px;
+  justify-items: center;
+  align-items: stretch;
+  grid-auto-rows: 1fr;
+}
+
+/* Add styles for different numbers of cards */
+.leadership-grid:has(.leadership-card:nth-child(1):last-child) {
+  grid-template-columns: minmax(300px, 600px);
+  justify-content: center;
+}
+
+.leadership-grid:has(.leadership-card:nth-child(2):last-child) {
+  grid-template-columns: repeat(2, minmax(300px, 1fr));
+}
+
+.leadership-grid:has(.leadership-card:nth-child(3):last-child) {
+  grid-template-columns: repeat(3, minmax(300px, 1fr));
+}
+
+.leadership-grid:has(.leadership-card:nth-child(4):last-child) {
+  grid-template-columns: repeat(2, minmax(300px, 1fr));
+}
+
+.leadership-grid:has(.leadership-card:nth-child(5):last-child) {
+  grid-template-columns: repeat(3, minmax(300px, 1fr));
+}
+
+.leadership-grid:has(.leadership-card:nth-child(6):last-child) {
+  grid-template-columns: repeat(3, minmax(300px, 1fr));
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .leadership-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .leadership-grid {
+    grid-template-columns: 1fr;
+    max-width: 500px;
+  }
 }
 
 .leadership-card {
@@ -943,6 +976,8 @@ section:nth-child(5){
   border: 1px solid rgba(255, 255, 255, 0.1);
   position: relative;
   overflow: hidden;
+  height: 100%;
+  min-height: 400px; /* Set a minimum height to ensure consistency */
 }
 
 .leadership-card::before {
@@ -995,15 +1030,25 @@ section:nth-child(5){
   letter-spacing: -0.02em;
 }
 
+.leadership-card p {
+  flex: 1;
+  width: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
 .leadership-card ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px; /* Consistent gap between items */
 }
 
 .leadership-card ul li {
-  margin-bottom: 16px;
   line-height: 1.6;
   position: relative;
   padding-left: 32px;
@@ -1012,6 +1057,12 @@ section:nth-child(5){
   transition: all 0.3s ease;
   display: flex;
   align-items: flex-start;
+  margin: 0; /* Remove margin-bottom since we're using gap */
+}
+
+/* Remove the last-child margin override since we're using gap */
+.leadership-card ul li:last-child {
+  margin: 0;
 }
 
 .leadership-card ul li::before {
@@ -1243,7 +1294,7 @@ section:nth-child(5){
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
-  bottom: 20px;
+  bottom: -100px; /* Start hidden below the viewport */
   width: auto;
   height: 70px; /* Fixed height */
   padding: 10px 25px;
@@ -1255,7 +1306,13 @@ section:nth-child(5){
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  z-index: 1000;
+  z-index: 1001; /* Lower than hovered project cards */
+  transition: bottom 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Show dock when scrolled */
+.website-content.scrolled .dock-footer {
+  bottom: 20px;
 }
 
 /* Dock Container */

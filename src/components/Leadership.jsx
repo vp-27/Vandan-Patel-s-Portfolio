@@ -20,6 +20,16 @@ const LeadershipCard = ({ role, description, icon }) => {
 const Leadership = () => {
   const leadershipRoles = [
     {
+      role: "Rutgers Shark Tank Finalist - PerkPal",
+      description: (
+        <ul style={{ textAlign: 'left' }}>
+          <li>Led the creation and launch of PerkPal, an innovative platform that centralizes loyalty rewards management, allowing users to track loyalty points, product warranties, and gift cards seamlessly</li>
+          <li>Delivered a high-impact pitch to a panel of five investors and judges, standing out among 30+ student-led startups to earn a finalist position; final presentations scheduled for April 2025</li>
+        </ul>
+      ),
+      icon: "🦈"
+    },
+    {
       role: "Bender Trust Project - Financial Manager",
       description: (
         <ul style={{ textAlign: 'left' }}>

@@ -97,7 +97,7 @@ const Hero = () => {
         transition={{ duration: 1, ease: 'easeOut', delay: 1 }} // Added delay of 2 seconds
       >
         <h1>Vandan Patel</h1>
-        <h2>Full-Stack Developer | UI/UX Designer</h2>
+        <h2>Full-Stack Developer | Data Analyst</h2>
         <p>"Everything's a passion project"</p>
         <motion.a
           href="#about"
@@ -762,6 +762,7 @@ const Footer = () => {
 const WebsiteContent = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [activeSection, setActiveSection] = useState('about');
+  const [hasScrolled, setHasScrolled] = useState(false);
   const websiteContentRef = useRef(null); // Reference to .website-content
 
   useEffect(() => {
@@ -776,20 +777,21 @@ const WebsiteContent = () => {
     }
   }, []);
 
-  const toggleTheme = () => {
-    const newTheme = !darkMode ? 'dark' : 'light';
-    setDarkMode(!darkMode);
-    document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-  };
-
-  // Scroll event listener to update active section
+  // Combined scroll handler for both dock and section tracking
   useEffect(() => {
-    const sections = ['about', 'skills', 'projects', 'leadership', 'contact'];
     const scrollContainer = websiteContentRef.current;
+    if (!scrollContainer) return;
 
     const handleScroll = () => {
+      // Handle dock appearance on first scroll
+      if (!hasScrolled && scrollContainer.scrollTop > 0) {
+        setHasScrolled(true);
+        scrollContainer.classList.add('scrolled');
+      }
+
+      // Handle section tracking
       const scrollPosition = scrollContainer.scrollTop + window.innerHeight / 2;
+      const sections = ['about', 'skills', 'projects', 'leadership', 'contact'];
 
       for (let i = 0; i < sections.length; i++) {
         const section = document.getElementById(sections[i]);
@@ -803,18 +805,21 @@ const WebsiteContent = () => {
       }
     };
 
-    if (scrollContainer) {
-      scrollContainer.addEventListener('scroll', handleScroll);
-      // Initial check
-      handleScroll();
-    }
+    scrollContainer.addEventListener('scroll', handleScroll);
+    // Initial check for section tracking
+    handleScroll();
 
     return () => {
-      if (scrollContainer) {
-        scrollContainer.removeEventListener('scroll', handleScroll);
-      }
+      scrollContainer.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [hasScrolled]); // Add hasScrolled to dependencies
+
+  const toggleTheme = () => {
+    const newTheme = !darkMode ? 'dark' : 'light';
+    setDarkMode(!darkMode);
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+  };
 
   // Handle smooth scrolling when header links are clicked
   const handleHeaderClick = (e, sectionId) => {

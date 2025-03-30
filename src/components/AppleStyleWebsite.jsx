@@ -9,6 +9,7 @@ import './AppleStyleWebsite.css';
 const AppleStyleWebsite = () => {
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpansionComplete, setIsExpansionComplete] = useState(false);
   const constraintsRef = useRef(null);
   const slideBarRef = useRef(null);
   const x = useMotionValue(0);
@@ -133,7 +134,11 @@ const AppleStyleWebsite = () => {
       width: '100vw', 
       height: '100vh', 
       borderRadius: '0px', 
-      transition: { duration: 0.5, ease: 'easeInOut' } 
+      transition: { 
+        duration: 0.5, 
+        ease: 'easeInOut',
+        onComplete: () => setIsExpansionComplete(true)
+      } 
     }
   };
 
@@ -217,7 +222,7 @@ const AppleStyleWebsite = () => {
                   left: 0, 
                   right: 0, 
                   bottom: 0, 
-                  overflowY: 'auto' 
+                  overflowY: isExpansionComplete ? 'auto' : 'hidden' // Only allow scrolling after expansion is complete
                 }}
               >
                 <WebsiteContent />
