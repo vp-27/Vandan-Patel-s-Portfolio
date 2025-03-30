@@ -893,74 +893,201 @@ section:nth-child(5){
   padding: 120px 40px;
   background-color: var(--background-color);
   color: var(--text-color);
+  position: relative;
+  overflow: hidden;
 }
 
 .leadership h2 {
   font-size: 3.5rem;
-  margin-bottom: 40px;
+  margin-bottom: 60px;
   text-align: center;
   color: var(--primary-color);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  position: relative;
+}
+
+.leadership h2::after {
+  content: '';
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: var(--primary-color);
+  border-radius: 3px;
 }
 
 .leadership-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
-  max-width: 1200px;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 40px;
+  max-width: 1400px;
   margin: 0 auto;
+  padding: 20px;
 }
 
 .leadership-card {
-  background-color: var(--card-background);
-  border-radius: 15px;
-  padding: 30px;
-  box-shadow: var(--card-shadow);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  background: var(--card-background);
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  align-items: flex-start;
+  text-align: left;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.leadership-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.03), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s;
+}
+
+.leadership-card:hover::before {
+  transform: translateX(100%);
 }
 
 .leadership-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+  border-color: var(--primary-color);
 }
 
 .leadership-icon {
-  font-size: 3.5rem;
-  margin-bottom: 20px;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  font-size: 2.5rem;
+  margin-bottom: 25px;
+  color: var(--primary-color);
+  background: rgba(0, 122, 255, 0.1);
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.leadership-card:hover .leadership-icon {
+  transform: scale(1.1);
+  background: var(--primary-color);
+  color: white;
 }
 
 .leadership-card h3 {
-  font-size: 1.6rem;
-  color: var(--primary-color);
-  margin-bottom: 15px;
+  font-size: 1.8rem;
+  color: var(--text-color);
+  margin-bottom: 20px;
   font-weight: 600;
+  letter-spacing: -0.02em;
 }
 
 .leadership-card ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
+  width: 100%;
 }
 
 .leadership-card ul li {
-  margin-bottom: 12px;
+  margin-bottom: 16px;
   line-height: 1.6;
   position: relative;
-  padding-left: 20px;
-  text-align: left;
+  padding-left: 32px;
+  color: var(--text-color);
+  opacity: 0.9;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: flex-start;
 }
 
 .leadership-card ul li::before {
-  content: "→";
+  content: "";
   position: absolute;
   left: 0;
-  color: var(--primary-color);
+  top: 8px;
+  width: 8px;
+  height: 8px;
+  background: var(--primary-color);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.1);
+}
+
+.leadership-card ul li::after {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.leadership-card:hover ul li::before {
+  transform: scale(1.2);
+  box-shadow: 0 0 0 6px rgba(0, 122, 255, 0.15);
+}
+
+.leadership-card:hover ul li::after {
+  opacity: 1;
+  transform: scale(1.5);
+}
+
+.leadership-card:hover ul li {
+  opacity: 1;
+  transform: translateX(5px);
+}
+
+/* Dark theme adjustments for bullet points */
+[data-theme="dark"] .leadership-card ul li::before {
+  box-shadow: 0 0 0 4px rgba(10, 132, 255, 0.15);
+}
+
+[data-theme="dark"] .leadership-card:hover ul li::before {
+  box-shadow: 0 0 0 6px rgba(10, 132, 255, 0.2);
+}
+
+/* Responsive adjustments for leadership section */
+@media (max-width: 768px) {
+  .leadership {
+    padding: 80px 20px;
+  }
+
+  .leadership h2 {
+    font-size: 2.8rem;
+    margin-bottom: 40px;
+  }
+
+  .leadership-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding: 10px;
+  }
+
+  .leadership-card {
+    padding: 30px;
+  }
+
+  .leadership-card h3 {
+    font-size: 1.6rem;
+  }
 }
 
 /* Contact Section */
