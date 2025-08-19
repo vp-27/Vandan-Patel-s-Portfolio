@@ -220,12 +220,7 @@ section:nth-child(5){
   top: 10px;
 }
 
-.phone-container.phone-expanded .dynamic-island {
-  width: calc(100% - 40px);
-  height: 60px;
-  top: 10px;
-  border-radius: 50px;
-}
+/* dynamic-island expansion handled in AppleStyleWebsite motion */
 
 .header-content {
   display: flex;

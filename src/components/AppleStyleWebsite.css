@@ -13,7 +13,7 @@
 .phone-container {
   margin-top: 30px;
   border: 5px solid black;
-  background: radial-gradient(ellipse at center, rgba(0,0,0,0.85) 0%, rgba(0,0,0,1) 70%);
+  background: transparent; /* default let inner decide */
   box-shadow: 
     0 -5px 20px rgba(255, 255, 255, 0.2),
     0 5px 20px rgba(255, 255, 255, 0.2),
@@ -25,6 +25,16 @@
   transition: none; /* Disable transition so keyframes handle the movement */
   transform: none; /* Remove initial 3D transform, rely on keyframes */
   animation: slideIn 1.3s ease forwards;
+}
+
+/* Call mode shows a dimmed bg behind the photo image */
+.phone-container.call-mode {
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.95) 70%);
+}
+
+/* Web mode is transparent so WebsiteContent background shows through */
+.phone-container.web-mode {
+  background: transparent;
 }
 
 @keyframes slideIn {
@@ -360,6 +370,8 @@
 
 .website-content-container {
   padding-bottom: 100px; /* Add padding to accommodate the fixed dock */
+  background: var(--background-color); /* Unified theme background */
+  color: var(--text-color);
 }
 
 /* Responsive Design */

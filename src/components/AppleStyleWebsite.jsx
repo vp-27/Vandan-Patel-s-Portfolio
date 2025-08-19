@@ -149,7 +149,7 @@ const AppleStyleWebsite = () => {
       {!isUnlocked && <InteractiveBackground />}
       <LayoutGroup>
         <motion.div
-          className={`phone-container ${isExpanded ? "phone-expanded" : "phone-initial"}`}
+          className={`phone-container ${isExpanded ? "phone-expanded" : "phone-initial"} ${isUnlocked ? 'web-mode' : 'call-mode'}`}
           variants={phoneVariants}
           initial="initial"
           animate={isExpanded ? "expanded" : "initial"}
@@ -226,7 +226,7 @@ const AppleStyleWebsite = () => {
             ) : (
               <motion.div
                 key="website-content"
-                initial={{ opacity: 1 }}
+                initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
