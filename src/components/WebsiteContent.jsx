@@ -85,39 +85,23 @@ const Header = ({ toggleTheme, darkMode, activeSection, onHeaderClick }) => (
 );
 
 
-// Hero Section
-const Hero = () => {
-  return (
-    <motion.section className="hero">
-      {/* <div className="parallax-background"></div> */}
-      <motion.div
-        className="hero-content"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, ease: 'easeOut', delay: 1 }} // Added delay of 2 seconds
-      >
-        <h1>Vandan Patel</h1>
-        <h2>Full-Stack Developer | Data Analyst</h2>
-        <p>"Everything's a passion project"</p>
-        <motion.a
-          href="#about"
-          className="cta-button"
-          whileTap={{ scale: 0.95 }}
-          transition={{ duration: 0.3 }}
-          onClick={(e) => {
-            e.preventDefault();
-            const section = document.getElementById('about');
-            if (section) {
-              section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-          }}
-        >
-          Learn More <ArrowDown size={20} />
-        </motion.a>
+// Landing Hero to receive shared element transition
+const LandingHero = () => (
+  <section className="hero-receiver">
+    <div className="hero-receiver-inner">
+      <motion.div className="hero-receiver-photo" layoutId="hero-photo">
+        <img src={profileImage} alt="Vandan Patel" />
       </motion.div>
-    </motion.section>
-  );
-};
+      <motion.h1 layoutId="hero-name">Vandan<br/>Patel</motion.h1>
+      <motion.h2 initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }}>
+        Full-Stack Developer | Data Analyst
+      </motion.h2>
+      <motion.p initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.2 }}>
+        "Everything's a passion project"
+      </motion.p>
+    </div>
+  </section>
+);
 
 // About Section
 const About = () => (
@@ -845,7 +829,7 @@ const WebsiteContent = () => {
           onHeaderClick={handleHeaderClick} 
         />
         <main>
-          <Hero />
+          <LandingHero />
           <About />
           <Projects />
           <Leadership />

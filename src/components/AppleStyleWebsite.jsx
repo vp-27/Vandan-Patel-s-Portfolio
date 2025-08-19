@@ -3,7 +3,7 @@ import { motion, AnimatePresence, useMotionValue, useTransform, LayoutGroup, ani
 import { Phone } from 'lucide-react';
 import WebsiteContent from './WebsiteContent';
 import InteractiveBackground from './InteractiveBackground'; 
-import AppleLockScreenClock from './AppleLockScreenClock';
+import PhoneCallInterface from './PhoneCallInterface';
 import './AppleStyleWebsite.css';
 
 const AppleStyleWebsite = () => {
@@ -144,7 +144,8 @@ const AppleStyleWebsite = () => {
 
   return (
     <div className="mega-container">
-      <InteractiveBackground />
+      {/* Hide interactive background after unlock to avoid double backgrounds */}
+      {!isUnlocked && <InteractiveBackground />}
       <LayoutGroup>
         <motion.div
           className={`phone-container ${isExpanded ? "phone-expanded" : "phone-initial"}`}
@@ -171,7 +172,7 @@ const AppleStyleWebsite = () => {
                   />
                 </div>
 
-                <AppleLockScreenClock />
+                <PhoneCallInterface />
 
                 <div className="lock-bar">
                   <motion.div 
@@ -203,7 +204,7 @@ const AppleStyleWebsite = () => {
                       </motion.div>
                     </motion.div>
                     <motion.p className="unlock-text" style={{ opacity }}>
-                      Slide to unlock
+                      Slide to answer
                     </motion.p>
                   </motion.div>
                 </div>
