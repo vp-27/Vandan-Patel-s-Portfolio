@@ -175,8 +175,14 @@ const AppleStyleWebsite = () => {
                   <motion.div
                     className="dynamic-island"
                     layoutId="header"
-                    initial={{ borderRadius: '20px' }}
-                    animate={{ borderRadius: isExpanded ? '20px 20px 0 0' : '20px' }}
+                    initial={{ borderRadius: 20, width: '35%', height: 25, top: 10 }}
+                    animate={{
+                      borderRadius: isExpanded ? 50 : 20,
+                      width: isExpanded ? 'calc(100% - 40px)' : '35%',
+                      height: isExpanded ? 60 : 25,
+                      top: 10
+                    }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                   />
                 </div>
 
