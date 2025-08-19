@@ -4,6 +4,7 @@ import { Phone } from 'lucide-react';
 import WebsiteContent from './WebsiteContent';
 import InteractiveBackground from './InteractiveBackground'; 
 import PhoneCallInterface from './PhoneCallInterface';
+import profileImage from '../images/pfp.png';
 import './AppleStyleWebsite.css';
 
 const AppleStyleWebsite = () => {
@@ -162,6 +163,13 @@ const AppleStyleWebsite = () => {
                 transition={{ duration: 0.3 }}
                 className="phone-content"
               >
+                {/* Full-screen call background image with shared element transition */}
+                <motion.img 
+                  src={profileImage} 
+                  alt="Call Background"
+                  className="call-bg-img"
+                  layoutId="hero-photo"
+                />
                 
                 <div className="status-bar">
                   <motion.div
