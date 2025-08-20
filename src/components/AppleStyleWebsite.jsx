@@ -170,8 +170,19 @@ const AppleStyleWebsite = () => {
 
   return (
     <div className="mega-container">
-      {/* Hide interactive background after unlock to avoid double backgrounds */}
-      {!isUnlocked && <InteractiveBackground />}
+      {/* Keep interactive background until fully expanded to avoid white flash */}
+      <AnimatePresence>
+        {!isExpansionComplete && (
+          <motion.div
+            key="interactive-bg"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <InteractiveBackground />
+          </motion.div>
+        )}
+      </AnimatePresence>
       <LayoutGroup>
         <motion.div
           className={`phone-container ${isExpanded ? "phone-expanded" : "phone-initial"} ${isUnlocked ? 'web-mode' : 'call-mode'}`}
@@ -183,13 +194,40 @@ const AppleStyleWebsite = () => {
             "initial"
           }
         >
+          {/* Background transition layer - shows website content during expansion */}
+          <AnimatePresence>
+            {isExpanding && (
+              <motion.div
+                key="background-transition"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 0.2, scale: 1 }} // Reduced opacity to avoid interference
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.15 }}
+                className="background-transition-layer"
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  zIndex: -2, // Lower z-index to stay behind everything
+                  overflow: 'hidden',
+                  pointerEvents: 'none' // Prevent any interaction
+                }}
+              >
+                <WebsiteContent />
+              </motion.div>
+            )}
+          </AnimatePresence>
+
           <AnimatePresence mode="sync">
             {!isUnlocked ? (
               <motion.div
                 key="phone-content"
                 initial={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
+                animate={{ 
+                  opacity: isExpanding ? 0.8 : 1, // Less aggressive fade during expansion
+                  scale: isExpanding ? 0.98 : 1   // Very subtle scale down
+                }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.2, ease: "easeOut" }} // Smoother transition
                 className="phone-content"
               >
                 {/* Full-screen call background image with shared element transition */}
@@ -199,9 +237,14 @@ const AppleStyleWebsite = () => {
                   className="call-bg-img"
                   layoutId="hero-photo"
                   style={{
-                    filter: 'brightness(0.75)'
+                    filter: 'brightness(0.75)',
+                    zIndex: 0
                   }}
-                  transition={{ duration: 0.3 }}
+                  transition={{ 
+                    duration: 0.3,
+                    ease: "easeInOut",
+                    layout: { duration: 0.3 }
+                  }}
                 />
                 
                 <div className="status-bar">
@@ -264,10 +307,10 @@ const AppleStyleWebsite = () => {
             ) : (
               <motion.div
                 key="website-content"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.4, delay: 0.1 }} // Slight delay to let expansion start
                 className="website-content-container"
                 style={{ 
                   position: 'absolute', 
