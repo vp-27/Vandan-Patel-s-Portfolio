@@ -9,6 +9,7 @@ import './AppleStyleWebsite.css';
 
 const AppleStyleWebsite = () => {
   const [isUnlocked, setIsUnlocked] = useState(false);
+  const [isExpanding, setIsExpanding] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isExpansionComplete, setIsExpansionComplete] = useState(false);
   const constraintsRef = useRef(null);
@@ -48,8 +49,12 @@ const AppleStyleWebsite = () => {
 
   useEffect(() => {
     if (isUnlocked) {
-      // Start expansion immediately when unlocked for smooth transition
-      setIsExpanded(true);
+      // Start border expansion immediately when unlocked
+      setIsExpanding(true);
+      // After border expands, start the full expansion
+      setTimeout(() => {
+        setIsExpanded(true);
+      }, 150); // Match the expanding animation duration
     }
   }, [isUnlocked]);
 
@@ -131,13 +136,32 @@ const AppleStyleWebsite = () => {
   };
 
   const phoneVariants = {
-    initial: { width: '375px', height: '812px', borderRadius: '60px' },
+    initial: { 
+      width: '375px', 
+      height: '812px', 
+      borderRadius: '60px',
+      borderWidth: '5px',
+      borderColor: 'rgba(0, 0, 0, 1)',
+      scale: 1
+    },
+    expanding: {
+      borderWidth: '15px', // First expand the border width
+      borderColor: 'rgba(0, 0, 0, 0.8)',
+      scale: 1.02,
+      transition: { 
+        duration: 0.15,
+        ease: 'easeOut'
+      }
+    },
     expanded: { 
       width: '100vw', 
       height: '100vh', 
-      borderRadius: '0px', 
+      borderRadius: '0px',
+      borderWidth: '0px',
+      borderColor: 'rgba(0, 0, 0, 0)',
+      scale: 1,
       transition: { 
-        duration: 0.3, // Faster duration to match other transitions
+        duration: 0.25,
         ease: 'easeInOut',
         onComplete: () => setIsExpansionComplete(true)
       } 
@@ -153,7 +177,11 @@ const AppleStyleWebsite = () => {
           className={`phone-container ${isExpanded ? "phone-expanded" : "phone-initial"} ${isUnlocked ? 'web-mode' : 'call-mode'}`}
           variants={phoneVariants}
           initial="initial"
-          animate={isExpanded ? "expanded" : "initial"}
+          animate={
+            isExpanded ? "expanded" : 
+            isExpanding ? "expanding" : 
+            "initial"
+          }
         >
           <AnimatePresence mode="sync">
             {!isUnlocked ? (
