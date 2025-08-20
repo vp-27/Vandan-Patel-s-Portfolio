@@ -48,7 +48,8 @@ const AppleStyleWebsite = () => {
 
   useEffect(() => {
     if (isUnlocked) {
-      setTimeout(() => setIsExpanded(true), 500);
+      // Start expansion immediately when unlocked for smooth transition
+      setIsExpanded(true);
     }
   }, [isUnlocked]);
 
@@ -136,7 +137,7 @@ const AppleStyleWebsite = () => {
       height: '100vh', 
       borderRadius: '0px', 
       transition: { 
-        duration: 0.5, 
+        duration: 0.3, // Faster duration to match other transitions
         ease: 'easeInOut',
         onComplete: () => setIsExpansionComplete(true)
       } 
@@ -182,7 +183,12 @@ const AppleStyleWebsite = () => {
                       height: isExpanded ? 60 : 25,
                       top: 10
                     }}
-                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                    transition={{ 
+                      type: 'spring', 
+                      stiffness: 400, 
+                      damping: 35,
+                      duration: 0.3 // Match the exit animation duration
+                    }}
                   />
                 </div>
 
