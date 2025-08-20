@@ -15,7 +15,11 @@ const PhoneCallInterface = () => {
           fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
           fontWeight: 300
         }}
-        transition={{ duration: 0.3 }}
+        transition={{ 
+          duration: 0.4, 
+          ease: "easeInOut",
+          layout: { duration: 0.4, ease: "easeInOut" }
+        }}
       >
         Vandan<br/>Patel
       </motion.h2>

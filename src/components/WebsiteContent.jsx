@@ -14,7 +14,15 @@ import resume from '../documents/resume.pdf'
 
 // Header Component
 const Header = ({ toggleTheme, darkMode, activeSection, onHeaderClick }) => (
-  <motion.header className="header" layoutId="header">
+  <motion.header 
+    className="header" 
+    layoutId="header"
+    transition={{ 
+      duration: 0.4, 
+      ease: "easeInOut",
+      layout: { duration: 0.4, ease: "easeInOut" }
+    }}
+  >
     <motion.div
       className="header-content"
       initial={{ opacity: 1, y: 0 }}
@@ -95,7 +103,11 @@ const LandingHero = () => (
         style={{
           filter: 'brightness(1)'
         }}
-        transition={{ duration: 0.3 }}
+        transition={{ 
+          duration: 0.4, 
+          ease: "easeInOut",
+          layout: { duration: 0.4, ease: "easeInOut" }
+        }}
       >
         <img src={profileImage} alt="Vandan Patel" />
       </motion.div>
@@ -106,7 +118,11 @@ const LandingHero = () => (
           lineHeight: 0.95,
           color: 'var(--text-color)'
         }}
-        transition={{ duration: 0.3 }}
+        transition={{ 
+          duration: 0.4, 
+          ease: "easeInOut",
+          layout: { duration: 0.4, ease: "easeInOut" }
+        }}
       >
         Vandan<br/>Patel
       </motion.h1>

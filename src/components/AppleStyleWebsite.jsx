@@ -194,40 +194,19 @@ const AppleStyleWebsite = () => {
             "initial"
           }
         >
-          {/* Background transition layer - shows website content during expansion */}
-          <AnimatePresence>
-            {isExpanding && (
-              <motion.div
-                key="background-transition"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 0.2, scale: 1 }} // Reduced opacity to avoid interference
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.15 }}
-                className="background-transition-layer"
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  zIndex: -2, // Lower z-index to stay behind everything
-                  overflow: 'hidden',
-                  pointerEvents: 'none' // Prevent any interaction
-                }}
-              >
-                <WebsiteContent />
-              </motion.div>
-            )}
-          </AnimatePresence>
-
           <AnimatePresence mode="sync">
             {!isUnlocked ? (
               <motion.div
                 key="phone-content"
                 initial={{ opacity: 1 }}
                 animate={{ 
-                  opacity: isExpanding ? 0.8 : 1, // Less aggressive fade during expansion
-                  scale: isExpanding ? 0.98 : 1   // Very subtle scale down
+                  opacity: isExpanding ? 0.9 : 1, // Very subtle fade to maintain continuity
+                  scale: 1 // Remove scaling to avoid interference
                 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.2, ease: "easeOut" }} // Smoother transition
+                exit={{ 
+                  opacity: 0, 
+                  transition: { duration: 0.25, ease: "easeOut" }
+                }}
                 className="phone-content"
               >
                 {/* Full-screen call background image with shared element transition */}
@@ -241,9 +220,9 @@ const AppleStyleWebsite = () => {
                     zIndex: 0
                   }}
                   transition={{ 
-                    duration: 0.3,
+                    duration: 0.4,
                     ease: "easeInOut",
-                    layout: { duration: 0.3 }
+                    layout: { duration: 0.4, ease: "easeInOut" }
                   }}
                 />
                 
@@ -260,9 +239,10 @@ const AppleStyleWebsite = () => {
                     }}
                     transition={{ 
                       type: 'spring', 
-                      stiffness: 400, 
-                      damping: 35,
-                      duration: 0.3 // Match the exit animation duration
+                      stiffness: 600, // Higher stiffness for snappier response
+                      damping: 40,
+                      duration: 0.25, // Match the expansion duration
+                      layout: { duration: 0.25, ease: "easeInOut" }
                     }}
                   />
                 </div>
