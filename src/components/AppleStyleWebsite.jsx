@@ -170,6 +170,10 @@ const AppleStyleWebsite = () => {
                   alt="Call Background"
                   className="call-bg-img"
                   layoutId="hero-photo"
+                  style={{
+                    filter: 'brightness(0.75)'
+                  }}
+                  transition={{ duration: 0.3 }}
                 />
                 
                 <div className="status-bar">

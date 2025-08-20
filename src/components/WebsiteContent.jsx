@@ -89,10 +89,27 @@ const Header = ({ toggleTheme, darkMode, activeSection, onHeaderClick }) => (
 const LandingHero = () => (
   <section className="hero-receiver">
     <div className="hero-receiver-inner">
-      <motion.div className="hero-receiver-photo" layoutId="hero-photo">
+      <motion.div 
+        className="hero-receiver-photo" 
+        layoutId="hero-photo"
+        style={{
+          filter: 'brightness(1)'
+        }}
+        transition={{ duration: 0.3 }}
+      >
         <img src={profileImage} alt="Vandan Patel" />
       </motion.div>
-      <motion.h1 layoutId="hero-name">Vandan<br/>Patel</motion.h1>
+      <motion.h1 
+        layoutId="hero-name"
+        style={{
+          fontSize: '4rem',
+          lineHeight: 0.95,
+          color: 'var(--text-color)'
+        }}
+        transition={{ duration: 0.3 }}
+      >
+        Vandan<br/>Patel
+      </motion.h1>
       <motion.h2 initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }}>
         Full-Stack Developer | Data Analyst
       </motion.h2>
