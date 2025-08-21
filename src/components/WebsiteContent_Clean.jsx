@@ -214,128 +214,76 @@ const Footer = () => {
   const dockRef = useRef(null);
   const containerRef = useRef(null);
   
-  // Function to handle dock magnification with adaptive background
+  // Function to handle dock magnification
   const handleMouseMove = (e) => {
-    if (!dockRef.current) return;
-    
     const dock = dockRef.current;
-    const dockRect = dock.getBoundingClientRect();
+    const container = containerRef.current;
+    if (!dock || !container) return;
+    
     const icons = dock.querySelectorAll('.dock-icon');
+    const rect = dock.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
     
-    let hoveredIcon = null;
-    
-    icons.forEach(icon => {
+    icons.forEach((icon, index) => {
       const iconRect = icon.getBoundingClientRect();
-      const iconCenter = iconRect.left + iconRect.width / 2;
+      const iconCenterX = iconRect.left + iconRect.width / 2 - rect.left;
+      const distance = Math.abs(mouseX - iconCenterX);
       
-      // Calculate distance from mouse to center of icon
-      const distanceFromMouse = Math.abs(e.clientX - iconCenter);
-      // Maximum distance for magnification effect (in pixels)
-      const maxDistance = 100;
+      let scale = 1;
+      let translateY = 0;
+      const maxScale = 1.8;
+      const maxTranslateY = -25;
+      const influenceRadius = 80;
       
-      if (distanceFromMouse < maxDistance) {
-        // Calculate scale based on proximity (closer = larger)
-        const scale = 1 + 0.5 * (1 - distanceFromMouse / maxDistance);
-        icon.style.transform = `scale(${scale})`;
-        // Adjust z-index to bring magnified icon to front
-        icon.style.zIndex = Math.floor((1 - distanceFromMouse / maxDistance) * 10);
-        
-        // Track the icon with the smallest distance (the one being hovered)
-        if (!hoveredIcon || distanceFromMouse < hoveredIcon.distance) {
-          hoveredIcon = {
-            element: icon,
-            distance: distanceFromMouse,
-            scale: scale
-          };
-        }
-      } else {
-        // Reset scaling when mouse is far away
-        icon.style.transform = 'scale(1)';
-        icon.style.zIndex = 0;
-        
-        // Hide tooltip for non-hovered icons
-        const tooltip = icon.querySelector('.mac-tooltip');
-        if (tooltip) {
-          tooltip.style.opacity = '0';
-          tooltip.style.transform = 'translateY(0) translateX(-50%)';
-        }
+      if (distance < influenceRadius) {
+        const influence = (influenceRadius - distance) / influenceRadius;
+        scale = 1 + (maxScale - 1) * influence;
+        translateY = maxTranslateY * influence;
       }
-    });
-    
-    // Show tooltip only for the closest icon to mouse cursor
-    icons.forEach(icon => {
-      const tooltip = icon.querySelector('.mac-tooltip');
-      if (tooltip) {
-        if (hoveredIcon && icon === hoveredIcon.element) {
-          tooltip.style.opacity = '1';
-          tooltip.style.transform = 'translateY(-10px) translateX(-50%)';
-          
-          // Check if tooltip extends beyond viewport edges and adjust if needed
-          const tooltipRect = tooltip.getBoundingClientRect();
-          const viewportWidth = window.innerWidth;
-          
-          if (tooltipRect.left < 10) {
-            // Too close to left edge
-            tooltip.style.left = '0';
-            tooltip.style.transform = 'translateY(-10px) translateX(0)';
-          } else if (tooltipRect.right > viewportWidth - 10) {
-            // Too close to right edge
-            tooltip.style.left = '100%';
-            tooltip.style.transform = 'translateY(-10px) translateX(-100%)';
-          }
-        } else {
-          tooltip.style.opacity = '0';
-          tooltip.style.transform = 'translateY(0) translateX(-50%)';
-        }
-      }
+      
+      icon.style.transform = `scale(${scale}) translateY(${translateY}px)`;
+      icon.style.zIndex = Math.floor(scale * 10);
     });
   };
   
   // Reset all icons when mouse leaves the dock
   const handleMouseLeave = () => {
-    if (!dockRef.current) return;
-    
     const dock = dockRef.current;
-    const icons = dock.querySelectorAll('.dock-icon');
+    if (!dock) return;
     
-    icons.forEach(icon => {
-      icon.style.transform = 'scale(1)';
-      icon.style.zIndex = 0;
-      
-      // Hide all tooltips
-      const tooltip = icon.querySelector('.mac-tooltip');
-      if (tooltip) {
-        tooltip.style.opacity = '0';
-        tooltip.style.transform = 'translateY(0)';
-      }
+    const icons = dock.querySelectorAll('.dock-icon');
+    icons.forEach((icon) => {
+      icon.style.transform = 'scale(1) translateY(0px)';
+      icon.style.zIndex = '1';
     });
   };
 
   return (
-    <footer 
-      className="dock-footer glass"
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      ref={dockRef}
-    >
-      <div className="dock-container">
-        {apps.map((app, index) => (
-          <motion.a
-            key={index}
-            href={app.link}
-            target={app.download ? '_self' : '_blank'}
-            rel={app.download ? undefined : 'noopener noreferrer'}
-            className="dock-icon"
-            whileTap={{ scale: .9 }}
-            transition={{ type: 'spring', stiffness: 300 }}
-            aria-label={app.name}
-            download={app.download ? app.name : undefined}
-          >
-            {app.icon}
-            <div className="dock-reflection"></div>
-            <div className="mac-tooltip">{app.name}</div>
-          </motion.a>
-        ))}
+    <footer className="dock-footer">
+      <div 
+        className="dock-container" 
+        ref={containerRef}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+      >
+        <div className="dock" ref={dockRef}>
+          {apps.map((app, index) => (
+            <motion.a
+              key={app.name}
+              href={app.link}
+              target={app.download ? '_self' : '_blank'}
+              rel={app.download ? undefined : 'noopener noreferrer'}
+              download={app.download ? app.name : undefined}
+              className="dock-icon"
+              whileTap={{ scale: 0.9 }}
+              style={{ '--delay': `${index * 0.1}s` }}
+            >
+              {app.icon}
+              <div className="mac-tooltip">{app.name}</div>
+            </motion.a>
+          ))}
+        </div>
+        <div className="dock-reflection"></div>
       </div>
     </footer>
   );
