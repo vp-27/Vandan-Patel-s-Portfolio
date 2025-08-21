@@ -80,12 +80,11 @@ const PhoneCallInterface = () => {
           style={{
             // Glassy text only (no background blur container)
             backgroundImage:
-              'linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.78) 55%, rgba(255,255,255,0.58))',
+              'linear-gradient(180deg, rgba(255,255,255,1), rgba(255,255,255,.5) 55%, rgba(255,255,255,1))',
             WebkitBackgroundClip: 'text',
             backgroundClip: 'text',
             color: 'transparent',
             WebkitTextFillColor: 'transparent',
-            WebkitTextStroke: '0.3px rgba(255,255,255,0.35)',
             fontSize: '5rem',
             margin: 0,
             padding: '0 10px',
@@ -97,7 +96,8 @@ const PhoneCallInterface = () => {
             textRendering: 'optimizeLegibility',
             letterSpacing: '-0.01em',
             textShadow:
-              '0 10px 26px rgba(0, 0, 0, 0.35), 0 4px 12px rgba(0, 0, 0, 0.25), 0 1px 2px rgba(0, 0, 0, 0.35), 0 0 1px rgba(255, 255, 255, 0.18)',
+              '0 0px 0px rgba(255, 255, 255, 0.35), 0 0px 12px rgba(255, 255, 255, 0.25), 0 1px 2px rgba(0, 0, 0, 0.35), 0 0 1px rgba(255, 255, 255, 0.18)',
+            lineHeight: 1,
             lineHeight: 1,
             textAlign: 'center',
             whiteSpace: 'nowrap'
@@ -109,12 +109,12 @@ const PhoneCallInterface = () => {
           ref={lastNameRef}
           style={{
             backgroundImage:
-              'linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.78) 55%, rgba(255,255,255,0.58))',
+              'linear-gradient(180deg, rgba(255,255,255,1), rgba(255,255,255,.5) 55%, rgba(255,255,255,1))',
             WebkitBackgroundClip: 'text',
             backgroundClip: 'text',
             color: 'transparent',
             WebkitTextFillColor: 'transparent',
-            WebkitTextStroke: '0.3px rgba(255,255,255,0.35)',
+            
             fontSize: lastNameFontSize,
             margin: 0,
             padding: '0 10px',
@@ -126,7 +126,7 @@ const PhoneCallInterface = () => {
             textRendering: 'optimizeLegibility',
             letterSpacing: '-0.01em',
             textShadow:
-              '0 10px 26px rgba(0, 0, 0, 0.35), 0 4px 12px rgba(0, 0, 0, 0.25), 0 1px 2px rgba(0, 0, 0, 0.35), 0 0 1px rgba(255, 255, 255, 0.18)',
+              '0 0px 0px rgba(255, 255, 255, 0.35), 0 0px 12px rgba(255, 255, 255, 0.25), 0 1px 2px rgba(0, 0, 0, 0.35), 0 0 1px rgba(255, 255, 255, 0.18)',
             lineHeight: 1,
             textAlign: 'center',
             whiteSpace: 'nowrap',
