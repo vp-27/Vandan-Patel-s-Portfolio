@@ -1,17 +1,19 @@
 /* Landing Hero Receiver */
 .hero-receiver {
-  min-height: 70vh;
+  min-height: 80vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 120px 40px 80px; /* extra top padding for header */
+  padding: 140px 40px 80px; /* extra top padding for header spacing */
 }
 
 .hero-receiver-inner {
   display: grid;
   grid-template-columns: 380px 1fr;
-  gap: 40px;
+  gap: 60px;
   align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .hero-receiver-photo img {
@@ -22,61 +24,65 @@
   box-shadow: var(--card-shadow);
 }
 
-.hero-receiver h1 {
-  font-size: 4rem;
-  line-height: 0.95;
+.hero-text-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
 }
 
 .hero-receiver h2 {
-  margin-top: 10px;
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   color: var(--text-color);
+  opacity: 0.9;
+  font-weight: 500;
 }
 
 .hero-receiver p {
-  margin-top: 8px;
+  font-size: 1.1rem;
   color: var(--secondary-color);
+  font-style: italic;
+  opacity: 0.8;
+}
+
+/* Spacer Section */
+.spacer-section {
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 40px;
+}
+
+.spacer-content {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Contact Minimal Section */
+.contact-minimal {
+  min-height: 30vh;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 40px;
 }
 
 @media (max-width: 900px) {
   .hero-receiver-inner {
     grid-template-columns: 1fr;
     text-align: center;
+    gap: 40px;
   }
-}
-
-/* Make About image sticky to keep face until about section ends */
-.about-image {
-  position: sticky;
-  top: 120px;
-  align-self: flex-start;
-}
-/* Landing hero that receives the transitioning name */
-.hero-receiver {
-  min-height: 70vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 80px 20px;
-}
-
-.hero-receiver-inner h1 {
-  font-size: 5rem;
-  line-height: 0.95;
-  margin: 0;
-}
-
-.hero-receiver-inner h2 {
-  font-size: 1.6rem;
-  margin-top: 12px;
-  opacity: 0.85;
-}
-
-.hero-receiver-inner p {
-  font-size: 1rem;
-  margin-top: 10px;
-  opacity: 0.8;
+  
+  .hero-receiver {
+    padding: 120px 20px 60px;
+  }
+  
+  .hero-text-content {
+    align-items: center;
+  }
 }
 
 /* Keep face visible through About */
