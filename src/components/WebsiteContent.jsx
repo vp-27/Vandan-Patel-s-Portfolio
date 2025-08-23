@@ -71,14 +71,22 @@ const LandingHero = () => (
       <motion.div 
         className="hero-receiver-photo" 
         layoutId="hero-photo"
-        style={{ filter: 'brightness(1)' }}
         transition={{ 
           duration: 0.4, 
           ease: "easeInOut",
           layout: { duration: 0.4, ease: "easeInOut" }
         }}
       >
-        <img src={profileImage} alt="Vandan Patel" />
+        <motion.img 
+          src={profileImage} 
+          alt="Vandan Patel" 
+          style={{ 
+            width: '100%', 
+            height: '100%', 
+            objectFit: 'cover',
+            filter: 'brightness(1)'
+          }} 
+        />
       </motion.div>
       
       <div className="hero-text-content">
@@ -89,6 +97,7 @@ const LandingHero = () => (
             flexDirection: 'column',
             alignItems: 'flex-start',
             justifyContent: 'center',
+            originY: 0
           }}
           transition={{ 
             duration: 0.4, 

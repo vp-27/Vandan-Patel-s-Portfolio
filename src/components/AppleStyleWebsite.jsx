@@ -227,46 +227,24 @@ const AppleStyleWebsite = () => {
                 className="phone-content"
               >
                 {/* Full-screen call background image with shared element transition */}
-                <motion.img 
+                {/* Full-screen call background image with shared element transition */}
+                <motion.img
+                  layoutId="hero-photo"
                   src={profileImage} 
                   alt="Call Background"
                   className="call-bg-img"
-                  layoutId="hero-photo"
-                  style={{
-                    filter: 'brightness(0.75)',
-                    zIndex: 0
-                  }}
-                  transition={{ 
-                    duration: 0.4,
-                    ease: "easeInOut",
-                    layout: { duration: 0.4, ease: "easeInOut" }
-                  }}
+                  transition={{ duration: 0.5, ease: "easeInOut" }}
                 />
                 
                 <div className="status-bar">
                   <motion.div
                     className="dynamic-island"
                     layoutId="header"
-                    initial={{ borderRadius: 20, width: '35%', height: 25, top: 10 }}
-                    animate={{
-                      borderRadius: isExpanded ? 50 : 20,
-                      width: isExpanded ? 'calc(100% - 40px)' : '35%',
-                      height: isExpanded ? 60 : 25,
-                      top: 10
-                    }}
-                    transition={{ 
-                      type: 'spring', 
-                      stiffness: 600, // Higher stiffness for snappier response
-                      damping: 40,
-                      duration: 0.25, // Match the expansion duration
-                      layout: { duration: 0.25, ease: "easeInOut" }
-                    }}
+                    transition={{ duration: 0.5, ease: "easeInOut" }}
                   />
                 </div>
 
-                <PhoneCallInterface />
-
-                <div className="lock-bar">
+                <PhoneCallInterface />                <div className="lock-bar">
                   <motion.div 
                     className="slide-bar" 
                     ref={slideBarRef}
