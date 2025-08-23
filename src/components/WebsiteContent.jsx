@@ -178,6 +178,7 @@ const LandingHero = () => (
 const WebsiteContent = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
 
   const dockItems = [
     {
@@ -236,6 +237,15 @@ const WebsiteContent = () => {
     localStorage.setItem('theme', newTheme);
   };
 
+  // Responsive breakpoint: show only first 4 dock items on small screens
+  useEffect(() => {
+    const mql = window.matchMedia('(max-width: 768px)');
+    const update = () => setIsSmallScreen(mql.matches);
+    update();
+    mql.addEventListener('change', update);
+    return () => mql.removeEventListener('change', update);
+  }, []);
+
   const handleHeaderClick = (e, sectionId) => {
     e.preventDefault();
     setActiveSection(sectionId);
@@ -291,7 +301,7 @@ const WebsiteContent = () => {
           
           {/* Contact Section with Footer */}
           <section id="contact" className="contact-minimal">
-            <Dock items={dockItems} />
+            <Dock items={isSmallScreen ? dockItems.slice(0, 4) : dockItems} />
           </section>
         </main>
       </div>
