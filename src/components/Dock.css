@@ -23,6 +23,10 @@
   justify-content: center;
   z-index: 2000;
   pointer-events: none; /* Container doesn't intercept clicks */
+  /* Start slightly hidden until site-ready */
+  transform: translateY(20px);
+  opacity: 0;
+  transition: transform 300ms ease, opacity 300ms ease;
 }
 
 .dock-panel {
@@ -38,6 +42,12 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   pointer-events: auto; /* Panel should be interactive */
   height: 68px;
+}
+
+/* When the app is ready, pop the dock into view */
+body.site-ready .dock-container {
+  transform: translateY(0);
+  opacity: 1;
 }
 
 .dock-item {

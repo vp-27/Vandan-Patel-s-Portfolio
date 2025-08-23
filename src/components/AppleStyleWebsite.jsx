@@ -65,6 +65,23 @@ const AppleStyleWebsite = () => {
     }
   }, [isUnlocked]);
 
+  // Add a class to body once the expansion transition is complete.
+  // Dock uses this to smoothly pop up afterwards.
+  useEffect(() => {
+    let timer;
+    if (isExpansionComplete) {
+      timer = setTimeout(() => {
+        document.body.classList.add('site-ready');
+      }, 75); // slight delay after onComplete for smoother feel
+    } else {
+      document.body.classList.remove('site-ready');
+    }
+    return () => {
+      clearTimeout(timer);
+      document.body.classList.remove('site-ready');
+    };
+  }, [isExpansionComplete]);
+
   useEffect(() => {
     // Handle scroll event - animate slide then unlock
     const handleGlobalWheel = (event) => {
