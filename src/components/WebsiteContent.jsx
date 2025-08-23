@@ -8,6 +8,8 @@ import orogenieLogo from '../images/orogenie-logo.jpg'
 import bluPrint from '../images/bluprint.png'
 import finder from '../images/finder.png'
 import resume from '../documents/resume.pdf'
+import Dock from './Dock';
+import './Dock.css';
 
 // Header Component
 const Header = ({ toggleTheme, darkMode, activeSection, onHeaderClick }) => (
@@ -170,181 +172,50 @@ const LandingHero = () => (
   </section>
 );
 
-// Footer Component with macOS dock
-const Footer = () => {
-  const apps = [
-    {
-      name: 'Find My Resume',
-      icon: <img src={finder} alt="Resume" loading="lazy" />,
-      link: resume,
-      download: true,
-    },
-    {
-      name: 'GitHub',
-      icon: <img src="https://cdn.pixabay.com/photo/2022/01/30/13/33/github-6980894_960_720.png" alt="GitHub" />,
-      link: 'https://github.com/vp-27',
-    },
-    {
-      name: 'LinkedIn',
-      icon: <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRokEYt0yyh6uNDKL8uksVLlhZ35laKNQgZ9g&s" alt="LinkedIn" />,
-      link: 'https://www.linkedin.com/in/vandan-patel-vp/',
-    },
-    {
-      name: 'Email',
-      icon: <img src="https://thumbs.dreamstime.com/b/logo-icon-vector-logos-icons-set-social-media-flat-banner-vectors-svg-eps-jpg-jpeg-paper-texture-glossy-emblem-wallpaper-210442689.jpg" alt="Email" />,
-      link: 'mailto:vrp77@scarletmail.rutgers.edu',
-    },
-    {
-      name: 'Portfolio',
-      icon: <img src="https://images.freeimages.com/fic/images/icons/2443/bunch_of_cool_bluish_icons/512/reload.png" alt="Portfolio" />,
-      link: 'https://vandan-patel.vercel.app/',
-    },
-    {
-      name: 'OroGenie',
-      icon: <img src={orogenieLogo} alt="OroGenie" loading="lazy" />,
-      link: 'https://orogenie.vercel.app',
-    },
-    {
-      name: 'BluPrint',
-      icon: <img src={bluPrint} alt="BluPrint" loading="lazy" />,
-      link: 'https://bluprint-orpin.vercel.app',
-    },
-  ];
 
-  const dockRef = useRef(null);
-  const containerRef = useRef(null);
-  
-  // Function to handle dock magnification with adaptive background
-  const handleMouseMove = (e) => {
-    if (!dockRef.current) return;
-    
-    const dock = dockRef.current;
-    const dockRect = dock.getBoundingClientRect();
-    const icons = dock.querySelectorAll('.dock-icon');
-    
-    let hoveredIcon = null;
-    
-    icons.forEach(icon => {
-      const iconRect = icon.getBoundingClientRect();
-      const iconCenter = iconRect.left + iconRect.width / 2;
-      
-      // Calculate distance from mouse to center of icon
-      const distanceFromMouse = Math.abs(e.clientX - iconCenter);
-      // Maximum distance for magnification effect (in pixels)
-      const maxDistance = 100;
-      
-      if (distanceFromMouse < maxDistance) {
-        // Calculate scale based on proximity (closer = larger)
-        const scale = 1 + 0.5 * (1 - distanceFromMouse / maxDistance);
-        icon.style.transform = `scale(${scale})`;
-        // Adjust z-index to bring magnified icon to front
-        icon.style.zIndex = Math.floor((1 - distanceFromMouse / maxDistance) * 10);
-        
-        // Track the icon with the smallest distance (the one being hovered)
-        if (!hoveredIcon || distanceFromMouse < hoveredIcon.distance) {
-          hoveredIcon = {
-            element: icon,
-            distance: distanceFromMouse,
-            scale: scale
-          };
-        }
-      } else {
-        // Reset scaling when mouse is far away
-        icon.style.transform = 'scale(1)';
-        icon.style.zIndex = 0;
-        
-        // Hide tooltip for non-hovered icons
-        const tooltip = icon.querySelector('.mac-tooltip');
-        if (tooltip) {
-          tooltip.style.opacity = '0';
-          tooltip.style.transform = 'translateY(0) translateX(-50%)';
-        }
-      }
-    });
-    
-    // Show tooltip only for the closest icon to mouse cursor
-    icons.forEach(icon => {
-      const tooltip = icon.querySelector('.mac-tooltip');
-      if (tooltip) {
-        if (hoveredIcon && icon === hoveredIcon.element) {
-          tooltip.style.opacity = '1';
-          tooltip.style.transform = 'translateY(-10px) translateX(-50%)';
-          
-          // Check if tooltip extends beyond viewport edges and adjust if needed
-          const tooltipRect = tooltip.getBoundingClientRect();
-          const viewportWidth = window.innerWidth;
-          
-          if (tooltipRect.left < 10) {
-            // Too close to left edge
-            tooltip.style.left = '0';
-            tooltip.style.transform = 'translateY(-10px) translateX(0)';
-          } else if (tooltipRect.right > viewportWidth - 10) {
-            // Too close to right edge
-            tooltip.style.left = '100%';
-            tooltip.style.transform = 'translateY(-10px) translateX(-100%)';
-          }
-        } else {
-          tooltip.style.opacity = '0';
-          tooltip.style.transform = 'translateY(0) translateX(-50%)';
-        }
-      }
-    });
-  };
-  
-  // Reset all icons when mouse leaves the dock
-  const handleMouseLeave = () => {
-    if (!dockRef.current) return;
-    
-    const dock = dockRef.current;
-    const icons = dock.querySelectorAll('.dock-icon');
-    
-    icons.forEach(icon => {
-      icon.style.transform = 'scale(1)';
-      icon.style.zIndex = 0;
-      
-      // Hide all tooltips
-      const tooltip = icon.querySelector('.mac-tooltip');
-      if (tooltip) {
-        tooltip.style.opacity = '0';
-        tooltip.style.transform = 'translateY(0)';
-      }
-    });
-  };
-
-  return (
-    <footer 
-      className="dock-footer glass"
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      ref={dockRef}
-    >
-      <div className="dock-container">
-        {apps.map((app, index) => (
-          <motion.a
-            key={index}
-            href={app.link}
-            target={app.download ? '_self' : '_blank'}
-            rel={app.download ? undefined : 'noopener noreferrer'}
-            className="dock-icon"
-            whileTap={{ scale: .9 }}
-            transition={{ type: 'spring', stiffness: 300 }}
-            aria-label={app.name}
-            download={app.download ? app.name : undefined}
-          >
-            {app.icon}
-            <div className="dock-reflection"></div>
-            <div className="mac-tooltip">{app.name}</div>
-          </motion.a>
-        ))}
-      </div>
-    </footer>
-  );
-};
 
 // Main Component
 const WebsiteContent = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+
+  const dockItems = [
+    {
+      icon: <img src={finder} alt="Resume" loading="lazy" />,
+      label: 'Find My Resume',
+      onClick: () => window.open(resume, '_blank'),
+    },
+    {
+      icon: <img src="https://cdn.pixabay.com/photo/2022/01/30/13/33/github-6980894_960_720.png" alt="GitHub" />,
+      label: 'GitHub',
+      onClick: () => window.open('https://github.com/vp-27', '_blank'),
+    },
+    {
+      icon: <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRokEYt0yyh6uNDKL8uksVLlhZ35laKNQgZ9g&s" alt="LinkedIn" />,
+      label: 'LinkedIn',
+      onClick: () => window.open('https://www.linkedin.com/in/vandan-patel-vp/', '_blank'),
+    },
+    {
+      icon: <img src="https://thumbs.dreamstime.com/b/logo-icon-vector-logos-icons-set-social-media-flat-banner-vectors-svg-eps-jpg-jpeg-paper-texture-glossy-emblem-wallpaper-210442689.jpg" alt="Email" />,
+      label: 'Email',
+      onClick: () => window.location.href = 'mailto:vrp77@scarletmail.rutgers.edu',
+    },
+    {
+      icon: <img src="https://images.freeimages.com/fic/images/icons/2443/bunch_of_cool_bluish_icons/512/reload.png" alt="Portfolio" />,
+      label: 'Portfolio',
+      onClick: () => window.open('https://vandan-patel.vercel.app/', '_blank'),
+    },
+    {
+      icon: <img src={orogenieLogo} alt="OroGenie" loading="lazy" />,
+      label: 'OroGenie',
+      onClick: () => window.open('https://orogenie.vercel.app', '_blank'),
+    },
+    {
+      icon: <img src={bluPrint} alt="BluPrint" loading="lazy" />,
+      label: 'BluPrint',
+      onClick: () => window.open('https://bluprint-orpin.vercel.app', '_blank'),
+    },
+  ];
 
   useEffect(() => {
     // Check for saved theme in localStorage
@@ -420,7 +291,7 @@ const WebsiteContent = () => {
           
           {/* Contact Section with Footer */}
           <section id="contact" className="contact-minimal">
-            <Footer />
+            <Dock items={dockItems} />
           </section>
         </main>
       </div>
