@@ -4,6 +4,7 @@ import { Phone } from 'lucide-react';
 import WebsiteContent from './WebsiteContent';
 import InteractiveBackground from './InteractiveBackground'; 
 import PhoneCallInterface from './PhoneCallInterface';
+import ShinyText from './ShinyText';
 import profileImage from '../images/pfp.png';
 import './AppleStyleWebsite.css';
 
@@ -273,9 +274,9 @@ const AppleStyleWebsite = () => {
                         <Phone className="phone-icon" size={35} />
                       </motion.div>
                     </motion.div>
-                    <motion.p className="unlock-text" style={{ opacity }}>
-                      Slide to answer
-                    </motion.p>
+                    <motion.div style={{ opacity, position: 'absolute', width: '100%', textAlign: 'center', zIndex: 1, pointerEvents: 'none' }}>
+                      <ShinyText text="Slide to answer" speed={3} />
+                    </motion.div>
                   </motion.div>
                 </div>
               </motion.div>

@@ -300,29 +300,6 @@
   cursor: grab;
 }
 
-.unlock-text {
-  color: white;
-  margin-left: 16px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
-  background-size: 200% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: colorChange 3s ease-out infinite;
-}
-
-@keyframes colorChange {
-  0% {
-    background-position: -100% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: -100% 50%;
-  }
-}
-
 /* Transition Hero Styles */
 .transition-hero {
   position: absolute;
