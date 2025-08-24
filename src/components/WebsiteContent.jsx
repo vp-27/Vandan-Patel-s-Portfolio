@@ -228,15 +228,29 @@ const WebsiteContent = () => {
   ];
 
   useEffect(() => {
-    // Check for saved theme in localStorage
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      setDarkMode(savedTheme === 'dark');
-      document.documentElement.setAttribute('data-theme', savedTheme);
-    } else {
-      // Default to light mode
-      document.documentElement.setAttribute('data-theme', 'light');
+    // Don't override system theme - let AppleStyleWebsite handle it
+    // Just check what's already set and sync our state
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    if (currentTheme) {
+      setDarkMode(currentTheme === 'dark');
     }
+
+    // Listen for theme changes set by the parent component
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+          const newTheme = document.documentElement.getAttribute('data-theme');
+          setDarkMode(newTheme === 'dark');
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme']
+    });
+
+    return () => observer.disconnect();
   }, []);
 
   const toggleTheme = () => {

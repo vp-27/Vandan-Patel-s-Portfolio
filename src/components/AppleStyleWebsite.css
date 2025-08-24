@@ -5,9 +5,10 @@
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: center; /* Center vertically now */
-  overflow: hidden; /* Prevent body scrolling */
-  padding-bottom: 0;   /* Remove extra bottom padding */
+  align-items: center;
+  overflow: hidden;
+  padding-bottom: 0;
+  transition: background-color 0.3s ease;
 }
 
 .phone-container {
@@ -29,7 +30,7 @@
 
 /* Call mode shows a dimmed bg behind the photo image */
 .phone-container.call-mode {
-  background: radial-gradient(ellipse at center, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.95) 70%);
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.7) 70%);
 }
 
 /* Web mode is transparent so WebsiteContent background shows through */
@@ -61,8 +62,8 @@
   border-width: 0;
   transform: perspective(1000px) rotateX(0deg) translateY(0);
   box-shadow: none;
-  background-image: none; /* Remove background image when expanded */
-  background-color: transparent; /* Let inner content define background */
+  background-image: none;
+  background-color: transparent;
 }
 
 .phone-content {

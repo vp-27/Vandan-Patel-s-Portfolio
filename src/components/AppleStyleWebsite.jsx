@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, useMotionValue, useTransform, LayoutGroup, animate } from 'framer-motion';
 import { Phone } from 'lucide-react';
 import WebsiteContent from './WebsiteContent';
-import InteractiveBackground from './InteractiveBackground'; 
+import DotGrid from './DotGrid';
 import PhoneCallInterface from './PhoneCallInterface';
 import ShinyText from './ShinyText';
 import profileImage from '../images/pfp.png';
@@ -13,6 +13,7 @@ const AppleStyleWebsite = () => {
   const [isExpanding, setIsExpanding] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isExpansionComplete, setIsExpansionComplete] = useState(false);
+  const [systemTheme, setSystemTheme] = useState('light');
   const constraintsRef = useRef(null);
   const slideBarRef = useRef(null);
   const x = useMotionValue(0);
@@ -20,6 +21,37 @@ const AppleStyleWebsite = () => {
   const autoUnlockTimer = useRef(null);
   const slideDistance = useRef(0);
   const maxSlideDistance = useRef(0);
+
+  useEffect(() => {
+    // Detect system theme preference
+    const detectSystemTheme = () => {
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        setSystemTheme('dark');
+        document.documentElement.setAttribute('data-theme', 'dark');
+      } else {
+        setSystemTheme('light');
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    };
+
+    // Initial detection
+    detectSystemTheme();
+
+    // Listen for system theme changes
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleThemeChange = (e) => {
+      if (e.matches) {
+        setSystemTheme('dark');
+        document.documentElement.setAttribute('data-theme', 'dark');
+      } else {
+        setSystemTheme('light');
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    };
+
+    mediaQuery.addEventListener('change', handleThemeChange);
+    return () => mediaQuery.removeEventListener('change', handleThemeChange);
+  }, []);
 
   useEffect(() => {
     // Get slide bar width for calculations
@@ -187,18 +219,54 @@ const AppleStyleWebsite = () => {
   };
 
   return (
-    <div className="mega-container">
-      {/* Keep interactive background until fully expanded to avoid white flash */}
+    <div className="mega-container" style={{
+      backgroundColor: systemTheme === 'dark' ? 'rgba(0, 0, 0, 0.95)' : 'rgba(245, 245, 247, 0.95)'
+    }}>
+      {/* Always-present DotGrid background - covers entire viewport */}
+      <div
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          zIndex: -2, // Behind everything
+        }}
+      >
+        <DotGrid
+          style={{ width: '100%', height: '100%' }}
+          dotSize={10}
+          gap={15}
+          baseColor={systemTheme === 'dark' ? "#4A90E2" : "#5227FF"}
+          activeColor={systemTheme === 'dark' ? "#6BB6FF" : "#7B68EE"}
+          proximity={120}
+          shockRadius={250}
+          shockStrength={5}
+          resistance={750}
+          returnDuration={1.5}
+        />
+      </div>
+      
+      {/* Overlay for smooth transitions */}
       <AnimatePresence>
         {!isExpansionComplete && (
           <motion.div
-            key="interactive-bg"
-            initial={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <InteractiveBackground />
-          </motion.div>
+            key="bg-overlay"
+            initial={{ opacity: 0.3 }}
+            exit={{ 
+              opacity: 0,
+              transition: { duration: 0.6, ease: "easeOut" }
+            }}
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              width: '100vw',
+              height: '100vh',
+              backgroundColor: systemTheme === 'dark' ? 'rgba(0, 0, 0, 0.4)' : 'rgba(255, 255, 255, 0.2)',
+              zIndex: -1,
+            }}
+          />
         )}
       </AnimatePresence>
       <LayoutGroup>
