@@ -220,7 +220,7 @@ const AppleStyleWebsite = () => {
 
   return (
     <div className="mega-container" style={{
-      backgroundColor: systemTheme === 'dark' ? 'rgba(0, 0, 0, 0.95)' : 'rgba(245, 245, 247, 0.95)'
+      backgroundColor: systemTheme === 'dark' ? '#F0F0F0' : '#222'
     }}>
       {/* Always-present DotGrid background - covers entire viewport */}
       <div
@@ -230,15 +230,15 @@ const AppleStyleWebsite = () => {
           left: 0,
           width: '100vw',
           height: '100vh',
-          zIndex: -2, // Behind everything
+          zIndex: 0, // Above background
         }}
       >
         <DotGrid
           style={{ width: '100%', height: '100%' }}
           dotSize={10}
           gap={15}
-          baseColor={systemTheme === 'dark' ? "#4A90E2" : "#5227FF"}
-          activeColor={systemTheme === 'dark' ? "#6BB6FF" : "#7B68EE"}
+          baseColor={systemTheme === 'dark' ? '#F0F0F0' : '#222'}
+          activeColor={systemTheme === 'dark' ? '#FFD700' : '#DAA520'}
           proximity={120}
           shockRadius={250}
           shockStrength={5}
