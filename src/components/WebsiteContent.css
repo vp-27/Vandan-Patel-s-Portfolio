@@ -1512,5 +1512,71 @@ section:nth-child(5){
   .project-content h3 {
     font-size: 1.5rem;
   }
+
+  /* Additional mobile styles for header, hero, dock, and sections */
+  .header {
+    width: 98vw;
+    left: 1vw;
+    top: 8px;
+    height: auto;
+    border-radius: 30px !important;
+    padding: 10px;
+    font-size: 1rem;
+  }
+  .phone-container.phone-expanded .header {
+    width: 98vw;
+    left: 1vw;
+    top: 8px;
+    padding: 10px;
+    border-radius: 30px !important;
+  }
+  .dynamic-island {
+    width: 98vw;
+    left: 1vw;
+    top: 8px;
+    border-radius: 30px;
+    height: 20px;
+  }
+  .hero-receiver-inner {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    max-width: 95vw;
+    padding: 0;
+    text-align: center;
+  }
+  .hero-receiver {
+    padding: 100px 10px 40px;
+    min-height: 60vh;
+  }
+  .hero-text-content {
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+  }
+  .hero-receiver-photo img {
+    width: 180px;
+    height: 240px;
+    border-radius: 18px;
+  }
+  .hero-receiver h2 {
+    font-size: 1.2rem;
+  }
+  .hero-receiver p {
+    font-size: 1rem;
+  }
+  .spacer-section {
+    padding: 40px 10px;
+    min-height: 30vh;
+  }
+  .contact-minimal {
+    padding: 20px 5px;
+    min-height: 20vh;
+  }
+  .dock-footer {
+    padding: 10px 5px;
+    font-size: 0.9rem;
+    height: 50px;
+    bottom: 8px;
+  }
 }
 

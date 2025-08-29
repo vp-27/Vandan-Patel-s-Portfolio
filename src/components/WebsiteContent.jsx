@@ -1,7 +1,7 @@
 // WebsiteContent.jsx - Clean Minimal Version
 import React, { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
-import { Moon, Sun } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Moon, Sun, Menu, X } from 'lucide-react';
 import './WebsiteContent.css';
 import profileImage from '../images/pfp.png';
 import orogenieLogo from '../images/orogenie-logo.jpg'
@@ -11,58 +11,187 @@ import resume from '../documents/resume.pdf'
 import Dock from './Dock';
 import './Dock.css';
 
-// Header Component
-const Header = ({ toggleTheme, darkMode, activeSection, onHeaderClick }) => (
-  <motion.header 
-    className="header" 
-    layoutId="header"
-    transition={{ 
-      duration: 0.4, 
-      ease: "easeInOut",
-      layout: { duration: 0.4, ease: "easeInOut" }
-    }}
-  >
-    <motion.div
-      className="header-content"
-      initial={{ opacity: 1, y: 0 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-    >
-      <nav>
-        <ul>
-          <li>
-            <a 
-              href="#home" 
-              className={activeSection === 'home' ? 'active' : ''} 
-              onClick={(e) => onHeaderClick(e, 'home')}
-            >
-              Home
-            </a>
-          </li>
-          <li>
-            <a 
-              href="#contact" 
-              className={activeSection === 'contact' ? 'active' : ''} 
-              onClick={(e) => onHeaderClick(e, 'contact')}
-            >
-              Contact
-            </a>
-          </li>
-        </ul>
-      </nav>
-    </motion.div>
-    <motion.button
-      onClick={toggleTheme}
-      className="theme-toggle"
-      aria-label="Toggle theme"
-      whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.9 }}
-      transition={{ duration: 0.3 }}
-    >
-      {darkMode ? <Sun size={20} /> : <Moon size={20} />}
-    </motion.button>
-  </motion.header>
-);
+// Header Component with Hamburger for Mobile
+function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
+  const [menuOpen, setMenuOpen] = React.useState(false);
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    const mql = window.matchMedia('(max-width: 768px)');
+    const update = () => setIsMobile(mql.matches);
+    update();
+    mql.addEventListener('change', update);
+    return () => mql.removeEventListener('change', update);
+  }, []);
+
+  return (
+    <AnimatePresence>
+      {!isMobile && (
+        <motion.header 
+          className="header" 
+          layoutId="header"
+          transition={{ 
+            duration: 0.4, 
+            ease: "easeInOut",
+            layout: { duration: 0.4, ease: "easeInOut" }
+          }}
+        >
+          <motion.div
+            className="header-content"
+            initial={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <nav>
+              <ul>
+                <li>
+                  <a 
+                    href="#home" 
+                    className={activeSection === 'home' ? 'active' : ''} 
+                    onClick={(e) => onHeaderClick(e, 'home')}
+                  >
+                    Home
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="#contact" 
+                    className={activeSection === 'contact' ? 'active' : ''} 
+                    onClick={(e) => onHeaderClick(e, 'contact')}
+                  >
+                    Contact
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </motion.div>
+          <motion.button
+            onClick={toggleTheme}
+            className="theme-toggle"
+            aria-label="Toggle theme"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            transition={{ duration: 0.3 }}
+          >
+            {darkMode ? <Sun size={20} /> : <Moon size={20} />}
+          </motion.button>
+        </motion.header>
+      )}
+      {/* Mobile Header and Dynamic Island Menu */}
+      {isMobile && !menuOpen && (
+        <motion.header 
+          className="header" 
+          layoutId="header"
+          transition={{ 
+            duration: 0.4, 
+            ease: "easeInOut",
+            layout: { duration: 0.4, ease: "easeInOut" }
+          }}
+          style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'relative' }}
+        >
+          <motion.button
+            className="hamburger-menu"
+            aria-label="Open menu"
+            onClick={() => setMenuOpen(true)}
+            style={{ background: 'none', border: 'none', color: 'var(--secondary-color)', zIndex: 1002, marginRight: '12px' }}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            <Menu size={28} />
+          </motion.button>
+          <motion.div style={{ flex: 1 }} />
+          <motion.button
+            onClick={toggleTheme}
+            className="theme-toggle"
+            aria-label="Toggle theme"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            transition={{ duration: 0.3 }}
+            style={{ marginLeft: 'auto', marginRight: '12px' }}
+          >
+            {darkMode ? <Sun size={20} /> : <Moon size={20} />}
+          </motion.button>
+        </motion.header>
+      )}
+      {isMobile && menuOpen && (
+        <motion.header
+          className="header dynamic-island-menu"
+          layoutId="header"
+          initial={{ borderRadius: '30px', width: '98vw', left: '1vw', top: 8 }}
+          animate={{ borderRadius: '30px', width: '100vw', left: 0, top: 0 }}
+          exit={{ borderRadius: '30px', width: '98vw', left: '1vw', top: 8 }}
+          transition={{ duration: 0.4, ease: 'easeInOut', layout: { duration: 0.4, ease: 'easeInOut' } }}
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            borderRadius: '30px',
+            background: 'rgba(0,0,0,1)',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
+            zIndex: 1001,
+            padding: '30px 0 20px 0',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <nav style={{ width: '100%' }}>
+            <ul style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '24px', margin: 0, padding: 0 }}>
+              <li>
+                <a 
+                  href="#home" 
+                  className={activeSection === 'home' ? 'active' : ''} 
+                  onClick={(e) => { onHeaderClick(e, 'home'); setMenuOpen(false); }}
+                  style={{ fontSize: '1.3rem', color: 'white', fontWeight: 600 }}
+                >
+                  Home
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="#contact" 
+                  className={activeSection === 'contact' ? 'active' : ''} 
+                  onClick={(e) => { onHeaderClick(e, 'contact'); setMenuOpen(false); }}
+                  style={{ fontSize: '1.3rem', color: 'white', fontWeight: 600 }}
+                >
+                  Contact
+                </a>
+              </li>
+            </ul>
+          </nav>
+          <motion.button
+            className="close-menu"
+            aria-label="Close menu"
+            onClick={() => setMenuOpen(false)}
+            style={{
+              background: 'rgba(255,255,255,0.12)',
+              border: 'none',
+              color: 'white',
+              marginTop: '18px',
+              fontSize: '1.1rem',
+              borderRadius: '50%',
+              padding: '10px',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.18)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)',
+              cursor: 'pointer',
+            }}
+            whileHover={{ scale: 1.15 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <X size={24} />
+          </motion.button>
+        </motion.header>
+      )}
+    </AnimatePresence>
+  );
+}
+
 
 // Landing Hero to receive shared element transition
 const LandingHero = () => (
@@ -286,18 +415,17 @@ const WebsiteContent = () => {
 
   return (
     <div className="website-container">
+      {/* Move header outside of scrollable content so it is always fixed to viewport */}
+      <Header 
+        toggleTheme={toggleTheme} 
+        darkMode={darkMode} 
+        activeSection={activeSection} 
+        onHeaderClick={handleHeaderClick} 
+      />
       <div className="website-content">
-        <Header 
-          toggleTheme={toggleTheme} 
-          darkMode={darkMode} 
-          activeSection={activeSection} 
-          onHeaderClick={handleHeaderClick} 
-        />
-        
         <main>
           {/* Hero Section */}
           <LandingHero />
-          
           {/* Spacer Section */}
           <section className="spacer-section">
             <div className="spacer-content">
@@ -321,7 +449,6 @@ const WebsiteContent = () => {
               </motion.p>
             </div>
           </section>
-          
           {/* Contact Section with Footer */}
           <section id="contact" className="contact-minimal">
             <Dock items={isSmallScreen ? dockItems.slice(0, 4) : dockItems} />
