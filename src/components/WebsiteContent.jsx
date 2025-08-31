@@ -9,6 +9,10 @@ import bluPrint from '../images/bluprint.png'
 import finder from '../images/finder.png'
 import resume from '../documents/resume.pdf'
 import Dock from './Dock';
+import About from './About';
+import Skills from './Skills';
+import Projects from './Projects';
+import Leadership from './Leadership';
 import './Dock.css';
 
 // Header Component with Hamburger for Mobile
@@ -51,6 +55,42 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
                     onClick={(e) => onHeaderClick(e, 'home')}
                   >
                     Home
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="#about" 
+                    className={activeSection === 'about' ? 'active' : ''} 
+                    onClick={(e) => onHeaderClick(e, 'about')}
+                  >
+                    About
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="#skills" 
+                    className={activeSection === 'skills' ? 'active' : ''} 
+                    onClick={(e) => onHeaderClick(e, 'skills')}
+                  >
+                    Skills
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="#projects" 
+                    className={activeSection === 'projects' ? 'active' : ''} 
+                    onClick={(e) => onHeaderClick(e, 'projects')}
+                  >
+                    Projects
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="#leadership" 
+                    className={activeSection === 'leadership' ? 'active' : ''} 
+                    onClick={(e) => onHeaderClick(e, 'leadership')}
+                  >
+                    Leadership
                   </a>
                 </li>
                 <li>
@@ -186,6 +226,46 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
                   style={{ fontSize: '1.3rem', color: 'white', fontWeight: 600 }}
                 >
                   Home
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="#about" 
+                  className={activeSection === 'about' ? 'active' : ''} 
+                  onClick={(e) => { onHeaderClick(e, 'about'); setMenuOpen(false); }}
+                  style={{ fontSize: '1.3rem', color: 'white', fontWeight: 600 }}
+                >
+                  About
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="#skills" 
+                  className={activeSection === 'skills' ? 'active' : ''} 
+                  onClick={(e) => { onHeaderClick(e, 'skills'); setMenuOpen(false); }}
+                  style={{ fontSize: '1.3rem', color: 'white', fontWeight: 600 }}
+                >
+                  Skills
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="#projects" 
+                  className={activeSection === 'projects' ? 'active' : ''} 
+                  onClick={(e) => { onHeaderClick(e, 'projects'); setMenuOpen(false); }}
+                  style={{ fontSize: '1.3rem', color: 'white', fontWeight: 600 }}
+                >
+                  Projects
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="#leadership" 
+                  className={activeSection === 'leadership' ? 'active' : ''} 
+                  onClick={(e) => { onHeaderClick(e, 'leadership'); setMenuOpen(false); }}
+                  style={{ fontSize: '1.3rem', color: 'white', fontWeight: 600 }}
+                >
+                  Leadership
                 </a>
               </li>
               <li>
@@ -448,7 +528,23 @@ const WebsiteContent = () => {
       }
     } else if (sectionId === 'home') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      // Handle other sections
+      const section = document.getElementById(sectionId);
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }
+  };
+
+  const handleContactSubmit = (e) => {
+    e.preventDefault();
+    const name = e.target.name.value;
+    const email = e.target.email.value;
+    const message = e.target.message.value;
+    const subject = `Message from ${name}`;
+    const body = `From: ${email}\n\n${message}`;
+    window.location.href = `mailto:vrp77@scarletmail.rutgers.edu?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
 
   return (
@@ -464,31 +560,55 @@ const WebsiteContent = () => {
         <main>
           {/* Hero Section */}
           <LandingHero />
-          {/* Spacer Section */}
-          <section className="spacer-section">
-            <div className="spacer-content">
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+          {/* About Section */}
+          <About />
+          {/* Skills Section */}
+          <Skills />
+          {/* Projects Section */}
+          <Projects />
+          {/* Leadership Section */}
+          <Leadership />
+          {/* Contact Section with Footer */}
+          <section id="contact" className="contact">
+            <div className="contact-content">
+              <motion.h2 
+                initial={{ opacity: 0, y: 20 }} 
+                whileInView={{ opacity: 1, y: 0 }} 
                 transition={{ duration: 0.6 }}
+                style={{ marginBottom: '40px' }}
+              >
+                Get In Touch
+              </motion.h2>
+              
+              <motion.form 
+                onSubmit={handleContactSubmit}
+                className="contact-form-custom"
+                initial={{ opacity: 0, y: 20 }} 
+                whileInView={{ opacity: 1, y: 0 }} 
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
+                <input type="text" name="name" placeholder="Your Name" required />
+                <input type="email" name="email" placeholder="Your Email" required />
+                <textarea name="message" placeholder="Your Message" required></textarea>
+                <button type="submit">Send Message</button>
+              </motion.form>
+              
+              <motion.p 
+                initial={{ opacity: 0, y: 20 }} 
+                whileInView={{ opacity: 1, y: 0 }} 
+                transition={{ duration: 0.6, delay: 0.4 }}
                 style={{
                   textAlign: 'center',
-                  fontSize: '1.2rem',
+                  marginTop: '30px',
+                  fontSize: '1.1rem',
                   color: 'var(--text-color)',
-                  opacity: 0.7,
-                  maxWidth: '600px',
-                  margin: '0 auto',
-                  lineHeight: 1.6
+                  opacity: 0.8
                 }}
               >
-                Building beautiful, functional experiences one project at a time.<br/>
-                <span style={{ opacity: 0.5, fontSize: '1rem' }}>More sections coming soon...</span>
+                Or connect with me directly:
               </motion.p>
             </div>
-          </section>
-          {/* Contact Section with Footer */}
-          <section id="contact" className="contact-minimal">
+            
             <Dock items={isSmallScreen ? dockItems.slice(0, 4) : dockItems} />
           </section>
         </main>

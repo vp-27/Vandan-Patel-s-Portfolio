@@ -1220,6 +1220,8 @@ section:nth-child(5){
   padding: 40px;
   border-radius: 20px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  height: 400px; /* Fixed height for consistent dimensions */
+  justify-content: space-between;
 }
 
 .contact-form-custom input,
