@@ -333,7 +333,7 @@ const LandingHero = () => (
           whileInView={{ opacity: 1, y: 0 }} 
           transition={{ duration: 0.4, delay: 0.1 }}
         >
-          Full-Stack Developer | Data Analyst
+          Full-Stack Developer | Financial Analyst
         </motion.h2>
         
         <motion.p 
