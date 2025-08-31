@@ -82,22 +82,45 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
         <motion.header 
           className="header" 
           layoutId="header"
-          transition={{ 
-            duration: 0.4, 
-            ease: "easeInOut",
+          transition={{
+            animate: { duration: 0.4, ease: "easeOut" },
+            exit: { duration: 0.4, ease: "easeIn" },
             layout: { duration: 0.4, ease: "easeInOut" }
           }}
-          style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'relative' }}
+          style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'space-between', 
+            position: 'fixed', 
+            top: 10, 
+            left: 0, 
+            right: 0, 
+            zIndex: 1000,
+            padding: '10px 20px'
+          }}
         >
           <motion.button
             className="hamburger-menu"
             aria-label="Open menu"
             onClick={() => setMenuOpen(true)}
-            style={{ background: 'none', border: 'none', color: 'var(--secondary-color)', zIndex: 1002, marginRight: '12px' }}
+            style={{ 
+              background: 'rgba(255,255,255,0.1)', 
+              border: 'none', 
+              color: 'white', 
+              borderRadius: '50%', 
+              padding: '8px', 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center', 
+              zIndex: 1002, 
+              marginRight: '12px',
+              cursor: 'pointer',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.2)'
+            }}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
           >
-            <Menu size={28} />
+            <Menu size={24} />
           </motion.button>
           <motion.div style={{ flex: 1 }} />
           <motion.button
@@ -107,7 +130,18 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             transition={{ duration: 0.3 }}
-            style={{ marginLeft: 'auto', marginRight: '12px' }}
+            style={{ 
+              background: 'rgba(255,255,255,0.1)', 
+              border: 'none', 
+              color: 'white', 
+              borderRadius: '50%', 
+              padding: '8px', 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center',
+              cursor: 'pointer',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.2)'
+            }}
           >
             {darkMode ? <Sun size={20} /> : <Moon size={20} />}
           </motion.button>
@@ -120,7 +154,11 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
           initial={{ borderRadius: '30px', width: '98vw', left: '1vw', top: 8 }}
           animate={{ borderRadius: '30px', width: '100vw', left: 0, top: 0 }}
           exit={{ borderRadius: '30px', width: '98vw', left: '1vw', top: 8 }}
-          transition={{ duration: 0.4, ease: 'easeInOut', layout: { duration: 0.4, ease: 'easeInOut' } }}
+          transition={{
+            animate: { duration: 0.6, ease: "easeOut" },
+            exit: { duration: 0.6, ease: "easeIn" },
+            layout: { duration: 0.6, ease: "easeInOut" }
+          }}
           style={{
             position: 'absolute',
             top: 0,

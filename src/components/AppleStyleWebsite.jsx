@@ -362,7 +362,7 @@ const AppleStyleWebsite = () => {
                   left: 0, 
                   right: 0, 
                   bottom: 0, 
-                  overflowY: isExpansionComplete ? 'auto' : 'hidden' // Only allow scrolling after expansion is complete
+                  overflow: 'hidden' // Prevent any potential double scrolling
                 }}
               >
                 <WebsiteContent />
