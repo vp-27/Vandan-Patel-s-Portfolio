@@ -103,7 +103,7 @@
   --text-color: #1D1D1F; /* Apple's dark text */
   --card-background: rgba(255, 255, 255, 0.8);
   --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  --header-background: rgba(0, 0, 0, 0.8);
+  --header-background: #000000;
   --button-hover: #0051D5;
 }
 
@@ -114,7 +114,7 @@
   --text-color: #F5F5F7; /* Apple's light text */
   --card-background: rgba(28, 28, 30, 0.8);
   --card-shadow: 0 8px 32px rgba(255, 255, 255, 0.1);
-  --header-background: rgba(0, 0, 0, 0.8);
+  --header-background: #000000;
   --button-hover: #409CFF;
 }
 
@@ -188,9 +188,9 @@ section:nth-child(5){
   justify-content: space-between;
   align-items: center;
   
-  background: var(--header-background);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
+  background: linear-gradient(135deg, #000000, #111111);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   position: fixed; /* Fixed to viewport */
   top: 10px; /* Align with Dynamic Island */
   left: 32.5%;

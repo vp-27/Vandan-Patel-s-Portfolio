@@ -114,7 +114,7 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
         </motion.header>
       )}
       {isMobile && menuOpen && (
-        <motion.header
+                <motion.header
           className="header dynamic-island-menu"
           layoutId="header"
           initial={{ borderRadius: '30px', width: '98vw', left: '1vw', top: 8 }}
@@ -127,8 +127,9 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
             left: 0,
             width: '100vw',
             borderRadius: '30px',
-            background: 'rgba(0,0,0,1)',
-            boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
+            background: 'linear-gradient(135deg, #000000, #111111)',
+            border: '1px solid rgba(255, 255, 255, 0.3)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
             zIndex: 1001,
             padding: '30px 0 20px 0',
             display: 'flex',
@@ -166,19 +167,18 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
             aria-label="Close menu"
             onClick={() => setMenuOpen(false)}
             style={{
-              background: 'rgba(255,255,255,0.12)',
+              background: 'linear-gradient(135deg, #333333, #444444)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
               border: 'none',
               color: 'white',
               marginTop: '18px',
               fontSize: '1.1rem',
               borderRadius: '50%',
               padding: '10px',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.18)',
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              backdropFilter: 'blur(10px)',
-              WebkitBackdropFilter: 'blur(10px)',
               cursor: 'pointer',
             }}
             whileHover={{ scale: 1.15 }}
