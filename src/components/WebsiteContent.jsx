@@ -140,10 +140,10 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
             left: 20, 
             right: 20, 
             width: 'calc(100vw - 40px)',
-            height: '44px',
+            height: '56px',
             zIndex: 1000,
-            padding: '8px 16px',
-            borderRadius: '22px'
+            padding: '8px 20px',
+            borderRadius: '28px'
           }}
         >
           <motion.button
@@ -158,19 +158,20 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
               border: 'none', 
               color: 'white', 
               borderRadius: '50%', 
-              padding: '8px', 
+              padding: '12px', 
               display: 'flex', 
               alignItems: 'center', 
               justifyContent: 'center', 
-              zIndex: 1002, 
-              marginRight: '12px',
+              zIndex: 1002,
               cursor: 'pointer',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.2)'
+              boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
+              width: '44px',
+              height: '44px'
             }}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
-            <Menu size={24} />
+            <Menu size={22} />
           </motion.button>
           <motion.div style={{ flex: 1 }} />
           <motion.button
@@ -180,20 +181,22 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
             }}
             className="theme-toggle"
             aria-label="Toggle theme"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             transition={{ duration: 0.3 }}
             style={{ 
               background: 'rgba(255,255,255,0.1)', 
               border: 'none', 
               color: 'white', 
               borderRadius: '50%', 
-              padding: '8px', 
+              padding: '12px', 
               display: 'flex', 
               alignItems: 'center', 
               justifyContent: 'center',
               cursor: 'pointer',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.2)'
+              boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
+              width: '44px',
+              height: '44px'
             }}
           >
             {darkMode ? <Sun size={20} /> : <Moon size={20} />}
@@ -205,11 +208,11 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
           className="header dynamic-island-menu"
           layoutId="header"
           initial={{ 
-            borderRadius: '22px', 
+            borderRadius: '28px', 
             width: 'calc(100vw - 40px)', 
             left: 20, 
             top: 12,
-            height: '44px'
+            height: '56px'
           }}
           animate={{ 
             borderRadius: '24px', 
@@ -217,19 +220,19 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
             left: 12, 
             top: 12,
             height: 'auto',
-            minHeight: '200px'
+            minHeight: '220px'
           }}
           exit={{ 
-            borderRadius: '22px', 
+            borderRadius: '28px', 
             width: 'calc(100vw - 40px)', 
             left: 20, 
             top: 12,
-            height: '44px'
+            height: '56px'
           }}
           transition={{
-            animate: { duration: 0.5, ease: "easeOut" },
-            exit: { duration: 0.5, ease: "easeIn" },
-            layout: { duration: 0.5, ease: "easeInOut" }
+            duration: 0.5,
+            ease: [0.25, 0.46, 0.45, 0.94], // Same smooth easing for both directions
+            layout: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }
           }}
           style={{
             position: 'fixed',
@@ -237,7 +240,7 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
             border: '1px solid rgba(255, 255, 255, 0.3)',
             boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
             zIndex: 1001,
-            padding: '24px 20px',
+            padding: '32px 20px 24px 20px',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
