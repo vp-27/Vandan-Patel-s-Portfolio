@@ -15,6 +15,7 @@ import './Dock.css';
 function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
   const [menuOpen, setMenuOpen] = React.useState(false);
   const [isMobile, setIsMobile] = React.useState(false);
+  const [isAnimating, setIsAnimating] = React.useState(false);
 
   React.useEffect(() => {
     const mql = window.matchMedia('(max-width: 768px)');
@@ -24,23 +25,49 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
     return () => mql.removeEventListener('change', update);
   }, []);
 
+  const handleDynamicIslandClick = (e) => {
+    // Only trigger animation if clicking the island itself, not buttons inside
+    if (e.target === e.currentTarget || e.target.closest('.header-content')) {
+      setIsAnimating(true);
+      
+      // Add a subtle haptic feedback effect
+      if (navigator.vibrate) {
+        navigator.vibrate(10);
+      }
+      
+      setTimeout(() => setIsAnimating(false), 600);
+    }
+  };
+
   return (
     <AnimatePresence>
       {!isMobile && (
         <motion.header 
-          className="header" 
+          className={`header ${isAnimating ? 'animating' : ''}`}
           layoutId="header"
+          onClick={handleDynamicIslandClick}
+          style={{ cursor: 'pointer' }}
+          animate={isAnimating ? {
+            scaleX: [1, 1.08, 0.96, 1.04, 1]
+          } : {}}
           transition={{ 
-            duration: 0.4, 
-            ease: "easeInOut",
+            duration: isAnimating ? 0.6 : 0.4, 
+            ease: isAnimating ? [0.25, 0.46, 0.45, 0.94] : "easeInOut",
             layout: { duration: 0.4, ease: "easeInOut" }
           }}
         >
           <motion.div
             className="header-content"
             initial={{ opacity: 1, y: 0 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            animate={{ 
+              opacity: 1, 
+              y: 0,
+              scale: isAnimating ? [1, 0.98, 1.01, 1] : 1
+            }}
+            transition={{ 
+              duration: isAnimating ? 0.6 : 0.5,
+              ease: isAnimating ? [0.25, 0.46, 0.45, 0.94] : "easeOut"
+            }}
           >
             <nav>
               <ul>
@@ -48,7 +75,10 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
                   <a 
                     href="#home" 
                     className={activeSection === 'home' ? 'active' : ''} 
-                    onClick={(e) => onHeaderClick(e, 'home')}
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent island bounce
+                      onHeaderClick(e, 'home');
+                    }}
                   >
                     Home
                   </a>
@@ -57,7 +87,10 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
                   <a 
                     href="#contact" 
                     className={activeSection === 'contact' ? 'active' : ''} 
-                    onClick={(e) => onHeaderClick(e, 'contact')}
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent island bounce
+                      onHeaderClick(e, 'contact');
+                    }}
                   >
                     Contact
                   </a>
@@ -66,7 +99,10 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
             </nav>
           </motion.div>
           <motion.button
-            onClick={toggleTheme}
+            onClick={(e) => {
+              e.stopPropagation(); // Prevent island bounce
+              toggleTheme();
+            }}
             className="theme-toggle"
             aria-label="Toggle theme"
             whileHover={{ scale: 1.1 }}
@@ -80,29 +116,43 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
       {/* Mobile Header and Dynamic Island Menu */}
       {isMobile && !menuOpen && (
         <motion.header 
-          className="header" 
+          className={`header ${isAnimating ? 'animating' : ''}`}
           layoutId="header"
+          onClick={handleDynamicIslandClick}
+          animate={isAnimating ? {
+            scaleX: [1, 1.06, 0.98, 1.03, 1]
+          } : {}}
           transition={{
-            animate: { duration: 0.4, ease: "easeOut" },
+            animate: { 
+              duration: isAnimating ? 0.6 : 0.4, 
+              ease: isAnimating ? [0.25, 0.46, 0.45, 0.94] : "easeOut" 
+            },
             exit: { duration: 0.4, ease: "easeIn" },
             layout: { duration: 0.4, ease: "easeInOut" }
           }}
           style={{ 
+            cursor: 'pointer',
             display: 'flex', 
             alignItems: 'center', 
             justifyContent: 'space-between', 
             position: 'fixed', 
-            top: 10, 
-            left: 0, 
-            right: 0, 
+            top: 12, 
+            left: 20, 
+            right: 20, 
+            width: 'calc(100vw - 40px)',
+            height: '44px',
             zIndex: 1000,
-            padding: '10px 20px'
+            padding: '8px 16px',
+            borderRadius: '22px'
           }}
         >
           <motion.button
             className="hamburger-menu"
             aria-label="Open menu"
-            onClick={() => setMenuOpen(true)}
+            onClick={(e) => {
+              e.stopPropagation(); // Prevent island bounce
+              setMenuOpen(true);
+            }}
             style={{ 
               background: 'rgba(255,255,255,0.1)', 
               border: 'none', 
@@ -124,7 +174,10 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
           </motion.button>
           <motion.div style={{ flex: 1 }} />
           <motion.button
-            onClick={toggleTheme}
+            onClick={(e) => {
+              e.stopPropagation(); // Prevent island bounce
+              toggleTheme();
+            }}
             className="theme-toggle"
             aria-label="Toggle theme"
             whileHover={{ scale: 1.1 }}
@@ -148,42 +201,57 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
         </motion.header>
       )}
       {isMobile && menuOpen && (
-                <motion.header
+        <motion.header
           className="header dynamic-island-menu"
           layoutId="header"
-          initial={{ borderRadius: '30px', width: '98vw', left: '1vw', top: 8 }}
-          animate={{ borderRadius: '30px', width: '100vw', left: 0, top: 0 }}
-          exit={{ borderRadius: '30px', width: '98vw', left: '1vw', top: 8 }}
+          initial={{ 
+            borderRadius: '22px', 
+            width: 'calc(100vw - 40px)', 
+            left: 20, 
+            top: 12,
+            height: '44px'
+          }}
+          animate={{ 
+            borderRadius: '24px', 
+            width: 'calc(100vw - 24px)', 
+            left: 12, 
+            top: 12,
+            height: 'auto',
+            minHeight: '200px'
+          }}
+          exit={{ 
+            borderRadius: '22px', 
+            width: 'calc(100vw - 40px)', 
+            left: 20, 
+            top: 12,
+            height: '44px'
+          }}
           transition={{
-            animate: { duration: 0.6, ease: "easeOut" },
-            exit: { duration: 0.6, ease: "easeIn" },
-            layout: { duration: 0.6, ease: "easeInOut" }
+            animate: { duration: 0.5, ease: "easeOut" },
+            exit: { duration: 0.5, ease: "easeIn" },
+            layout: { duration: 0.5, ease: "easeInOut" }
           }}
           style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100vw',
-            borderRadius: '30px',
+            position: 'fixed',
             background: 'linear-gradient(135deg, #000000, #111111)',
             border: '1px solid rgba(255, 255, 255, 0.3)',
             boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
             zIndex: 1001,
-            padding: '30px 0 20px 0',
+            padding: '24px 20px',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
           }}
         >
-          <nav style={{ width: '100%' }}>
-            <ul style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '24px', margin: 0, padding: 0 }}>
+          <nav style={{ width: '100%', marginBottom: '20px' }}>
+            <ul style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px', margin: 0, padding: 0 }}>
               <li>
                 <a 
                   href="#home" 
                   className={activeSection === 'home' ? 'active' : ''} 
                   onClick={(e) => { onHeaderClick(e, 'home'); setMenuOpen(false); }}
-                  style={{ fontSize: '1.3rem', color: 'white', fontWeight: 600 }}
+                  style={{ fontSize: '1.2rem', color: 'white', fontWeight: 600, textDecoration: 'none' }}
                 >
                   Home
                 </a>
@@ -193,7 +261,7 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
                   href="#contact" 
                   className={activeSection === 'contact' ? 'active' : ''} 
                   onClick={(e) => { onHeaderClick(e, 'contact'); setMenuOpen(false); }}
-                  style={{ fontSize: '1.3rem', color: 'white', fontWeight: 600 }}
+                  style={{ fontSize: '1.2rem', color: 'white', fontWeight: 600, textDecoration: 'none' }}
                 >
                   Contact
                 </a>
@@ -205,21 +273,19 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
             aria-label="Close menu"
             onClick={() => setMenuOpen(false)}
             style={{
-              background: 'linear-gradient(135deg, #333333, #444444)',
+              background: 'rgba(255,255,255,0.1)',
               border: '1px solid rgba(255, 255, 255, 0.2)',
-              border: 'none',
               color: 'white',
-              marginTop: '18px',
-              fontSize: '1.1rem',
+              fontSize: '1rem',
               borderRadius: '50%',
-              padding: '10px',
+              padding: '12px',
               boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               cursor: 'pointer',
             }}
-            whileHover={{ scale: 1.15 }}
+            whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
           >
             <X size={24} />

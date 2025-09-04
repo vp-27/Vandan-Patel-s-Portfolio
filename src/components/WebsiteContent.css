@@ -192,6 +192,69 @@ section:nth-child(5){
   border-radius: 50px !important;
   /* transition: all 0.5s ease-out; */
   height: 25px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Mobile header overrides */
+@media (max-width: 768px) {
+  .header {
+    width: auto;
+    left: auto;
+    right: auto;
+    /* Mobile-specific positioning handled via inline styles */
+  }
+}
+
+.header:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.header:active {
+  transform: scale(0.98);
+  transition: transform 0.1s ease;
+}
+
+/* Ripple effect for dynamic island */
+.header::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50px;
+  background: rgba(255, 255, 255, 0.1);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease, opacity 0.6s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.header.animating::before {
+  width: 120%;
+  height: 100%;
+  opacity: 1;
+  animation: horizontalRipple 0.6s ease-out;
+}
+
+@keyframes horizontalRipple {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.1;
+  }
+  100% {
+    width: 120%;
+    height: 100%;
+    opacity: 0;
+  }
 }
 
 .phone-container.phone-expanded .header {
