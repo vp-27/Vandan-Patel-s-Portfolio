@@ -247,14 +247,14 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
             justifyContent: 'center',
           }}
         >
-          <nav style={{ width: '100%', marginBottom: '20px' }}>
-            <ul style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px', margin: 0, padding: 0 }}>
+          <nav style={{ width: '100%', marginBottom: '24px' }}>
+            <ul style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '24px', margin: 0, padding: 0 }}>
               <li>
                 <a 
                   href="#home" 
                   className={activeSection === 'home' ? 'active' : ''} 
                   onClick={(e) => { onHeaderClick(e, 'home'); setMenuOpen(false); }}
-                  style={{ fontSize: '1.2rem', color: 'white', fontWeight: 600, textDecoration: 'none' }}
+                  style={{ fontSize: '1.3rem', color: 'white', fontWeight: 600, textDecoration: 'none' }}
                 >
                   Home
                 </a>
@@ -264,7 +264,7 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
                   href="#contact" 
                   className={activeSection === 'contact' ? 'active' : ''} 
                   onClick={(e) => { onHeaderClick(e, 'contact'); setMenuOpen(false); }}
-                  style={{ fontSize: '1.2rem', color: 'white', fontWeight: 600, textDecoration: 'none' }}
+                  style={{ fontSize: '1.3rem', color: 'white', fontWeight: 600, textDecoration: 'none' }}
                 >
                   Contact
                 </a>
@@ -281,14 +281,16 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
               color: 'white',
               fontSize: '1rem',
               borderRadius: '50%',
-              padding: '12px',
+              padding: '14px',
               boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               cursor: 'pointer',
+              width: '48px',
+              height: '48px'
             }}
-            whileHover={{ scale: 1.1 }}
+            whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
             <X size={24} />
