@@ -59,6 +59,31 @@ const PhoneCallInterface = () => {
     };
   }, []);
 
+  // Helper function to get original phone interface styling (always white gradient)
+  const getTextStyle = (fontSize) => {
+    return {
+      fontSize: fontSize,
+      margin: 0,
+      padding: '0 10px',
+      borderRadius: '5px',
+      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+      fontWeight: 700,
+      WebkitFontSmoothing: 'antialiased',
+      textRendering: 'optimizeLegibility',
+      letterSpacing: '-0.01em',
+      lineHeight: 1,
+      textAlign: 'center',
+      whiteSpace: 'nowrap',
+      // Always use original white gradient styling for phone interface
+      backgroundImage: 'linear-gradient(180deg, rgba(255,255,255,1), rgba(255,255,255,.5) 55%, rgba(255,255,255,1))',
+      WebkitBackgroundClip: 'text',
+      backgroundClip: 'text',
+      color: 'transparent',
+      WebkitTextFillColor: 'transparent',
+      textShadow: '0 0px 0px rgba(255, 255, 255, 0.35), 0 0px 12px rgba(255, 255, 255, 0.25), 0 1px 2px rgba(0, 0, 0, 0.35), 0 0 1px rgba(255, 255, 255, 0.18)'
+    };
+  };
+
   return (
     <div className="date-time">
       <motion.div 
@@ -77,58 +102,14 @@ const PhoneCallInterface = () => {
       >
         <motion.div
           ref={firstNameRef}
-          style={{
-            // Glassy text only (no background blur container)
-            backgroundImage:
-              'linear-gradient(180deg, rgba(255,255,255,1), rgba(255,255,255,.5) 55%, rgba(255,255,255,1))',
-            WebkitBackgroundClip: 'text',
-            backgroundClip: 'text',
-            color: 'transparent',
-            WebkitTextFillColor: 'transparent',
-            fontSize: '5rem',
-            margin: 0,
-            padding: '0 10px',
-            borderRadius: '5px',
-            fontFamily:
-              '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
-            fontWeight: 700,
-            WebkitFontSmoothing: 'antialiased',
-            textRendering: 'optimizeLegibility',
-            letterSpacing: '-0.01em',
-            textShadow:
-              '0 0px 0px rgba(255, 255, 255, 0.35), 0 0px 12px rgba(255, 255, 255, 0.25), 0 1px 2px rgba(0, 0, 0, 0.35), 0 0 1px rgba(255, 255, 255, 0.18)',
-            lineHeight: 1,
-            textAlign: 'center',
-            whiteSpace: 'nowrap'
-          }}
+          style={getTextStyle('5rem')}
         >
           Vandan
         </motion.div>
         <motion.div
           ref={lastNameRef}
           style={{
-            backgroundImage:
-              'linear-gradient(180deg, rgba(255,255,255,1), rgba(255,255,255,.5) 55%, rgba(255,255,255,1))',
-            WebkitBackgroundClip: 'text',
-            backgroundClip: 'text',
-            color: 'transparent',
-            WebkitTextFillColor: 'transparent',
-            
-            fontSize: lastNameFontSize,
-            margin: 0,
-            padding: '0 10px',
-            borderRadius: '5px',
-            fontFamily:
-              '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
-            fontWeight: 700,
-            WebkitFontSmoothing: 'antialiased',
-            textRendering: 'optimizeLegibility',
-            letterSpacing: '-0.01em',
-            textShadow:
-              '0 0px 0px rgba(255, 255, 255, 0.35), 0 0px 12px rgba(255, 255, 255, 0.25), 0 1px 2px rgba(0, 0, 0, 0.35), 0 0 1px rgba(255, 255, 255, 0.18)',
-            lineHeight: 1,
-            textAlign: 'center',
-            whiteSpace: 'nowrap',
+            ...getTextStyle(lastNameFontSize),
             marginTop: '-0.08em' // Slight overlap for better visual connection
           }}
         >

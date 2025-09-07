@@ -303,121 +303,148 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
 
 
 // Landing Hero to receive shared element transition
-const LandingHero = () => (
-  <section className="hero-receiver">
-    <div className="hero-receiver-inner">
-      <motion.div 
-        className="hero-receiver-photo" 
-        layoutId="hero-photo"
-        transition={{ 
-          duration: 0.4, 
-          ease: "easeInOut",
-          layout: { duration: 0.4, ease: "easeInOut" }
-        }}
-      >
-        <motion.img 
-          src={profileImage} 
-          alt="Vandan Patel" 
-          style={{ 
-            width: '100%', 
-            height: '100%', 
-            objectFit: 'cover',
-            filter: 'brightness(1)'
-          }} 
-        />
-      </motion.div>
-      
-      <div className="hero-text-content">
+const LandingHero = () => {
+  const [currentTheme, setCurrentTheme] = useState('light');
+
+  // Listen for theme changes
+  useEffect(() => {
+    const detectTheme = () => {
+      const theme = document.documentElement.getAttribute('data-theme') || 'light';
+      setCurrentTheme(theme);
+    };
+
+    detectTheme();
+
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+          detectTheme();
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme']
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Helper function to get theme-aware text styling
+  const getTextStyle = (fontSize, padding = '0 10px 0 0') => {
+    const baseStyle = {
+      fontSize: fontSize,
+      margin: 0,
+      padding: padding,
+      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+      fontWeight: 700,
+      WebkitFontSmoothing: 'antialiased',
+      textRendering: 'optimizeLegibility',
+      letterSpacing: '-0.01em',
+      lineHeight: 1,
+      textAlign: 'left',
+      whiteSpace: 'nowrap'
+    };
+
+    if (currentTheme === 'dark') {
+      // White gradient for dark theme (original styling)
+      return {
+        ...baseStyle,
+        backgroundImage: 'linear-gradient(180deg, rgba(255,255,255,1), rgba(255,255,255,.5) 55%, rgba(255,255,255,1))',
+        WebkitBackgroundClip: 'text',
+        backgroundClip: 'text',
+        color: 'transparent',
+        WebkitTextFillColor: 'transparent',
+        textShadow: '0 0px 0px rgba(255, 255, 255, 0.35), 0 0px 12px rgba(255, 255, 255, 0.25), 0 1px 2px rgba(0, 0, 0, 0.35), 0 0 1px rgba(255, 255, 255, 0.18)'
+      };
+    } else {
+      // Dark gradient for light theme
+      return {
+        ...baseStyle,
+        backgroundImage: 'linear-gradient(180deg, rgba(30,30,30,1), rgba(30,30,30,.7) 55%, rgba(30,30,30,1))',
+        WebkitBackgroundClip: 'text',
+        backgroundClip: 'text',
+        color: 'transparent',
+        WebkitTextFillColor: 'transparent',
+        textShadow: '0 0px 0px rgba(30, 30, 30, 0.35), 0 0px 12px rgba(30, 30, 30, 0.25), 0 1px 2px rgba(255, 255, 255, 0.35), 0 0 1px rgba(30, 30, 30, 0.18)'
+      };
+    }
+  };
+
+  return (
+    <section className="hero-receiver">
+      <div className="hero-receiver-inner">
         <motion.div 
-          layoutId="hero-name"
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'flex-start',
-            justifyContent: 'center',
-            originY: 0
-          }}
+          className="hero-receiver-photo" 
+          layoutId="hero-photo"
           transition={{ 
             duration: 0.4, 
             ease: "easeInOut",
             layout: { duration: 0.4, ease: "easeInOut" }
           }}
         >
-          <motion.div
-            style={{
-              // Match the PhoneCallInterface styling exactly for consistency
-              backgroundImage:
-                'linear-gradient(180deg, rgba(255,255,255,1), rgba(255,255,255,.5) 55%, rgba(255,255,255,1))',
-              WebkitBackgroundClip: 'text',
-              backgroundClip: 'text',
-              color: 'transparent',
-              WebkitTextFillColor: 'transparent',
-              fontSize: '5rem',
-              margin: 0,
-              padding: '0 10px 0 0',
-              fontFamily:
-                '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
-              fontWeight: 700,
-              WebkitFontSmoothing: 'antialiased',
-              textRendering: 'optimizeLegibility',
-              letterSpacing: '-0.01em',
-              textShadow:
-                '0 0px 0px rgba(255, 255, 255, 0.35), 0 0px 12px rgba(255, 255, 255, 0.25), 0 1px 2px rgba(0, 0, 0, 0.35), 0 0 1px rgba(255, 255, 255, 0.18)',
-              lineHeight: 1,
-              textAlign: 'left',
-              whiteSpace: 'nowrap'
-            }}
-          >
-            Vandan
-          </motion.div>
-          <motion.div
-            style={{
-              backgroundImage:
-                'linear-gradient(180deg, rgba(255,255,255,1), rgba(255,255,255,.5) 55%, rgba(255,255,255,1))',
-              WebkitBackgroundClip: 'text',
-              backgroundClip: 'text',
-              color: 'transparent',
-              WebkitTextFillColor: 'transparent',
-              fontSize: '5rem',
-              margin: 0,
-              padding: '0 10px 0 0',
-              fontFamily:
-                '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
-              fontWeight: 700,
-              WebkitFontSmoothing: 'antialiased',
-              textRendering: 'optimizeLegibility',
-              letterSpacing: '-0.01em',
-              textShadow:
-                '0 0px 0px rgba(255, 255, 255, 0.35), 0 0px 12px rgba(255, 255, 255, 0.25), 0 1px 2px rgba(0, 0, 0, 0.35), 0 0 1px rgba(255, 255, 255, 0.18)',
-              lineHeight: 1,
-              textAlign: 'left',
-              whiteSpace: 'nowrap',
-              marginTop: '-0.08em' // Slight overlap for better visual connection
-            }}
-          >
-            Patel
-          </motion.div>
+          <motion.img 
+            src={profileImage} 
+            alt="Vandan Patel" 
+            style={{ 
+              width: '100%', 
+              height: '100%', 
+              objectFit: 'cover',
+              filter: 'brightness(1)'
+            }} 
+          />
         </motion.div>
         
-        <motion.h2 
-          initial={{ opacity: 0, y: 10 }} 
-          whileInView={{ opacity: 1, y: 0 }} 
-          transition={{ duration: 0.4, delay: 0.1 }}
-        >
-          Full-Stack Developer | Financial Analyst
-        </motion.h2>
-        
-        <motion.p 
-          initial={{ opacity: 0, y: 10 }} 
-          whileInView={{ opacity: 1, y: 0 }} 
-          transition={{ duration: 0.4, delay: 0.2 }}
-        >
-          "Everything's a passion project"
-        </motion.p>
+        <div className="hero-text-content">
+          <motion.div 
+            layoutId="hero-name"
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'flex-start',
+              justifyContent: 'center',
+              originY: 0
+            }}
+            transition={{ 
+              duration: 0.4, 
+              ease: "easeInOut",
+              layout: { duration: 0.4, ease: "easeInOut" }
+            }}
+          >
+            <motion.div style={getTextStyle('5rem')}>
+              Vandan
+            </motion.div>
+            <motion.div
+              style={{
+                ...getTextStyle('5rem'),
+                marginTop: '-0.08em' // Slight overlap for better visual connection
+              }}
+            >
+              Patel
+            </motion.div>
+          </motion.div>
+          
+          <motion.h2 
+            initial={{ opacity: 0, y: 10 }} 
+            whileInView={{ opacity: 1, y: 0 }} 
+            transition={{ duration: 0.4, delay: 0.1 }}
+          >
+            Full-Stack Developer | Financial Analyst
+          </motion.h2>
+          
+          <motion.p 
+            initial={{ opacity: 0, y: 10 }} 
+            whileInView={{ opacity: 1, y: 0 }} 
+            transition={{ duration: 0.4, delay: 0.2 }}
+          >
+            "Everything's a passion project"
+          </motion.p>
+        </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 
 
