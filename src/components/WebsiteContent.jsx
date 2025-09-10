@@ -705,11 +705,14 @@ const WebsiteContent = () => {
     
     const section = document.getElementById(sectionId);
     if (section) {
-      const headerHeight = document.querySelector('.header')?.offsetHeight || 60;
-      const offsetTop = section.offsetTop - headerHeight;
+      const header = document.querySelector('.header');
+      const headerHeight = header ? header.offsetHeight : 60; // Fallback height
+      
+      const sectionTop = section.getBoundingClientRect().top + window.scrollY;
+      const scrollToPosition = sectionTop - headerHeight;
       
       window.scrollTo({ 
-        top: offsetTop, 
+        top: scrollToPosition, 
         behavior: 'smooth' 
       });
     } else if (sectionId === 'home') {
@@ -738,26 +741,27 @@ const WebsiteContent = () => {
           <AboutSection />
           
           {/* Contact Section with Footer */}
-          <section id="contact" className="contact-minimal">
-            <div className="contact-content">
-              <motion.p
+          <section id="contact" className="contact-section">
+            <div className="contact-content-wrapper">
+              <motion.div 
+                className="contact-text-content"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-                style={{
-                  textAlign: 'center',
-                  fontSize: '1.1rem',
-                  color: 'var(--text-color)',
-                  opacity: 0.8,
-                  marginBottom: '40px',
-                  lineHeight: 1.6
-                }}
+                transition={{ duration: 0.6, delay: 0.1 }}
               >
-                Let's connect and create something amazing together.
-              </motion.p>
+                <h2>Get in Touch</h2>
+                <p>
+                  I'm always open to discussing new projects, creative ideas, or opportunities to be part of an ambitious vision. Whether you have a question or just want to say hi, my inbox is always open.
+                </p>
+                <p>
+                  Feel free to reach out through any of the platforms below.
+                </p>
+              </motion.div>
+              <div className="contact-dock-container">
+                <Dock items={isSmallScreen ? dockItems.slice(0, 4) : dockItems} />
+              </div>
             </div>
-            <Dock items={isSmallScreen ? dockItems.slice(0, 4) : dockItems} />
           </section>
         </main>
       </div>
