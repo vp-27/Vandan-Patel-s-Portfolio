@@ -72,28 +72,58 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
             <nav>
               <ul>
                 <li>
-                  <a 
+                  <motion.a 
                     href="#home" 
                     className={activeSection === 'home' ? 'active' : ''} 
                     onClick={(e) => {
                       e.stopPropagation(); // Prevent island bounce
                       onHeaderClick(e, 'home');
                     }}
+                    animate={{
+                      fontSize: activeSection === 'home' ? '1.4rem' : '1rem',
+                      fontWeight: activeSection === 'home' ? 700 : 500,
+                      scale: activeSection === 'home' ? 1.05 : 1
+                    }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
                   >
                     Home
-                  </a>
+                  </motion.a>
                 </li>
                 <li>
-                  <a 
+                  <motion.a 
+                    href="#about" 
+                    className={activeSection === 'about' ? 'active' : ''} 
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent island bounce
+                      onHeaderClick(e, 'about');
+                    }}
+                    animate={{
+                      fontSize: activeSection === 'about' ? '1.4rem' : '1rem',
+                      fontWeight: activeSection === 'about' ? 700 : 500,
+                      scale: activeSection === 'about' ? 1.05 : 1
+                    }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                  >
+                    About
+                  </motion.a>
+                </li>
+                <li>
+                  <motion.a 
                     href="#contact" 
                     className={activeSection === 'contact' ? 'active' : ''} 
                     onClick={(e) => {
                       e.stopPropagation(); // Prevent island bounce
                       onHeaderClick(e, 'contact');
                     }}
+                    animate={{
+                      fontSize: activeSection === 'contact' ? '1.4rem' : '1rem',
+                      fontWeight: activeSection === 'contact' ? 700 : 500,
+                      scale: activeSection === 'contact' ? 1.05 : 1
+                    }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
                   >
                     Contact
-                  </a>
+                  </motion.a>
                 </li>
               </ul>
             </nav>
@@ -250,24 +280,67 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
           <nav style={{ width: '100%', marginBottom: '24px' }}>
             <ul style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '24px', margin: 0, padding: 0 }}>
               <li>
-                <a 
+                <motion.a 
                   href="#home" 
                   className={activeSection === 'home' ? 'active' : ''} 
                   onClick={(e) => { onHeaderClick(e, 'home'); setMenuOpen(false); }}
-                  style={{ fontSize: '1.3rem', color: 'white', fontWeight: 600, textDecoration: 'none' }}
+                  style={{ 
+                    fontSize: activeSection === 'home' ? '1.6rem' : '1.3rem', 
+                    color: 'white', 
+                    fontWeight: activeSection === 'home' ? 700 : 600, 
+                    textDecoration: 'none',
+                    transition: 'all 0.3s ease'
+                  }}
+                  animate={{
+                    scale: activeSection === 'home' ? 1.1 : 1,
+                    opacity: activeSection === 'home' ? 1 : 0.8
+                  }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
                 >
                   Home
-                </a>
+                </motion.a>
               </li>
               <li>
-                <a 
+                <motion.a 
+                  href="#about" 
+                  className={activeSection === 'about' ? 'active' : ''} 
+                  onClick={(e) => { onHeaderClick(e, 'about'); setMenuOpen(false); }}
+                  style={{ 
+                    fontSize: activeSection === 'about' ? '1.6rem' : '1.3rem', 
+                    color: 'white', 
+                    fontWeight: activeSection === 'about' ? 700 : 600, 
+                    textDecoration: 'none',
+                    transition: 'all 0.3s ease'
+                  }}
+                  animate={{
+                    scale: activeSection === 'about' ? 1.1 : 1,
+                    opacity: activeSection === 'about' ? 1 : 0.8
+                  }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
+                >
+                  About
+                </motion.a>
+              </li>
+              <li>
+                <motion.a 
                   href="#contact" 
                   className={activeSection === 'contact' ? 'active' : ''} 
                   onClick={(e) => { onHeaderClick(e, 'contact'); setMenuOpen(false); }}
-                  style={{ fontSize: '1.3rem', color: 'white', fontWeight: 600, textDecoration: 'none' }}
+                  style={{ 
+                    fontSize: activeSection === 'contact' ? '1.6rem' : '1.3rem', 
+                    color: 'white', 
+                    fontWeight: activeSection === 'contact' ? 700 : 600, 
+                    textDecoration: 'none',
+                    transition: 'all 0.3s ease'
+                  }}
+                  animate={{
+                    scale: activeSection === 'contact' ? 1.1 : 1,
+                    opacity: activeSection === 'contact' ? 1 : 0.8
+                  }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
                 >
                   Contact
-                </a>
+                </motion.a>
               </li>
             </ul>
           </nav>
@@ -373,7 +446,7 @@ const LandingHero = () => {
   };
 
   return (
-    <section className="hero-receiver">
+    <section id="home" className="hero-receiver">
       <div className="hero-receiver-inner">
         <motion.div 
           className="hero-receiver-photo" 
@@ -447,6 +520,65 @@ const LandingHero = () => {
 };
 
 
+
+// About Section Component
+const AboutSection = () => {
+  return (
+    <section id="about" className="about-section">
+      <div className="about-content">
+        <motion.div 
+          className="about-text"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
+            I'm a passionate full-stack developer and financial analyst with a love for creating 
+            beautiful, functional digital experiences. My journey spans from building intuitive 
+            web applications to analyzing complex financial data.
+          </motion.p>
+          
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            When I'm not coding, you'll find me exploring new technologies, working on personal 
+            projects, or diving deep into market analysis. I believe that every project is an 
+            opportunity to learn something new and push the boundaries of what's possible.
+          </motion.p>
+
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
+            My approach combines technical expertise with creative problem-solving, always 
+            striving to deliver solutions that are both elegant and effective.
+          </motion.p>
+        </motion.div>
+        
+        <motion.div 
+          className="about-image"
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          <img src={profileImage} alt="Vandan Patel - About" />
+        </motion.div>
+      </div>
+    </section>
+  );
+};
 
 // Main Component
 const WebsiteContent = () => {
@@ -525,6 +657,40 @@ const WebsiteContent = () => {
     localStorage.setItem('theme', newTheme);
   };
 
+  // Auto-detect active section based on scroll position
+  useEffect(() => {
+    const sections = Array.from(document.querySelectorAll('section[id]'));
+    const sectionRefs = sections.map(section => ({ id: section.id, ref: section }));
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      {
+        rootMargin: '-50% 0px -50% 0px', // Trigger when the section is in the middle of the viewport
+        threshold: 0,
+      }
+    );
+
+    sectionRefs.forEach(section => {
+      if (section.ref) {
+        observer.observe(section.ref);
+      }
+    });
+
+    return () => {
+      sectionRefs.forEach(section => {
+        if (section.ref) {
+          observer.unobserve(section.ref);
+        }
+      });
+    };
+  }, []);
+
   // Responsive breakpoint: show only first 4 dock items on small screens
   useEffect(() => {
     const mql = window.matchMedia('(max-width: 768px)');
@@ -536,16 +702,21 @@ const WebsiteContent = () => {
 
   const handleHeaderClick = (e, sectionId) => {
     e.preventDefault();
-    setActiveSection(sectionId);
     
-    // Smooth scroll to section if it exists
-    if (sectionId === 'contact') {
-      const section = document.getElementById('contact');
-      if (section) {
-        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
+    const section = document.getElementById(sectionId);
+    if (section) {
+      const headerHeight = document.querySelector('.header')?.offsetHeight || 60;
+      const offsetTop = section.offsetTop - headerHeight;
+      
+      window.scrollTo({ 
+        top: offsetTop, 
+        behavior: 'smooth' 
+      });
     } else if (sectionId === 'home') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ 
+        top: 0, 
+        behavior: 'smooth' 
+      });
     }
   };
 
@@ -562,9 +733,13 @@ const WebsiteContent = () => {
         <main>
           {/* Hero Section */}
           <LandingHero />
-          {/* Spacer Section */}
-          <section className="spacer-section">
-            <div className="spacer-content">
+          
+          {/* About Section */}
+          <AboutSection />
+          
+          {/* Contact Section with Footer */}
+          <section id="contact" className="contact-minimal">
+            <div className="contact-content">
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -572,21 +747,16 @@ const WebsiteContent = () => {
                 transition={{ duration: 0.6 }}
                 style={{
                   textAlign: 'center',
-                  fontSize: '1.2rem',
+                  fontSize: '1.1rem',
                   color: 'var(--text-color)',
-                  opacity: 0.7,
-                  maxWidth: '600px',
-                  margin: '0 auto',
+                  opacity: 0.8,
+                  marginBottom: '40px',
                   lineHeight: 1.6
                 }}
               >
-                Building beautiful, functional experiences one project at a time.<br/>
-                <span style={{ opacity: 0.5, fontSize: '1rem' }}>More sections coming soon...</span>
+                Let's connect and create something amazing together.
               </motion.p>
             </div>
-          </section>
-          {/* Contact Section with Footer */}
-          <section id="contact" className="contact-minimal">
             <Dock items={isSmallScreen ? dockItems.slice(0, 4) : dockItems} />
           </section>
         </main>
