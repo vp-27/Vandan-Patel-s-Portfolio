@@ -375,8 +375,8 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
 }
 
 
-// Landing Hero to receive shared element transition
-const LandingHero = () => {
+// Hero Content Component
+const HeroContent = () => {
   const [currentTheme, setCurrentTheme] = useState('light');
 
   // Listen for theme changes
@@ -421,7 +421,6 @@ const LandingHero = () => {
     };
 
     if (currentTheme === 'dark') {
-      // White gradient for dark theme (original styling)
       return {
         ...baseStyle,
         backgroundImage: 'linear-gradient(180deg, rgba(255,255,255,1), rgba(255,255,255,.5) 55%, rgba(255,255,255,1))',
@@ -432,7 +431,6 @@ const LandingHero = () => {
         textShadow: '0 0px 0px rgba(255, 255, 255, 0.35), 0 0px 12px rgba(255, 255, 255, 0.25), 0 1px 2px rgba(0, 0, 0, 0.35), 0 0 1px rgba(255, 255, 255, 0.18)'
       };
     } else {
-      // Dark gradient for light theme
       return {
         ...baseStyle,
         backgroundImage: 'linear-gradient(180deg, rgba(30,30,30,1), rgba(30,30,30,.7) 55%, rgba(30,30,30,1))',
@@ -446,136 +444,82 @@ const LandingHero = () => {
   };
 
   return (
-    <section id="home" className="hero-receiver">
-      <div className="hero-receiver-inner">
+    <section id="home" className="hero-content-section">
+      <div className="hero-text">
         <motion.div 
-          className="hero-receiver-photo" 
-          layoutId="hero-photo"
+          layoutId="hero-name"
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            justifyContent: 'center',
+            originY: 0
+          }}
           transition={{ 
             duration: 0.4, 
             ease: "easeInOut",
             layout: { duration: 0.4, ease: "easeInOut" }
           }}
         >
-          <motion.img 
-            src={profileImage} 
-            alt="Vandan Patel" 
-            style={{ 
-              width: '100%', 
-              height: '100%', 
-              objectFit: 'cover',
-              filter: 'brightness(1)'
-            }} 
-          />
+          <motion.div style={getTextStyle('5rem')}>
+            Vandan
+          </motion.div>
+          <motion.div
+            style={{
+              ...getTextStyle('5rem'),
+              marginTop: '-0.08em'
+            }}
+          >
+            Patel
+          </motion.div>
         </motion.div>
         
-        <div className="hero-text-content">
-          <motion.div 
-            layoutId="hero-name"
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'flex-start',
-              justifyContent: 'center',
-              originY: 0
-            }}
-            transition={{ 
-              duration: 0.4, 
-              ease: "easeInOut",
-              layout: { duration: 0.4, ease: "easeInOut" }
-            }}
-          >
-            <motion.div style={getTextStyle('5rem')}>
-              Vandan
-            </motion.div>
-            <motion.div
-              style={{
-                ...getTextStyle('5rem'),
-                marginTop: '-0.08em' // Slight overlap for better visual connection
-              }}
-            >
-              Patel
-            </motion.div>
-          </motion.div>
-          
-          <motion.h2 
-            initial={{ opacity: 0, y: 10 }} 
-            whileInView={{ opacity: 1, y: 0 }} 
-            transition={{ duration: 0.4, delay: 0.1 }}
-          >
-            Full-Stack Developer | Financial Analyst
-          </motion.h2>
-          
-          <motion.p 
-            initial={{ opacity: 0, y: 10 }} 
-            whileInView={{ opacity: 1, y: 0 }} 
-            transition={{ duration: 0.4, delay: 0.2 }}
-          >
-            "Everything's a passion project"
-          </motion.p>
-        </div>
+        <motion.h2 
+          initial={{ opacity: 0, y: 10 }} 
+          whileInView={{ opacity: 1, y: 0 }} 
+          transition={{ duration: 0.4, delay: 0.1 }}
+        >
+          Full-Stack Developer | Financial Analyst
+        </motion.h2>
+        
+        <motion.p 
+          initial={{ opacity: 0, y: 10 }} 
+          whileInView={{ opacity: 1, y: 0 }} 
+          transition={{ duration: 0.4, delay: 0.2 }}
+        >
+          "Everything's a passion project"
+        </motion.p>
       </div>
     </section>
   );
 };
 
-
-
-// About Section Component
-const AboutSection = () => {
+// About Content Component
+const AboutContent = ({ aboutRef }) => {
   return (
-    <section id="about" className="about-section">
-      <div className="about-content">
-        <motion.div 
-          className="about-text"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-          >
-            I'm a passionate full-stack developer and financial analyst with a love for creating 
-            beautiful, functional digital experiences. My journey spans from building intuitive 
-            web applications to analyzing complex financial data.
-          </motion.p>
-          
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            When I'm not coding, you'll find me exploring new technologies, working on personal 
-            projects, or diving deep into market analysis. I believe that every project is an 
-            opportunity to learn something new and push the boundaries of what's possible.
-          </motion.p>
-
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-          >
-            My approach combines technical expertise with creative problem-solving, always 
-            striving to deliver solutions that are both elegant and effective.
-          </motion.p>
-        </motion.div>
-        
-        <motion.div 
-          className="about-image"
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          <img src={profileImage} alt="Vandan Patel - About" />
-        </motion.div>
-      </div>
+    <section id="about" className="about-content-section" ref={aboutRef}>
+      <motion.div 
+        className="about-text"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+      >
+        <motion.p initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.1 }}>
+          I'm a passionate full-stack developer and financial analyst with a love for creating 
+          beautiful, functional digital experiences. My journey spans from building intuitive 
+          web applications to analyzing complex financial data.
+        </motion.p>
+        <motion.p initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.2 }}>
+          When I'm not coding, you'll find me exploring new technologies, working on personal 
+          projects, or diving deep into market analysis. I believe that every project is an 
+          opportunity to learn something new and push the boundaries of what's possible.
+        </motion.p>
+        <motion.p initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.3 }}>
+          My approach combines technical expertise with creative problem-solving, always 
+          striving to deliver solutions that are both elegant and effective.
+        </motion.p>
+      </motion.div>
     </section>
   );
 };
@@ -585,6 +529,8 @@ const WebsiteContent = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const [aboutInView, setAboutInView] = useState(false);
+  const aboutRef = useRef(null);
 
   const dockItems = [
     {
@@ -650,6 +596,32 @@ const WebsiteContent = () => {
     return () => observer.disconnect();
   }, []);
 
+  // Track active section
+  useEffect(() => {
+    const sections = Array.from(document.querySelectorAll('section[id]'));
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActiveSection(entry.target.id);
+        });
+      },
+      { rootMargin: '-50% 0px -50% 0px', threshold: 0 }
+    );
+    sections.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+  // Track About in view (optional: for hero fade if desired)
+  useEffect(() => {
+    const el = aboutRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      (entries) => entries.forEach((e) => setAboutInView(e.isIntersecting)),
+      { rootMargin: '0px 0px -60% 0px', threshold: [0, 0.2] }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
   const toggleTheme = () => {
     const newTheme = !darkMode ? 'dark' : 'light';
     setDarkMode(!darkMode);
@@ -657,39 +629,7 @@ const WebsiteContent = () => {
     localStorage.setItem('theme', newTheme);
   };
 
-  // Auto-detect active section based on scroll position
-  useEffect(() => {
-    const sections = Array.from(document.querySelectorAll('section[id]'));
-    const sectionRefs = sections.map(section => ({ id: section.id, ref: section }));
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
-          }
-        });
-      },
-      {
-        rootMargin: '-50% 0px -50% 0px', // Trigger when the section is in the middle of the viewport
-        threshold: 0,
-      }
-    );
-
-    sectionRefs.forEach(section => {
-      if (section.ref) {
-        observer.observe(section.ref);
-      }
-    });
-
-    return () => {
-      sectionRefs.forEach(section => {
-        if (section.ref) {
-          observer.unobserve(section.ref);
-        }
-      });
-    };
-  }, []);
+  // (Removed older section-only observer; consolidated above)
 
   // Responsive breakpoint: show only first 4 dock items on small screens
   useEffect(() => {
@@ -724,7 +664,7 @@ const WebsiteContent = () => {
   };
 
   return (
-    <div className="website-container">
+  <div className={`website-container ${aboutInView ? 'about-in-view' : ''}`}>
       {/* Move header outside of scrollable content so it is always fixed to viewport */}
       <Header 
         toggleTheme={toggleTheme} 
@@ -734,11 +674,35 @@ const WebsiteContent = () => {
       />
       <div className="website-content">
         <main>
-          {/* Hero Section */}
-          <LandingHero />
-          
-          {/* About Section */}
-          <AboutSection />
+          {/* Container that spans hero + about for sticky to work */}
+          <div className="hero-about-wrapper">
+            <div className="sticky-pfp-container">
+              <motion.div 
+                className="sticky-pfp" 
+                layoutId="hero-photo"
+                transition={{ 
+                  duration: 0.4, 
+                  ease: "easeInOut",
+                  layout: { duration: 0.4, ease: "easeInOut" }
+                }}
+              >
+                <motion.img 
+                  src={profileImage} 
+                  alt="Vandan Patel" 
+                  style={{ 
+                    width: '100%', 
+                    height: '100%', 
+                    objectFit: 'cover',
+                    filter: 'brightness(1)'
+                  }} 
+                />
+              </motion.div>
+            </div>
+            <div className="content-column">
+              <HeroContent />
+              <AboutContent aboutRef={aboutRef} />
+            </div>
+          </div>
           
           {/* Contact Section with Footer */}
           <section id="contact" className="contact-section">
