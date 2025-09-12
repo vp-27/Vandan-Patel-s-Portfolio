@@ -256,13 +256,14 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
           {/* Top Bar - Always Visible */}
           <div className="header-top-bar" style={{
             height: '56px',
-            display: 'flex',
+            display: 'grid',
+            gridTemplateColumns: '60px 1fr 60px',
             alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: '0 20px',
+            padding: '0 16px',
             position: 'relative',
             zIndex: 2,
-            width: '100%'
+            width: '100%',
+            boxSizing: 'border-box'
           }}>
             {/* Hamburger Menu - Left */}
             <motion.button
@@ -284,7 +285,7 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
                 cursor: 'pointer',
                 width: '40px',
                 height: '40px',
-                flexShrink: 0
+                justifySelf: 'start'
               }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -305,10 +306,8 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
                 color: 'white',
                 fontSize: '1.1rem',
                 fontWeight: 600,
-                flex: 1,
                 textAlign: 'center',
-                marginLeft: '10px',
-                marginRight: '10px'
+                justifySelf: 'center'
               }}
               animate={{
                 opacity: isExpanded ? 0 : 1,
@@ -342,7 +341,7 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
                 cursor: 'pointer',
                 width: '40px',
                 height: '40px',
-                flexShrink: 0
+                justifySelf: 'end'
               }}
             >
               {darkMode ? <Sun size={20} /> : <Moon size={20} />}

@@ -1749,9 +1749,9 @@ section:nth-child(5){
 .mobile-dynamic-island .header-top-bar {
   position: relative;
   z-index: 10;
-  display: flex !important;
+  display: grid !important;
+  grid-template-columns: 60px 1fr 60px !important;
   align-items: center !important;
-  justify-content: space-between !important;
   width: 100% !important;
 }
 
@@ -1769,9 +1769,9 @@ section:nth-child(5){
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-weight: 600;
   letter-spacing: -0.02em;
-  flex: 1 !important;
   text-align: center !important;
-  margin: 0 10px !important;
+  justify-self: center !important;
+  margin: 0 !important;
 }
 
 .mobile-menu-content {
@@ -1853,21 +1853,21 @@ section:nth-child(5){
   }
 
   .mobile-dynamic-island .header-top-bar {
-    display: flex !important;
+    display: grid !important;
+    grid-template-columns: 60px 1fr 60px !important;
     align-items: center !important;
-    justify-content: space-between !important;
-    padding: 0 20px !important;
+    padding: 0 16px !important;
     width: 100% !important;
     box-sizing: border-box !important;
   }
 
   .current-section-title {
-    flex: 1 !important;
     text-align: center !important;
-    margin: 0 15px !important;
+    justify-self: center !important;
     white-space: nowrap !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
+    margin: 0 !important;
   }
 }
 
