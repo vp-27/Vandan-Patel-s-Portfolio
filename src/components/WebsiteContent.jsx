@@ -161,8 +161,9 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
                     href="#home" 
                     className={activeSection === 'home' ? 'active' : ''} 
                     onClick={(e) => {
+                      e.preventDefault();
                       e.stopPropagation(); // Prevent island bounce
-                      onHeaderClick(e, 'home');
+                      onHeaderClick('home');
                     }}
                     animate={{
                       fontSize: activeSection === 'home' ? '1.4rem' : '1rem',
@@ -179,8 +180,9 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
                     href="#about" 
                     className={activeSection === 'about' ? 'active' : ''} 
                     onClick={(e) => {
+                      e.preventDefault();
                       e.stopPropagation(); // Prevent island bounce
-                      onHeaderClick(e, 'about');
+                      onHeaderClick('about');
                     }}
                     animate={{
                       fontSize: activeSection === 'about' ? '1.4rem' : '1rem',
@@ -197,8 +199,9 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
                     href="#contact" 
                     className={activeSection === 'contact' ? 'active' : ''} 
                     onClick={(e) => {
+                      e.preventDefault();
                       e.stopPropagation(); // Prevent island bounce
-                      onHeaderClick(e, 'contact');
+                      onHeaderClick('contact');
                     }}
                     animate={{
                       fontSize: activeSection === 'contact' ? '1.4rem' : '1rem',
@@ -395,7 +398,8 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
                         href={`#${section}`}
                         layoutId={isActive ? `section-title-${section}` : undefined}
                         onClick={(e) => { 
-                          onHeaderClick(e, section); 
+                          e.preventDefault();
+                          onHeaderClick(section); 
                           toggleMenu(); 
                         }}
                         style={{ 
@@ -725,25 +729,12 @@ const WebsiteContent = () => {
     return () => mql.removeEventListener('change', update);
   }, []);
 
-  const handleHeaderClick = (e, sectionId) => {
-    e.preventDefault();
-    
+  const handleHeaderClick = (sectionId) => {
     const section = document.getElementById(sectionId);
     if (section) {
-      const header = document.querySelector('.header');
-      const headerHeight = header ? header.offsetHeight : 60; // Fallback height
-      
-      const sectionTop = section.getBoundingClientRect().top + window.scrollY;
-      const scrollToPosition = sectionTop - headerHeight;
-      
-      window.scrollTo({ 
-        top: scrollToPosition, 
-        behavior: 'smooth' 
-      });
-    } else if (sectionId === 'home') {
-      window.scrollTo({ 
-        top: 0, 
-        behavior: 'smooth' 
+      section.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
       });
     }
   };
