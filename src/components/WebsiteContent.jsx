@@ -256,16 +256,16 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
           {/* Top Bar - Always Visible */}
           <div className="header-top-bar" style={{
             height: '56px',
-            display: 'grid',
-            gridTemplateColumns: '60px 1fr 60px',
+            display: 'flex',
             alignItems: 'center',
-            padding: '0 16px',
+            justifyContent: 'space-between',
+            padding: '0 20px',
             position: 'relative',
             zIndex: 2,
             width: '100%',
             boxSizing: 'border-box'
           }}>
-            {/* Hamburger Menu - Left */}
+            {/* Hamburger Menu - Disappears when expanded */}
             <motion.button
               className="hamburger-menu-gsap"
               aria-label={isExpanded ? "Close menu" : "Open menu"}
@@ -285,40 +285,43 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
                 cursor: 'pointer',
                 width: '40px',
                 height: '40px',
-                justifySelf: 'start'
-              }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              animate={isExpanded ? {
-                rotate: [0, 180]
-              } : {
-                rotate: [180, 0]
-              }}
-              transition={{ duration: 0.3 }}
-            >
-              {isExpanded ? <X size={20} /> : <Menu size={20} />}
-            </motion.button>
-
-            {/* Current Section Title in Center */}
-            <motion.div 
-              className="current-section-title"
-              style={{
-                color: 'white',
-                fontSize: '1.1rem',
-                fontWeight: 600,
-                textAlign: 'center',
-                justifySelf: 'center'
+                flexShrink: 0
               }}
               animate={{
                 opacity: isExpanded ? 0 : 1,
-                y: isExpanded ? -10 : 0
+                scale: isExpanded ? 0.8 : 1,
+                pointerEvents: isExpanded ? 'none' : 'auto'
               }}
+              whileHover={{ scale: isExpanded ? 0.8 : 1.05 }}
+              whileTap={{ scale: isExpanded ? 0.8 : 0.95 }}
               transition={{ duration: 0.3 }}
             >
-              {getCurrentSectionTitle()}
-            </motion.div>
+              <Menu size={20} />
+            </motion.button>
 
-            {/* Theme Toggle - Right */}
+            {/* Current Section Title - Stays visible and flows to menu position */}
+            {!isExpanded && (
+              <motion.div 
+                className="current-section-title"
+                layoutId={`section-title-${activeSection}`}
+                style={{
+                  position: 'absolute',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  color: '#007AFF',
+                  fontSize: '1.1rem',
+                  fontWeight: 600,
+                  textAlign: 'center',
+                  pointerEvents: 'none',
+                  textTransform: 'capitalize'
+                }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+              >
+                {getCurrentSectionTitle()}
+              </motion.div>
+            )}
+
+            {/* Theme Toggle - Disappears when expanded */}
             <motion.button
               onClick={(e) => {
                 e.stopPropagation();
@@ -326,9 +329,6 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
               }}
               className="theme-toggle"
               aria-label="Toggle theme"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              transition={{ duration: 0.3 }}
               style={{ 
                 background: 'none',
                 border: 'none', 
@@ -341,8 +341,16 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
                 cursor: 'pointer',
                 width: '40px',
                 height: '40px',
-                justifySelf: 'end'
+                flexShrink: 0
               }}
+              animate={{
+                opacity: isExpanded ? 0 : 1,
+                scale: isExpanded ? 0.8 : 1,
+                pointerEvents: isExpanded ? 'none' : 'auto'
+              }}
+              whileHover={{ scale: isExpanded ? 0.8 : 1.1 }}
+              whileTap={{ scale: isExpanded ? 0.8 : 0.9 }}
+              transition={{ duration: 0.3 }}
             >
               {darkMode ? <Sun size={20} /> : <Moon size={20} />}
             </motion.button>
@@ -353,58 +361,97 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
             ref={menuContentRef}
             className="mobile-menu-content" 
             style={{
-              padding: '20px',
+              padding: '20px 0 0 0',
               opacity: 0,
               visibility: isExpanded ? 'visible' : 'hidden',
-              pointerEvents: isExpanded ? 'auto' : 'none'
+              pointerEvents: isExpanded ? 'auto' : 'none',
+              position: 'absolute',
+              top: '0px',
+              left: 0,
+              right: 0,
+              bottom: 0,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center'
             }}
           >
-            <nav style={{ width: '100%' }}>
+            <nav style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
               <ul style={{ 
                 display: 'flex', 
                 flexDirection: 'column', 
                 alignItems: 'center', 
-                gap: '20px', 
+                gap: '16px', 
                 margin: 0, 
                 padding: 0,
                 listStyle: 'none'
               }}>
-                {['home', 'about', 'contact'].map((section) => (
-                  <li key={section}>
-                    <motion.a 
-                      href={`#${section}`}
-                      className={activeSection === section ? 'active mobile-nav-active' : ''} 
-                      onClick={(e) => { 
-                        onHeaderClick(e, section); 
-                        toggleMenu(); 
-                      }}
-                      style={{ 
-                        fontSize: '1.4rem',
-                        color: activeSection === section ? '#007AFF' : 'white',
-                        fontWeight: activeSection === section ? 700 : 500, 
-                        textDecoration: 'none',
-                        textTransform: 'capitalize',
-                        padding: '12px 24px',
-                        borderRadius: '12px',
-                        background: activeSection === section ? 'rgba(0, 122, 255, 0.15)' : 'transparent',
-                        border: activeSection === section ? '1px solid rgba(0, 122, 255, 0.3)' : '1px solid transparent',
-                        transition: 'all 0.3s ease',
-                        display: 'block',
-                        textAlign: 'center',
-                        minWidth: '120px'
-                      }}
-                      whileHover={{ 
-                        scale: 1.05,
-                        backgroundColor: activeSection === section ? 'rgba(0, 122, 255, 0.25)' : 'rgba(255, 255, 255, 0.1)'
-                      }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      {section}
-                    </motion.a>
-                  </li>
-                ))}
+                {['home', 'about', 'contact'].map((section, index) => {
+                  const isActive = activeSection === section;
+                  
+                  return (
+                    <li key={section} style={{ order: index }}>
+                      <motion.a 
+                        href={`#${section}`}
+                        layoutId={isActive ? `section-title-${section}` : undefined}
+                        onClick={(e) => { 
+                          onHeaderClick(e, section); 
+                          toggleMenu(); 
+                        }}
+                        style={{ 
+                          fontSize: '1.4rem',
+                          color: isActive ? '#007AFF' : 'white',
+                          fontWeight: isActive ? 700 : 500, 
+                          textDecoration: 'none',
+                          textTransform: 'capitalize',
+                          padding: '12px 24px',
+                          borderRadius: '12px',
+                          background: isActive ? 'rgba(0, 122, 255, 0.15)' : 'transparent',
+                          border: isActive ? '1px solid rgba(0, 122, 255, 0.3)' : '1px solid transparent',
+                          transition: 'all 0.3s ease',
+                          display: 'block',
+                          textAlign: 'center',
+                          minWidth: '120px',
+                          cursor: 'pointer',
+                          boxShadow: isActive ? '0 0 20px rgba(0, 122, 255, 0.2)' : 'none'
+                        }}
+                        whileHover={{ 
+                          scale: 1.05,
+                          backgroundColor: isActive ? 'rgba(0, 122, 255, 0.25)' : 'rgba(255, 255, 255, 0.1)'
+                        }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        {section}
+                      </motion.a>
+                    </li>
+                  );
+                })}
               </ul>
             </nav>
+            
+            {/* Close button at the bottom */}
+            <motion.button
+              onClick={toggleMenu}
+              style={{
+                marginTop: 'auto',
+                marginBottom: '20px',
+                background: 'rgba(255,255,255,0.1)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                color: 'white',
+                borderRadius: '50%',
+                padding: '12px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                width: '44px',
+                height: '44px'
+              }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <X size={20} />
+            </motion.button>
           </div>
         </header>
       )}
