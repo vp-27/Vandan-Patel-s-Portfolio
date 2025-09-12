@@ -15,7 +15,7 @@
 
 .sticky-pfp {
   position: sticky;
-  top: 100px;
+  top: 200px; /* moved down from 100px for better centering */
   z-index: 10;
 }
 
@@ -39,6 +39,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-top: -100px; /* move hero text up to better align with pfp */
 }
 
 .hero-text {
