@@ -47,8 +47,8 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
 
     if (menuContentRef.current) {
       const topBar = 56;
-      const padding = 32;
-      const contentHeight = 200; // Fixed height for our simple menu
+      const padding = 40;
+      const contentHeight = 240; // Fixed height for our menu content
       return topBar + contentHeight + padding;
     }
     return 56;
