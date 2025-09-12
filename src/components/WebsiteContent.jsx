@@ -1,7 +1,8 @@
 // WebsiteContent.jsx - Clean Minimal Version
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Moon, Sun, Menu, X } from 'lucide-react';
+import { gsap } from 'gsap';
 import './WebsiteContent.css';
 import profileImage from '../images/pfp.png';
 import orogenieLogo from '../images/orogenie-logo.jpg'
@@ -16,6 +17,10 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
   const [menuOpen, setMenuOpen] = React.useState(false);
   const [isMobile, setIsMobile] = React.useState(false);
   const [isAnimating, setIsAnimating] = React.useState(false);
+  const [isExpanded, setIsExpanded] = React.useState(false);
+  const headerRef = useRef(null);
+  const menuContentRef = useRef(null);
+  const tlRef = useRef(null);
 
   React.useEffect(() => {
     const mql = window.matchMedia('(max-width: 768px)');
@@ -24,6 +29,86 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
     mql.addEventListener('change', update);
     return () => mql.removeEventListener('change', update);
   }, []);
+
+  // Get current section title for mobile display
+  const getCurrentSectionTitle = () => {
+    switch(activeSection) {
+      case 'home': return 'Home';
+      case 'about': return 'About';
+      case 'contact': return 'Contact';
+      default: return 'Home';
+    }
+  };
+
+  // Calculate expanded height for mobile menu
+  const calculateHeight = () => {
+    const headerEl = headerRef.current;
+    if (!headerEl || !isMobile) return 56;
+
+    if (menuContentRef.current) {
+      const topBar = 56;
+      const padding = 32;
+      const contentHeight = 200; // Fixed height for our simple menu
+      return topBar + contentHeight + padding;
+    }
+    return 56;
+  };
+
+  // Create GSAP timeline for smooth expansion
+  const createTimeline = () => {
+    const headerEl = headerRef.current;
+    const menuEl = menuContentRef.current;
+    if (!headerEl || !menuEl || !isMobile) return null;
+
+    gsap.set(headerEl, { height: 56, overflow: 'hidden' });
+    gsap.set(menuEl, { opacity: 0, y: 20 });
+
+    const tl = gsap.timeline({ paused: true });
+
+    tl.to(headerEl, {
+      height: calculateHeight(),
+      duration: 0.5,
+      ease: "power3.out"
+    });
+
+    tl.to(menuEl, { 
+      opacity: 1, 
+      y: 0, 
+      duration: 0.4, 
+      ease: "power3.out" 
+    }, '-=0.2');
+
+    return tl;
+  };
+
+  // Initialize timeline
+  useLayoutEffect(() => {
+    if (isMobile) {
+      const tl = createTimeline();
+      tlRef.current = tl;
+
+      return () => {
+        tl?.kill();
+        tlRef.current = null;
+      };
+    }
+  }, [isMobile]);
+
+  // Handle menu toggle with smooth animation
+  const toggleMenu = () => {
+    const tl = tlRef.current;
+    if (!tl || !isMobile) return;
+
+    if (!isExpanded) {
+      setMenuOpen(true);
+      setIsExpanded(true);
+      tl.play(0);
+    } else {
+      setMenuOpen(false);
+      tl.eventCallback('onReverseComplete', () => setIsExpanded(false));
+      tl.reverse();
+    }
+  };
 
   const handleDynamicIslandClick = (e) => {
     // Only trigger animation if clicking the island itself, not buttons inside
@@ -143,232 +228,186 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
           </motion.button>
         </motion.header>
       )}
-      {/* Mobile Header and Dynamic Island Menu */}
-      {isMobile && !menuOpen && (
-        <motion.header 
-          className={`header ${isAnimating ? 'animating' : ''}`}
-          layoutId="header"
-          onClick={handleDynamicIslandClick}
-          animate={isAnimating ? {
-            scaleX: [1, 1.06, 0.98, 1.03, 1]
-          } : {}}
-          transition={{
-            animate: { 
-              duration: isAnimating ? 0.6 : 0.4, 
-              ease: isAnimating ? [0.25, 0.46, 0.45, 0.94] : "easeOut" 
-            },
-            exit: { duration: 0.4, ease: "easeIn" },
-            layout: { duration: 0.4, ease: "easeInOut" }
-          }}
+      {/* Mobile Header - Improved Dynamic Island with GSAP */}
+      {isMobile && (
+        <header 
+          ref={headerRef}
+          className={`header mobile-dynamic-island ${isExpanded ? 'expanded' : ''} ${isAnimating ? 'animating' : ''}`}
+          onClick={!isExpanded ? handleDynamicIslandClick : undefined}
           style={{ 
-            cursor: 'pointer',
-            display: 'flex', 
-            alignItems: 'center', 
-            justifyContent: 'space-between', 
+            cursor: !isExpanded ? 'pointer' : 'default',
             position: 'fixed', 
             top: 12, 
             left: 20, 
             right: 20, 
             width: 'calc(100vw - 40px)',
-            height: '56px',
+            height: isExpanded ? 'auto' : '56px',
+            minHeight: '56px',
             zIndex: 1000,
-            padding: '8px 20px',
-            borderRadius: '28px'
-          }}
-        >
-          <motion.button
-            className="hamburger-menu"
-            aria-label="Open menu"
-            onClick={(e) => {
-              e.stopPropagation(); // Prevent island bounce
-              setMenuOpen(true);
-            }}
-            style={{ 
-              background: 'rgba(255,255,255,0.1)', 
-              border: 'none', 
-              color: 'white', 
-              borderRadius: '50%', 
-              padding: '12px', 
-              display: 'flex', 
-              alignItems: 'center', 
-              justifyContent: 'center', 
-              zIndex: 1002,
-              cursor: 'pointer',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
-              width: '44px',
-              height: '44px'
-            }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Menu size={22} />
-          </motion.button>
-          <motion.div style={{ flex: 1 }} />
-          <motion.button
-            onClick={(e) => {
-              e.stopPropagation(); // Prevent island bounce
-              toggleTheme();
-            }}
-            className="theme-toggle"
-            aria-label="Toggle theme"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            transition={{ duration: 0.3 }}
-            style={{ 
-              background: 'rgba(255,255,255,0.1)', 
-              border: 'none', 
-              color: 'white', 
-              borderRadius: '50%', 
-              padding: '12px', 
-              display: 'flex', 
-              alignItems: 'center', 
-              justifyContent: 'center',
-              cursor: 'pointer',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
-              width: '44px',
-              height: '44px'
-            }}
-          >
-            {darkMode ? <Sun size={20} /> : <Moon size={20} />}
-          </motion.button>
-        </motion.header>
-      )}
-      {isMobile && menuOpen && (
-        <motion.header
-          className="header dynamic-island-menu"
-          layoutId="header"
-          initial={{ 
-            borderRadius: '28px', 
-            width: 'calc(100vw - 40px)', 
-            left: 20, 
-            top: 12,
-            height: '56px'
-          }}
-          animate={{ 
-            borderRadius: '24px', 
-            width: 'calc(100vw - 24px)', 
-            left: 12, 
-            top: 12,
-            height: 'auto',
-            minHeight: '220px'
-          }}
-          exit={{ 
-            borderRadius: '28px', 
-            width: 'calc(100vw - 40px)', 
-            left: 20, 
-            top: 12,
-            height: '56px'
-          }}
-          transition={{
-            duration: 0.5,
-            ease: [0.25, 0.46, 0.45, 0.94], // Same smooth easing for both directions
-            layout: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }
-          }}
-          style={{
-            position: 'fixed',
-            background: 'linear-gradient(135deg, #000000, #111111)',
-            border: '1px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: isExpanded ? '20px' : '28px',
+            background: 'linear-gradient(135deg, rgba(0,0,0,0.85), rgba(17,17,17,0.85))',
+            backdropFilter: 'blur(20px)',
+            border: '1px solid rgba(255, 255, 255, 0.2)',
             boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
-            zIndex: 1001,
-            padding: '32px 20px 24px 20px',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
+            overflow: 'hidden',
+            transition: isExpanded ? 'none' : 'all 0.3s ease'
           }}
         >
-          <nav style={{ width: '100%', marginBottom: '24px' }}>
-            <ul style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '24px', margin: 0, padding: 0 }}>
-              <li>
-                <motion.a 
-                  href="#home" 
-                  className={activeSection === 'home' ? 'active' : ''} 
-                  onClick={(e) => { onHeaderClick(e, 'home'); setMenuOpen(false); }}
-                  style={{ 
-                    fontSize: activeSection === 'home' ? '1.6rem' : '1.3rem', 
-                    color: 'white', 
-                    fontWeight: activeSection === 'home' ? 700 : 600, 
-                    textDecoration: 'none',
-                    transition: 'all 0.3s ease'
-                  }}
-                  animate={{
-                    scale: activeSection === 'home' ? 1.1 : 1,
-                    opacity: activeSection === 'home' ? 1 : 0.8
-                  }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
-                >
-                  Home
-                </motion.a>
-              </li>
-              <li>
-                <motion.a 
-                  href="#about" 
-                  className={activeSection === 'about' ? 'active' : ''} 
-                  onClick={(e) => { onHeaderClick(e, 'about'); setMenuOpen(false); }}
-                  style={{ 
-                    fontSize: activeSection === 'about' ? '1.6rem' : '1.3rem', 
-                    color: 'white', 
-                    fontWeight: activeSection === 'about' ? 700 : 600, 
-                    textDecoration: 'none',
-                    transition: 'all 0.3s ease'
-                  }}
-                  animate={{
-                    scale: activeSection === 'about' ? 1.1 : 1,
-                    opacity: activeSection === 'about' ? 1 : 0.8
-                  }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
-                >
-                  About
-                </motion.a>
-              </li>
-              <li>
-                <motion.a 
-                  href="#contact" 
-                  className={activeSection === 'contact' ? 'active' : ''} 
-                  onClick={(e) => { onHeaderClick(e, 'contact'); setMenuOpen(false); }}
-                  style={{ 
-                    fontSize: activeSection === 'contact' ? '1.6rem' : '1.3rem', 
-                    color: 'white', 
-                    fontWeight: activeSection === 'contact' ? 700 : 600, 
-                    textDecoration: 'none',
-                    transition: 'all 0.3s ease'
-                  }}
-                  animate={{
-                    scale: activeSection === 'contact' ? 1.1 : 1,
-                    opacity: activeSection === 'contact' ? 1 : 0.8
-                  }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
-                >
-                  Contact
-                </motion.a>
-              </li>
-            </ul>
-          </nav>
-          <motion.button
-            className="close-menu"
-            aria-label="Close menu"
-            onClick={() => setMenuOpen(false)}
+          {/* Top Bar - Always Visible */}
+          <div className="header-top-bar" style={{
+            height: '56px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '0 20px',
+            position: 'relative',
+            zIndex: 2,
+            width: '100%'
+          }}>
+            {/* Hamburger Menu - Left */}
+            <motion.button
+              className="hamburger-menu-gsap"
+              aria-label={isExpanded ? "Close menu" : "Open menu"}
+              onClick={(e) => {
+                e.stopPropagation();
+                toggleMenu();
+              }}
+              style={{ 
+                background: 'none', 
+                border: 'none', 
+                color: 'white', 
+                borderRadius: '50%', 
+                padding: '10px', 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center',
+                cursor: 'pointer',
+                width: '40px',
+                height: '40px',
+                flexShrink: 0
+              }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              animate={isExpanded ? {
+                rotate: [0, 180]
+              } : {
+                rotate: [180, 0]
+              }}
+              transition={{ duration: 0.3 }}
+            >
+              {isExpanded ? <X size={20} /> : <Menu size={20} />}
+            </motion.button>
+
+            {/* Current Section Title in Center */}
+            <motion.div 
+              className="current-section-title"
+              style={{
+                color: 'white',
+                fontSize: '1.1rem',
+                fontWeight: 600,
+                flex: 1,
+                textAlign: 'center',
+                marginLeft: '10px',
+                marginRight: '10px'
+              }}
+              animate={{
+                opacity: isExpanded ? 0 : 1,
+                y: isExpanded ? -10 : 0
+              }}
+              transition={{ duration: 0.3 }}
+            >
+              {getCurrentSectionTitle()}
+            </motion.div>
+
+            {/* Theme Toggle - Right */}
+            <motion.button
+              onClick={(e) => {
+                e.stopPropagation();
+                toggleTheme();
+              }}
+              className="theme-toggle"
+              aria-label="Toggle theme"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              transition={{ duration: 0.3 }}
+              style={{ 
+                background: 'none',
+                border: 'none', 
+                color: darkMode ? '#34C759' : '#FF9500',
+                borderRadius: '50%', 
+                padding: '8px', 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center',
+                cursor: 'pointer',
+                width: '40px',
+                height: '40px',
+                flexShrink: 0
+              }}
+            >
+              {darkMode ? <Sun size={20} /> : <Moon size={20} />}
+            </motion.button>
+          </div>
+
+          {/* Expanded Menu Content */}
+          <div 
+            ref={menuContentRef}
+            className="mobile-menu-content" 
             style={{
-              background: 'rgba(255,255,255,0.1)',
-              border: '1px solid rgba(255, 255, 255, 0.2)',
-              color: 'white',
-              fontSize: '1rem',
-              borderRadius: '50%',
-              padding: '14px',
-              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-              width: '48px',
-              height: '48px'
+              padding: '20px',
+              opacity: 0,
+              visibility: isExpanded ? 'visible' : 'hidden',
+              pointerEvents: isExpanded ? 'auto' : 'none'
             }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
           >
-            <X size={24} />
-          </motion.button>
-        </motion.header>
+            <nav style={{ width: '100%' }}>
+              <ul style={{ 
+                display: 'flex', 
+                flexDirection: 'column', 
+                alignItems: 'center', 
+                gap: '20px', 
+                margin: 0, 
+                padding: 0,
+                listStyle: 'none'
+              }}>
+                {['home', 'about', 'contact'].map((section) => (
+                  <li key={section}>
+                    <motion.a 
+                      href={`#${section}`}
+                      className={activeSection === section ? 'active mobile-nav-active' : ''} 
+                      onClick={(e) => { 
+                        onHeaderClick(e, section); 
+                        toggleMenu(); 
+                      }}
+                      style={{ 
+                        fontSize: '1.4rem',
+                        color: activeSection === section ? '#007AFF' : 'white',
+                        fontWeight: activeSection === section ? 700 : 500, 
+                        textDecoration: 'none',
+                        textTransform: 'capitalize',
+                        padding: '12px 24px',
+                        borderRadius: '12px',
+                        background: activeSection === section ? 'rgba(0, 122, 255, 0.15)' : 'transparent',
+                        border: activeSection === section ? '1px solid rgba(0, 122, 255, 0.3)' : '1px solid transparent',
+                        transition: 'all 0.3s ease',
+                        display: 'block',
+                        textAlign: 'center',
+                        minWidth: '120px'
+                      }}
+                      whileHover={{ 
+                        scale: 1.05,
+                        backgroundColor: activeSection === section ? 'rgba(0, 122, 255, 0.25)' : 'rgba(255, 255, 255, 0.1)'
+                      }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      {section}
+                    </motion.a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
+        </header>
       )}
     </AnimatePresence>
   );

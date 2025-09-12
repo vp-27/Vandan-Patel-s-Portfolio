@@ -1737,3 +1737,137 @@ section:nth-child(5){
   }
 }
 
+/* Enhanced Mobile Dynamic Island Menu Styles */
+.mobile-dynamic-island {
+  will-change: height, border-radius;
+}
+
+.mobile-dynamic-island.expanded {
+  border-radius: 20px !important;
+}
+
+.mobile-dynamic-island .header-top-bar {
+  position: relative;
+  z-index: 10;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+}
+
+.hamburger-menu-gsap {
+  transition: all 0.3s ease;
+  flex-shrink: 0 !important;
+}
+
+.hamburger-menu-gsap:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  transform: scale(1.05);
+}
+
+.current-section-title {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  flex: 1 !important;
+  text-align: center !important;
+  margin: 0 10px !important;
+}
+
+.mobile-menu-content {
+  position: relative;
+  z-index: 1;
+}
+
+.mobile-nav-active {
+  color: #007AFF !important;
+  background: rgba(0, 122, 255, 0.15) !important;
+  border-color: rgba(0, 122, 255, 0.3) !important;
+  box-shadow: 0 0 20px rgba(0, 122, 255, 0.2);
+}
+
+/* Smooth transitions for mobile menu items */
+.mobile-menu-content a {
+  will-change: transform, background-color, border-color;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Theme button enhancements for mobile */
+.mobile-dynamic-island .theme-toggle {
+  flex-shrink: 0 !important;
+}
+
+.mobile-dynamic-island .theme-toggle:hover {
+  background: none !important;
+  transform: scale(1.1);
+}
+
+/* Better visual feedback for expanded state */
+.mobile-dynamic-island.expanded::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(0, 122, 255, 0.05), rgba(17, 17, 17, 0.05));
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  animation: menuGlow 0.5s ease-out forwards;
+}
+
+@keyframes menuGlow {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Enhanced bounce animation for dynamic island interaction */
+.mobile-dynamic-island.animating {
+  animation: dynamicIslandBounce 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+@keyframes dynamicIslandBounce {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.02); }
+  50% { transform: scale(0.98); }
+  70% { transform: scale(1.01); }
+  100% { transform: scale(1); }
+}
+
+/* Improve touch targets on mobile */
+@media (max-width: 768px) {
+  .mobile-menu-content a {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .hamburger-menu-gsap,
+  .mobile-dynamic-island .theme-toggle {
+    min-width: 40px;
+    min-height: 40px;
+    flex-shrink: 0;
+  }
+
+  .mobile-dynamic-island .header-top-bar {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 0 20px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .current-section-title {
+    flex: 1 !important;
+    text-align: center !important;
+    margin: 0 15px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+}
+
