@@ -1,0 +1,82 @@
+.card-spotlight {
+  position: relative;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-left: 3px solid rgba(142, 142, 147, 0.3); /* Default subtle left border */
+  background-color: var(--card-background);
+  padding: 28px;
+  overflow: hidden;
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+  --spotlight-color: rgba(255, 255, 255, 0.03);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] .card-spotlight {
+  border-color: rgba(255, 255, 255, 0.12);
+  background-color: var(--card-background);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card-spotlight::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+    600px circle at var(--mouse-x) var(--mouse-y), 
+    var(--spotlight-color), 
+    transparent 40%
+  );
+  opacity: 0;
+  transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  pointer-events: none;
+}
+
+.card-spotlight:hover::before,
+.card-spotlight:focus-within::before {
+  opacity: 0.8;
+}
+
+.card-spotlight:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .card-spotlight:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Project-specific colors - always visible borders + strong hover */
+.card-spotlight.finance-project {
+  --spotlight-color: rgba(52, 199, 89, 0.15);
+  border-left-color: rgba(52, 199, 89, 0.4);
+}
+
+.card-spotlight.cs-project {
+  --spotlight-color: rgba(175, 82, 222, 0.15);
+  border-left-color: rgba(175, 82, 222, 0.4);
+}
+
+.card-spotlight.hybrid-project {
+  --spotlight-color: rgba(255, 193, 7, 0.15);
+  border-left-color: rgba(255, 193, 7, 0.4);
+}
+
+.card-spotlight.finance-project:hover {
+  border-color: rgba(52, 199, 89, 0.3);
+  border-left-color: rgba(52, 199, 89, 0.8);
+}
+
+.card-spotlight.cs-project:hover {
+  border-color: rgba(175, 82, 222, 0.3);
+  border-left-color: rgba(175, 82, 222, 0.8);
+}
+
+.card-spotlight.hybrid-project:hover {
+  border-color: rgba(255, 193, 7, 0.3);
+  border-left-color: rgba(255, 193, 7, 0.8);
+}

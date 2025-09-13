@@ -9,8 +9,13 @@ import orogenieLogo from '../images/orogenie-logo.jpg'
 import bluPrint from '../images/bluprint.png'
 import finder from '../images/finder.png'
 import resume from '../documents/resume.pdf'
+import orogenieShot from '../images/orogenieShot.png'
+import personalWebsiteShot from '../images/personalWebsiteShot.png'
+import bluPrintShot from '../images/bluPrintShot.png'
 import Dock from './Dock';
 import './Dock.css';
+import SpotlightCard from './SpotlightCard';
+import './SpotlightCard.css';
 
 // Header Component with Hamburger for Mobile
 function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
@@ -35,6 +40,7 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
     switch(activeSection) {
       case 'home': return 'Home';
       case 'about': return 'About';
+      case 'projects': return 'Projects';
       case 'contact': return 'Contact';
       default: return 'Home';
     }
@@ -192,6 +198,25 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
                     transition={{ duration: 0.3, ease: "easeOut" }}
                   >
                     About
+                  </motion.a>
+                </li>
+                <li>
+                  <motion.a 
+                    href="#projects" 
+                    className={activeSection === 'projects' ? 'active' : ''} 
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation(); // Prevent island bounce
+                      onHeaderClick('projects');
+                    }}
+                    animate={{
+                      fontSize: activeSection === 'projects' ? '1.4rem' : '1rem',
+                      fontWeight: activeSection === 'projects' ? 700 : 500,
+                      scale: activeSection === 'projects' ? 1.05 : 1
+                    }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                  >
+                    Projects
                   </motion.a>
                 </li>
                 <li>
@@ -389,7 +414,7 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
                 padding: 0,
                 listStyle: 'none'
               }}>
-                {['home', 'about', 'contact'].map((section, index) => {
+                {['home', 'about', 'projects', 'contact'].map((section, index) => {
                   const isActive = activeSection === section;
                   
                   return (
@@ -613,6 +638,180 @@ const AboutContent = ({ aboutRef }) => {
   );
 };
 
+// Projects Content Component
+const ProjectsContent = () => {
+  const projects = [
+    {
+      id: 1,
+      title: "Algorithmic Stock Trading Bot",
+      description: "Python-based trading bot using Alpaca API with volatility & price action strategies. Achieved 1.7 Sharpe ratio through dynamic position sizing and stop-loss optimization.",
+      image: orogenieShot,
+      type: "hybrid", // Finance + CS
+      timeline: "Nov 2024 – Present",
+      technologies: ["Python", "Alpaca API", "Backtesting", "Risk Management"],
+      link: "#",
+      github: "https://github.com/vp-27/algo-trading"
+    },
+    {
+      id: 2,
+      title: "GrindSheet",
+      description: "Open-source fitness PWA tracking 8+ performance metrics with gamified social features. Achieved 85% daily active user retention through streamlined 3-step mobile logging.",
+      image: personalWebsiteShot,
+      type: "cs", // Pure CS/Tech
+      timeline: "May 2025 – Present",
+      technologies: ["TypeScript", "React", "PWA", "Supabase", "Tailwind CSS"],
+      link: "https://grindsheet.app",
+      github: "https://github.com/vp-27/grindsheet"
+    },
+    {
+      id: 3,
+      title: "Sunny – Live Insurance Co-Pilot",
+      description: "Real-time insurance risk engine prototyped at Microsoft NYC. Processes 6+ live data sources and 43+ unique data points for dynamic quote generation.",
+      image: bluPrintShot,
+      type: "cs", // Pure CS/Tech
+      timeline: "Jun 2025",
+      technologies: ["Pathway", "RAG", "LLM", "FastAPI", "React", "Python"],
+      link: "#",
+      github: "https://github.com/vp-27/sunny-insurance"
+    },
+    {
+      id: 4,
+      title: "OroGenie Trading Platform",
+      description: "Full-stack financial analytics platform with real-time market data aggregation. Features distributed data pipeline and SQL-driven portfolio analytics.",
+      image: orogenieShot,
+      type: "hybrid", // Finance + CS
+      timeline: "Jun 2024 – Aug 2024",
+      technologies: ["React", "Flask", "WebSockets", "SQL", "Yahoo Finance API"],
+      link: "https://orogenie.vercel.app",
+      github: "https://github.com/vp-27/orogenie"
+    },
+    {
+      id: 5,
+      title: "PerkPal – Rutgers Shark Tank",
+      description: "Rewards consolidation platform reaching top 6 finalists. Identified $2.4B+ opportunity in fragmented loyalty programs with technical proof-of-concept.",
+      image: personalWebsiteShot,
+      type: "hybrid", // Business + Tech
+      timeline: "Mar 2025",
+      technologies: ["React", "Selenium", "Business Development", "Market Research"],
+      link: "#",
+      github: "https://github.com/vp-27/perkpal"
+    }
+  ];
+
+  const getSpotlightClass = (type) => {
+    switch (type) {
+      case 'finance':
+        return 'finance-project';
+      case 'cs':
+        return 'cs-project';
+      case 'hybrid':
+        return 'hybrid-project';
+      default:
+        return '';
+    }
+  };
+
+  const getTypeColor = (type) => {
+    switch (type) {
+      case 'finance':
+        return 'rgba(52, 199, 89, 0.08)'; // Green for pure finance
+      case 'cs':
+        return 'rgba(175, 82, 222, 0.08)'; // Purple for pure CS/tech (distinct from site blue)
+      case 'hybrid':
+        return 'rgba(255, 193, 7, 0.08)'; // Gold for hybrid finance+CS (premium blend)
+      default:
+        return 'rgba(142, 142, 147, 0.08)';
+    }
+  };
+
+  return (
+    <section id="projects" className="projects-section">
+      <motion.div 
+        className="projects-content"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+      >
+        <div className="projects-grid">
+          {projects.map((project, index) => (
+            <motion.div
+              key={project.id}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-10%" }}
+              transition={{ 
+                duration: 0.7, 
+                delay: index * 0.1,
+                ease: [0.25, 0.46, 0.45, 0.94]
+              }}
+            >
+              <SpotlightCard 
+                className={`project-spotlight-card ${getSpotlightClass(project.type)}`}
+                spotlightColor={getTypeColor(project.type)}
+              >
+                <div className="project-card-content">
+                  <div className="project-header">
+                    <div className="project-image-container">
+                      <img 
+                        src={project.image} 
+                        alt={project.title}
+                        className="project-image"
+                      />
+                      <div className="project-type-indicator">
+                        <span className={`type-dot ${project.type}`}></span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="project-info">
+                    <div className="project-title-meta">
+                      <h3>{project.title}</h3>
+                      <span className="project-timeline">{project.timeline}</span>
+                    </div>
+                    
+                    <p>{project.description}</p>
+                    
+                    <div className="project-technologies">
+                      {project.technologies.slice(0, 4).map((tech, idx) => (
+                        <span key={idx} className="tech-tag">{tech}</span>
+                      ))}
+                      {project.technologies.length > 4 && (
+                        <span className="tech-tag more">+{project.technologies.length - 4}</span>
+                      )}
+                    </div>
+                    
+                    <div className="project-links">
+                      {project.link !== '#' && (
+                        <a 
+                          href={project.link} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="project-link-btn primary"
+                        >
+                          View Project
+                        </a>
+                      )}
+                      <a 
+                        href={project.github} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="project-link-btn secondary"
+                      >
+                        GitHub
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </SpotlightCard>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
+    </section>
+  );
+};
+
 // Main Component
 const WebsiteContent = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -779,6 +978,9 @@ const WebsiteContent = () => {
               <AboutContent aboutRef={aboutRef} />
             </div>
           </div>
+          
+          {/* Projects Section */}
+          <ProjectsContent />
           
           {/* Contact Section with Footer */}
           <section id="contact" className="contact-section">
