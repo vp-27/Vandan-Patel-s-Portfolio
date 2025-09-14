@@ -294,12 +294,12 @@
 }
 
 .category-pill {
-  padding: 6px 14px;
-  border-radius: 16px;
-  font-size: 0.75rem;
+  padding: 4px 12px;
+  border-radius: 14px;
+  font-size: 0.7rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.4px;
   color: white;
   position: relative;
   overflow: hidden;
@@ -335,35 +335,7 @@
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
-/* Premium gold background for hybrid projects */
-.project-categories.hybrid {
-  background: linear-gradient(135deg, #FFD700, #FFC107, #FFB300);
-  border-radius: 20px;
-  padding: 6px 12px;
-  box-shadow: 0 6px 16px rgba(255, 193, 7, 0.5),
-              0 2px 8px rgba(255, 193, 7, 0.3),
-              inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  position: relative;
-  overflow: hidden;
-}
-
-.project-categories.hybrid::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), transparent 50%);
-  pointer-events: none;
-}
-
-[data-theme="dark"] .project-categories.hybrid {
-  background: linear-gradient(135deg, #FFD700, #FFC107, #FFB300);
-  box-shadow: 0 6px 16px rgba(255, 193, 7, 0.6),
-              0 2px 8px rgba(255, 193, 7, 0.4),
-              inset 0 1px 0 rgba(255, 255, 255, 0.4);
-}
+/* Clean hybrid projects - no special background, let individual badges shine */
 
 /* Project Action Buttons Container */
 .project-action-buttons {
