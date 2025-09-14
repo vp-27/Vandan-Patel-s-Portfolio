@@ -372,26 +372,25 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
               <Menu size={20} />
             </motion.button>
 
-            {/* Current Section Title - Stays visible and flows to menu position */}
+            {/* Current Section Title - Clean text only */}
             {!isExpanded && (
-              <motion.div 
+              <div 
                 className="current-section-title"
-                layoutId={`section-title-${activeSection}`}
                 style={{
                   position: 'absolute',
                   left: '50%',
                   transform: 'translateX(-50%)',
                   color: '#007AFF',
-                  fontSize: '1.1rem',
-                  fontWeight: 600,
+                  fontSize: '1.5rem',
+                  fontWeight: 700,
                   textAlign: 'center',
                   pointerEvents: 'none',
-                  textTransform: 'capitalize'
+                  textTransform: 'capitalize',
+                  letterSpacing: '-0.02em'
                 }}
-                transition={{ duration: 0.4, ease: "easeOut" }}
               >
                 {getCurrentSectionTitle()}
-              </motion.div>
+              </div>
             )}
 
             {/* Theme Toggle - Disappears when expanded */}
