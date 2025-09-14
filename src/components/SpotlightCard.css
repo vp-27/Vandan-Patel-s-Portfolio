@@ -50,33 +50,15 @@
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
 }
 
-/* Project-specific colors - always visible borders + strong hover */
+/* Subtle spotlight effects for different project types */
 .card-spotlight.finance-project {
-  --spotlight-color: rgba(52, 199, 89, 0.15);
-  border-left-color: rgba(52, 199, 89, 0.4);
+  --spotlight-color: rgba(52, 199, 89, 0.08);
 }
 
 .card-spotlight.cs-project {
-  --spotlight-color: rgba(175, 82, 222, 0.15);
-  border-left-color: rgba(175, 82, 222, 0.4);
+  --spotlight-color: rgba(175, 82, 222, 0.08);
 }
 
 .card-spotlight.hybrid-project {
-  --spotlight-color: rgba(255, 193, 7, 0.15);
-  border-left-color: rgba(255, 193, 7, 0.4);
-}
-
-.card-spotlight.finance-project:hover {
-  border-color: rgba(52, 199, 89, 0.3);
-  border-left-color: rgba(52, 199, 89, 0.8);
-}
-
-.card-spotlight.cs-project:hover {
-  border-color: rgba(175, 82, 222, 0.3);
-  border-left-color: rgba(175, 82, 222, 0.8);
-}
-
-.card-spotlight.hybrid-project:hover {
-  border-color: rgba(255, 193, 7, 0.3);
-  border-left-color: rgba(255, 193, 7, 0.8);
+  --spotlight-color: rgba(255, 193, 7, 0.08);
 }

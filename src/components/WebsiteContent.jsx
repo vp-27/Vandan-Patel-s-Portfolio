@@ -647,10 +647,11 @@ const ProjectsContent = () => {
       description: "Python-based trading bot using Alpaca API with volatility & price action strategies. Achieved 1.7 Sharpe ratio through dynamic position sizing and stop-loss optimization.",
       image: orogenieShot,
       type: "hybrid", // Finance + CS
+      categories: ["Financial", "SWE"],
       timeline: "Nov 2024 – Present",
       technologies: ["Python", "Alpaca API", "Backtesting", "Risk Management"],
-      link: "#",
-      github: "https://github.com/vp-27/algo-trading"
+      link: null, // No public links
+      github: null
     },
     {
       id: 2,
@@ -658,6 +659,7 @@ const ProjectsContent = () => {
       description: "Open-source fitness PWA tracking 8+ performance metrics with gamified social features. Achieved 85% daily active user retention through streamlined 3-step mobile logging.",
       image: personalWebsiteShot,
       type: "cs", // Pure CS/Tech
+      categories: ["SWE"],
       timeline: "May 2025 – Present",
       technologies: ["TypeScript", "React", "PWA", "Supabase", "Tailwind CSS"],
       link: "https://grindsheet.app",
@@ -669,10 +671,11 @@ const ProjectsContent = () => {
       description: "Real-time insurance risk engine prototyped at Microsoft NYC. Processes 6+ live data sources and 43+ unique data points for dynamic quote generation.",
       image: bluPrintShot,
       type: "cs", // Pure CS/Tech
+      categories: ["SWE"],
       timeline: "Jun 2025",
       technologies: ["Pathway", "RAG", "LLM", "FastAPI", "React", "Python"],
-      link: "#",
-      github: "https://github.com/vp-27/sunny-insurance"
+      link: "https://insurance2-u4ew.onrender.com/",
+      github: "https://github.com/vp-27/insurance2"
     },
     {
       id: 4,
@@ -680,6 +683,7 @@ const ProjectsContent = () => {
       description: "Full-stack financial analytics platform with real-time market data aggregation. Features distributed data pipeline and SQL-driven portfolio analytics.",
       image: orogenieShot,
       type: "hybrid", // Finance + CS
+      categories: ["Financial", "SWE"],
       timeline: "Jun 2024 – Aug 2024",
       technologies: ["React", "Flask", "WebSockets", "SQL", "Yahoo Finance API"],
       link: "https://orogenie.vercel.app",
@@ -691,9 +695,10 @@ const ProjectsContent = () => {
       description: "Rewards consolidation platform reaching top 6 finalists. Identified $2.4B+ opportunity in fragmented loyalty programs with technical proof-of-concept.",
       image: personalWebsiteShot,
       type: "hybrid", // Business + Tech
+      categories: ["Financial", "SWE"],
       timeline: "Mar 2025",
       technologies: ["React", "Selenium", "Business Development", "Market Research"],
-      link: "#",
+      link: null,
       github: "https://github.com/vp-27/perkpal"
     }
   ];
@@ -751,56 +756,74 @@ const ProjectsContent = () => {
                 spotlightColor={getTypeColor(project.type)}
               >
                 <div className="project-card-content">
-                  <div className="project-header">
-                    <div className="project-image-container">
-                      <img 
-                        src={project.image} 
-                        alt={project.title}
-                        className="project-image"
-                      />
-                      <div className="project-type-indicator">
-                        <span className={`type-dot ${project.type}`}></span>
-                      </div>
-                    </div>
+                  {/* Always visible content */}
+                  <div className="project-image-container">
+                    <img 
+                      src={project.image} 
+                      alt={project.title}
+                      className="project-image"
+                    />
                   </div>
                   
-                  <div className="project-info">
-                    <div className="project-title-meta">
+                  <div className="project-compact-header">
+                    <div className="project-basic-info">
                       <h3>{project.title}</h3>
-                      <span className="project-timeline">{project.timeline}</span>
+                      <div className="project-meta">
+                        <span className="project-timeline">{project.timeline}</span>
+                        <div className={`project-categories ${project.categories.length > 1 ? 'hybrid' : ''}`}>
+                          {project.categories.map((category, idx) => (
+                            <span 
+                              key={idx} 
+                              className={`category-pill ${category.toLowerCase()}`}
+                            >
+                              {category}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
                     </div>
-                    
-                    <p>{project.description}</p>
-                    
-                    <div className="project-technologies">
-                      {project.technologies.slice(0, 4).map((tech, idx) => (
-                        <span key={idx} className="tech-tag">{tech}</span>
-                      ))}
-                      {project.technologies.length > 4 && (
-                        <span className="tech-tag more">+{project.technologies.length - 4}</span>
-                      )}
-                    </div>
-                    
-                    <div className="project-links">
-                      {project.link !== '#' && (
-                        <a 
-                          href={project.link} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="project-link-btn primary"
-                        >
-                          View Project
-                        </a>
-                      )}
+                    {(project.link || project.github) && (
                       <a 
-                        href={project.github} 
+                        href={project.link || project.github} 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className="project-link-btn secondary"
+                        className="visit-button"
                       >
-                        GitHub
+                        Visit
                       </a>
+                    )}
+                  </div>
+                  
+                  {/* Expanded content - hidden by default, shown on hover on desktop */}
+                  <div className="project-expanded-content">
+                    <p className="project-description">{project.description}</p>
+                    
+                    <div className="project-technologies">
+                      {project.technologies.map((tech, idx) => (
+                        <span key={idx} className="tech-tag">{tech}</span>
+                      ))}
                     </div>
+                    
+                    {(project.link || project.github) && (
+                      <div className="project-links">
+                        {project.link && (
+                          <a href={project.link} target="_blank" rel="noopener noreferrer" className="project-link">
+                            <span>Live Demo</span>
+                            <svg viewBox="0 0 20 20" fill="currentColor">
+                              <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                            </svg>
+                          </a>
+                        )}
+                        {project.github && (
+                          <a href={project.github} target="_blank" rel="noopener noreferrer" className="project-link">
+                            <span>Source Code</span>
+                            <svg viewBox="0 0 20 20" fill="currentColor">
+                              <path fillRule="evenodd" d="M10 0C4.477 0 0 4.484 0 10.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0110 4.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0020 10.017C20 4.484 15.522 0 10 0z" clipRule="evenodd" />
+                            </svg>
+                          </a>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
               </SpotlightCard>
