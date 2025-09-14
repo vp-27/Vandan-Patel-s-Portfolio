@@ -344,14 +344,24 @@
   flex-shrink: 0;
 }
 
+/* Light mode visit button */
 .visit-button:hover {
   background: #0056b3;
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
 }
 
+/* Dark mode visit button - ensure visibility */
+[data-theme="dark"] .visit-button {
+  background: var(--accent-color);
+  color: white;
+  border: 1px solid var(--accent-color);
+}
+
 [data-theme="dark"] .visit-button:hover {
-  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.4);
+  background: var(--button-hover);
+  box-shadow: 0 4px 12px rgba(10, 132, 255, 0.4);
+  border-color: var(--button-hover);
 }
 
 .project-basic-info h3 {
@@ -423,6 +433,19 @@
   color: white;
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+}
+
+/* Dark mode project links - ensure visibility */
+[data-theme="dark"] .project-link {
+  color: var(--accent-color);
+  border-color: var(--accent-color);
+  background: transparent;
+}
+
+[data-theme="dark"] .project-link:hover {
+  background: var(--accent-color);
+  color: white;
+  box-shadow: 0 4px 12px rgba(10, 132, 255, 0.4);
 }
 
 .project-link.disabled {
@@ -637,6 +660,7 @@
 :root {
   --primary-color: #007AFF; /* Apple's blue */
   --secondary-color: #34C759; /* Apple's green */
+  --accent-color: #007AFF; /* Added missing accent color */
   --background-color: rgba(255, 255, 255, 1);
   --text-color: #1D1D1F; /* Apple's dark text */
   --card-background: rgba(255, 255, 255, 1);
@@ -648,6 +672,7 @@
 [data-theme="dark"] {
   --primary-color: #0A84FF; /* Apple's dark mode blue */
   --secondary-color: #32D74B;
+  --accent-color: #0A84FF; /* Added missing accent color for dark mode */
   --background-color: rgba(0, 0, 0, 1);
   --text-color: #F5F5F7; /* Apple's light text */
   --card-background: rgba(28, 28, 30, 1);
@@ -1369,40 +1394,7 @@ section:nth-child(5){
   visibility: visible;
 }
 
-.project-link, .project-github {
-  background-color: rgba(255, 255, 255, 0.9);
-  padding: 12px;
-  border-radius: 50%;
-  color: #333;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform: translateY(20px);
-  opacity: 0;
-  position: relative;
-  z-index: 3;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  pointer-events: none;
-}
-
-.project-card:hover .project-link, 
-.project-card:hover .project-github {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-}
-
-.project-link:hover {
-  background-color: var(--primary-color);
-  color: #fff;
-  transform: scale(1.1);
-}
-
-.project-github:hover {
-  background-color: var(--secondary-color);
-  color: #fff;
-  transform: scale(1.1);
-}
+/* Old project-link styles removed - these were conflicting with the new spotlight card project links */
 
 .project-content {
   padding: 25px;
