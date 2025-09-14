@@ -205,7 +205,7 @@ const AppleStyleWebsite = () => {
     },
     expanded: { 
       width: '100vw', 
-      height: '100vh', 
+      height: '100dvh', // Use dynamic viewport height when available
       borderRadius: '0px',
       borderWidth: '0px',
       borderColor: 'rgba(0, 0, 0, 0)',

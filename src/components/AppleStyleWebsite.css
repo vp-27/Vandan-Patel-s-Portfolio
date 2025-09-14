@@ -1,5 +1,11 @@
 /* AppleStyleWebsite.css */
 
+:root {
+  /* Safe area adjustments for mobile browsers */
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-area-top: env(safe-area-inset-top, 0px);
+}
+
 .mega-container {
   margin: 0;
   min-height: 100vh;
@@ -365,16 +371,66 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  /* Adjust mega-container to account for mobile browser UI */
+  .mega-container {
+    /* Move entire phone up and add padding for mobile browser UI */
+    padding-top: 10px;
+    padding-bottom: max(80px, calc(80px + var(--safe-area-bottom)));
+    align-items: flex-start;
+    justify-content: center;
+    /* Ensure we use available height minus browser UI */
+    min-height: calc(100vh - 80px);
+  }
+
   .phone-container {
-    width: 300px;
-    height: 667px;
+    /* Reduce phone size to ensure slider fits above tab bar */
+    width: 280px;
+    height: 600px;
     border-radius: 40px;
+    /* Reduce top margin since we moved the container up */
+    margin-top: 20px;
   }
 
   .phone-container.phone-expanded {
     width: 100vw;
-    height: 100vh;
+    /* Use dvh (dynamic viewport height) if supported, fallback to calc with safe areas */
+    height: 100dvh;
     border-radius: 0;
+    margin-top: 0;
+  }
+
+  /* Fallback for browsers that don't support dvh */
+  @supports not (height: 100dvh) {
+    .phone-container.phone-expanded {
+      height: calc(100vh - var(--safe-area-top) - var(--safe-area-bottom));
+      /* Additional fallback for very problematic browsers */
+      min-height: calc(100vh - 120px);
+    }
+  }
+
+  /* iOS Safari specific adjustments */
+  @supports (-webkit-touch-callout: none) {
+    .phone-container.phone-expanded {
+      /* iOS Safari has issues with vh units, use a more conservative approach */
+      height: calc(100vh - 60px);
+    }
+  }
+
+  /* Keep lock bar in its natural iPhone position - don't move it up */
+  .lock-bar {
+    /* Maintain authentic iPhone slider positioning */
+    bottom: 50px; /* Back to original iPhone-accurate position */
+  }
+
+  /* Adjust slide bar size for mobile */
+  .slide-bar {
+    width: 85%;
+    height: 65px;
+  }
+
+  .drag-circle {
+    width: 55px;
+    height: 55px;
   }
 
   .header {
@@ -392,5 +448,69 @@
 
   h2 {
     font-size: 2rem;
+  }
+}
+
+/* Extra small mobile devices - reduce phone size further */
+@media (max-width: 480px) {
+  .mega-container {
+    /* Increase bottom padding for smaller screens */
+    padding-bottom: max(100px, calc(100px + var(--safe-area-bottom)));
+    min-height: calc(100vh - 100px);
+  }
+
+  .phone-container {
+    /* Further reduce phone size for very small screens */
+    width: 260px;
+    height: 550px;
+    border-radius: 35px;
+    margin-top: 15px;
+  }
+
+  /* Keep slider in authentic position */
+  .lock-bar {
+    bottom: 40px; /* Slightly closer but still authentic */
+  }
+
+  .slide-bar {
+    width: 85%;
+    height: 55px;
+  }
+
+  .drag-circle {
+    width: 45px;
+    height: 45px;
+  }
+}
+
+/* Landscape mobile orientation */
+@media (max-width: 768px) and (orientation: landscape) {
+  .mega-container {
+    /* In landscape, we have less height so need more aggressive adjustments */
+    padding-top: 5px;
+    padding-bottom: max(60px, calc(60px + var(--safe-area-bottom)));
+    min-height: calc(100vh - 60px);
+  }
+
+  .phone-container {
+    /* Significantly smaller in landscape to fit with browser UI */
+    width: 240px;
+    height: 450px;
+    margin-top: 10px;
+  }
+
+  /* Keep slider in proper iPhone position relative to the phone */
+  .lock-bar {
+    bottom: 35px; /* Proportionally accurate for smaller phone */
+  }
+
+  .slide-bar {
+    width: 80%;
+    height: 50px;
+  }
+
+  .drag-circle {
+    width: 40px;
+    height: 40px;
   }
 }
