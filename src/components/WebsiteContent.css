@@ -314,12 +314,19 @@
   border: 1px solid rgba(175, 82, 222, 0.4);
 }
 
-/* Gold background when both categories present (hybrid projects) */
-.project-categories.hybrid .category-pill {
-  background: linear-gradient(135deg, #FFD700, #FFC107);
-  color: #1D1D1F;
-  box-shadow: 0 1px 3px rgba(255, 193, 7, 0.3);
+/* Gold container for hybrid projects - wraps both category pills */
+.project-categories.hybrid {
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.15), rgba(255, 204, 7, 0.1));
+  border: 1px solid rgba(255, 193, 7, 0.3);
+  border-radius: 18px;
+  padding: 4px 8px;
+  box-shadow: 0 2px 8px rgba(255, 193, 7, 0.2);
+}
+
+[data-theme="dark"] .project-categories.hybrid {
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.2), rgba(255, 204, 7, 0.15));
   border: 1px solid rgba(255, 193, 7, 0.4);
+  box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3);
 }
 
 .visit-button {

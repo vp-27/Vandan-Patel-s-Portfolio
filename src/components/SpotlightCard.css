@@ -61,4 +61,5 @@
 
 .card-spotlight.hybrid-project {
   --spotlight-color: rgba(255, 193, 7, 0.08);
+  border-left: 3px solid rgba(142, 142, 147, 0.3); /* Keep default left border, no gold */
 }
