@@ -396,30 +396,30 @@
   border-color: rgba(0, 122, 255, 0.2);
 }
 
-/* Dark mode action buttons - muted design */
+/* Dark mode action buttons - balanced visibility */
 [data-theme="dark"] .action-button {
-  background: rgba(255, 255, 255, 0.08);
-  color: var(--text-color);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  opacity: 0.7;
+  background: rgba(10, 132, 255, 0.15);
+  color: var(--accent-color);
+  border: 1px solid rgba(10, 132, 255, 0.25);
 }
 
 [data-theme="dark"] .action-button:hover {
-  opacity: 1;
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(10, 132, 255, 0.2);
+  border-color: rgba(10, 132, 255, 0.35);
+  box-shadow: 0 2px 8px rgba(10, 132, 255, 0.3);
 }
 
-[data-theme="dark"] .visit-action:hover {
+/* Both buttons use the same blue accent color in dark mode */
+[data-theme="dark"] .visit-action {
   background: rgba(10, 132, 255, 0.15);
   color: var(--accent-color);
-  border-color: rgba(10, 132, 255, 0.3);
+  border-color: rgba(10, 132, 255, 0.25);
 }
 
-[data-theme="dark"] .code-action:hover {
-  background: rgba(156, 163, 175, 0.15);
-  color: #9ca3af;
-  border-color: rgba(156, 163, 175, 0.3);
+[data-theme="dark"] .code-action {
+  background: rgba(10, 132, 255, 0.15);
+  color: var(--accent-color);
+  border-color: rgba(10, 132, 255, 0.25);
 }
 
 .project-basic-info h3 {

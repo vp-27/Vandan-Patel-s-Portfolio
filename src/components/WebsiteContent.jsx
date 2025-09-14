@@ -719,13 +719,13 @@ const ProjectsContent = () => {
   const getTypeColor = (type) => {
     switch (type) {
       case 'finance':
-        return 'rgba(52, 199, 89, 0.08)'; // Green for pure finance
+        return 'rgba(52, 199, 89, 0.25)'; // Green for pure finance - much stronger
       case 'cs':
-        return 'rgba(175, 82, 222, 0.08)'; // Purple for pure CS/tech (distinct from site blue)
+        return 'rgba(175, 82, 222, 0.25)'; // Purple for pure CS/tech - much stronger
       case 'hybrid':
-        return 'rgba(255, 193, 7, 0.08)'; // Gold for hybrid finance+CS (premium blend)
+        return 'rgba(255, 193, 7, 0.25)'; // Gold for hybrid finance+CS - much stronger
       default:
-        return 'rgba(142, 142, 147, 0.08)';
+        return 'rgba(142, 142, 147, 0.15)'; // Default stronger spotlight
     }
   };
 

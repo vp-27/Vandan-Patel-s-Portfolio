@@ -7,7 +7,7 @@
   overflow: hidden;
   --mouse-x: 50%;
   --mouse-y: 50%;
-  --spotlight-color: rgba(255, 255, 255, 0.03);
+  --spotlight-color: rgba(255, 255, 255, 0.08);
   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
@@ -26,18 +26,19 @@
   right: 0;
   bottom: 0;
   background: radial-gradient(
-    600px circle at var(--mouse-x) var(--mouse-y), 
+    400px circle at var(--mouse-x) var(--mouse-y), 
     var(--spotlight-color), 
-    transparent 40%
+    rgba(255, 255, 255, 0.02) 30%,
+    transparent 60%
   );
   opacity: 0;
-  transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   pointer-events: none;
 }
 
 .card-spotlight:hover::before,
 .card-spotlight:focus-within::before {
-  opacity: 0.8;
+  opacity: 1;
 }
 
 .card-spotlight:hover {
@@ -49,15 +50,15 @@
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
 }
 
-/* Subtle spotlight effects for different project types */
+/* Stronger spotlight effects for different project types */
 .card-spotlight.finance-project {
-  --spotlight-color: rgba(52, 199, 89, 0.08);
+  --spotlight-color: rgba(52, 199, 89, 0.15);
 }
 
 .card-spotlight.cs-project {
-  --spotlight-color: rgba(175, 82, 222, 0.08);
+  --spotlight-color: rgba(175, 82, 222, 0.15);
 }
 
 .card-spotlight.hybrid-project {
-  --spotlight-color: rgba(255, 193, 7, 0.08);
+  --spotlight-color: rgba(255, 193, 7, 0.15);
 }
