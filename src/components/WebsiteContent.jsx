@@ -43,6 +43,8 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
       case 'home': return 'Home';
       case 'about': return 'About';
       case 'projects': return 'Projects';
+      case 'skills': return 'Skills';
+      case 'leadership': return 'Leadership';
       case 'contact': return 'Contact';
       default: return 'Home';
     }
@@ -56,7 +58,10 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
     if (menuContentRef.current) {
       const topBar = 56;
       const padding = 40;
-      const contentHeight = 240; // Fixed height for our menu content
+      const menuSections = 6; // home, about, skills, projects, leadership, contact
+      const sectionHeight = 60; // Height per menu item including padding
+      const closeButtonHeight = 60; // Close button space
+      const contentHeight = (menuSections * sectionHeight) + closeButtonHeight;
       return topBar + contentHeight + padding;
     }
     return 56;
@@ -219,6 +224,44 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
                     transition={{ duration: 0.3, ease: "easeOut" }}
                   >
                     Projects
+                  </motion.a>
+                </li>
+                <li>
+                  <motion.a 
+                    href="#skills" 
+                    className={activeSection === 'skills' ? 'active' : ''} 
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation(); // Prevent island bounce
+                      onHeaderClick('skills');
+                    }}
+                    animate={{
+                      fontSize: activeSection === 'skills' ? '1.4rem' : '1rem',
+                      fontWeight: activeSection === 'skills' ? 700 : 500,
+                      scale: activeSection === 'skills' ? 1.05 : 1
+                    }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                  >
+                    Skills
+                  </motion.a>
+                </li>
+                <li>
+                  <motion.a 
+                    href="#leadership" 
+                    className={activeSection === 'leadership' ? 'active' : ''} 
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation(); // Prevent island bounce
+                      onHeaderClick('leadership');
+                    }}
+                    animate={{
+                      fontSize: activeSection === 'leadership' ? '1.4rem' : '1rem',
+                      fontWeight: activeSection === 'leadership' ? 700 : 500,
+                      scale: activeSection === 'leadership' ? 1.05 : 1
+                    }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                  >
+                    Leadership
                   </motion.a>
                 </li>
                 <li>
@@ -416,7 +459,7 @@ function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
                 padding: 0,
                 listStyle: 'none'
               }}>
-                {['home', 'about', 'projects', 'contact'].map((section, index) => {
+                {['home', 'about', 'projects', 'skills', 'leadership', 'contact'].map((section, index) => {
                   const isActive = activeSection === section;
                   
                   return (
@@ -635,6 +678,252 @@ const AboutContent = ({ aboutRef }) => {
           My approach combines technical expertise with creative problem-solving, always 
           striving to deliver solutions that are both elegant and effective.
         </motion.p>
+      </motion.div>
+    </section>
+  );
+};
+
+// Skills Content Component
+const SkillsContent = () => {
+  const skillsData = {
+    swe: {
+      title: "Software Engineering",
+      icon: "💻",
+      skills: [
+        { name: "React", projects: ["GrindSheet", "OroGenie", "Portfolio"] },
+        { name: "TypeScript", projects: ["GrindSheet", "Sunny"] },
+        { name: "Python", projects: ["Trading Bot", "Sunny", "OroGenie"] },
+        { name: "JavaScript", projects: ["All Projects"] },
+        { name: "Flask/FastAPI", projects: ["OroGenie", "Sunny"] },
+        { name: "SQL", projects: ["OroGenie"] },
+        { name: "WebSockets", projects: ["OroGenie"] },
+        { name: "Tailwind CSS", projects: ["GrindSheet"] },
+        { name: "Git/GitHub", projects: ["All Projects"] },
+        { name: "Vercel", projects: ["Portfolio", "OroGenie"] }
+      ]
+    },
+    finance: {
+      title: "Financial Technology",
+      icon: "📊",
+      skills: [
+        { name: "Alpaca API", projects: ["Trading Bot"] },
+        { name: "Yahoo Finance API", projects: ["OroGenie"] },
+        { name: "Risk Management", projects: ["Trading Bot"] },
+        { name: "Backtesting", projects: ["Trading Bot"] },
+        { name: "Financial Modeling", projects: ["Bender Trust"] },
+        { name: "TradingView API", projects: ["OroGenie"] },
+        { name: "Portfolio Analytics", projects: ["OroGenie"] },
+        { name: "Market Data Analysis", projects: ["Trading Bot", "OroGenie"] }
+      ]
+    }
+  };
+
+  const getSkillCardClass = (type) => {
+    return type === 'swe' ? 'skill-card-swe' : 'skill-card-finance';
+  };
+
+  const getSpotlightColor = (type) => {
+    return type === 'swe' ? 'rgba(175, 82, 222, 0.25)' : 'rgba(52, 199, 89, 0.25)';
+  };
+
+  const SkillCard = ({ skill, index, type }) => (
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-10%" }}
+      transition={{ 
+        duration: 0.7, 
+        delay: index * 0.1,
+        ease: [0.25, 0.46, 0.45, 0.94]
+      }}
+    >
+      <SpotlightCard 
+        className={`skill-spotlight-card ${getSkillCardClass(type)}`}
+        spotlightColor={getSpotlightColor(type)}
+      >
+        <div className="skill-card-content">
+          <div className="skill-header">
+            <div className="skill-name">{skill.name}</div>
+          </div>
+          {skill.projects && (
+            <div className="skill-projects">
+              {skill.projects.slice(0, 2).map((project, idx) => (
+                <span key={idx} className={`project-reference ${type}`}>{project}</span>
+              ))}
+              {skill.projects.length > 2 && (
+                <span className={`project-reference more ${type}`}>+{skill.projects.length - 2}</span>
+              )}
+            </div>
+          )}
+        </div>
+      </SpotlightCard>
+    </motion.div>
+  );
+
+  return (
+    <section id="skills" className="skills-section">
+      <motion.div 
+        className="skills-content"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+      >
+
+
+        <div className="skills-grid">
+          {Object.entries(skillsData).map(([type, category], categoryIndex) => (
+            <motion.div
+              key={type}
+              className={`skills-category ${type}`}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: categoryIndex * 0.3 }}
+            >
+              <div className="category-header">
+                <span className="category-icon">{category.icon}</span>
+                <h3>{category.title}</h3>
+              </div>
+              <div className="skills-list">
+                {category.skills.map((skill, index) => (
+                  <SkillCard key={index} skill={skill} index={index} type={type} />
+                ))}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
+    </section>
+  );
+};
+
+// Leadership Content Component
+const LeadershipContent = () => {
+  const leadershipData = [
+    {
+      title: "PerkPal",
+      subtitle: "Rutgers Shark Tank Finalist",
+      period: "Mar 2025 - Present",
+      categories: ["SWE", "Financial"], // Both tech stack and business/financial aspects
+      highlight: "Top 6 / 30+ Startups",
+      description: "Led rewards consolidation platform identifying $2.4B+ market opportunity",
+      achievements: [
+        "Delivered high-impact pitch to panel of investors",
+        "Developed technical proof-of-concept with React + Selenium",
+        "Final presentations scheduled for April 2025"
+      ],
+      icon: "🦈"
+    },
+    {
+      title: "HackRU Project Lead",
+      subtitle: "Campus Event Discovery Platform",
+      period: "2024",
+      categories: ["SWE"], // Technical leadership
+      highlight: "24-Hour Hackathon",
+      description: "Directed cross-functional development team to successful prototype delivery",
+      achievements: [
+        "Led team of developers, designers, and backend engineers",
+        "Implemented agile methodologies for rapid development",
+        "Delivered working prototype within tight deadline"
+      ],
+      icon: "💻"
+    },
+    {
+      title: "Bender Trust",
+      subtitle: "Financial Manager",
+      period: "2024",
+      categories: ["Financial"], // Financial analysis focus
+      highlight: "Investment Strategy",
+      description: "Led financial analysis team developing comprehensive investment models",
+      achievements: [
+        "Built 5-year growth projection models",
+        "Presented to industry professionals",
+        "Led team of 4 in market analysis"
+      ],
+      icon: "📊"
+    },
+    {
+      title: "Taekwondo Leadership",
+      subtitle: "Black Belt + Class Leader",
+      period: "2018 - Present",
+      categories: [], // No technical badges - pure leadership/personal development
+      highlight: "100% Student Retention",
+      description: "Advanced martial artist mentoring 20+ students across all skill levels",
+      achievements: [
+        "Achieved 100% trial student return rate",
+        "Adapted teaching for students with learning difficulties",
+        "Fostered discipline and confidence development"
+      ],
+      icon: "🥋"
+    }
+  ];
+
+  const LeadershipCard = ({ leadership, index }) => (
+    <motion.div
+      className="leadership-card-modern"
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-10%" }}
+      transition={{ 
+        duration: 0.7, 
+        delay: index * 0.15,
+        ease: [0.25, 0.46, 0.45, 0.94]
+      }}
+    >
+      <div className="leadership-card-header">
+        <div className="leadership-icon-modern">
+          {leadership.icon}
+        </div>
+        <div className="leadership-titles">
+          <h3>{leadership.title}</h3>
+          <p className="leadership-subtitle">{leadership.subtitle}</p>
+        </div>
+        <div className="leadership-highlight">
+          {leadership.highlight}
+        </div>
+      </div>
+      
+      <div className="leadership-meta">
+        <span className="leadership-period">{leadership.period}</span>
+        <div className="leadership-categories">
+          {leadership.categories.map((category, idx) => (
+            <span key={idx} className={`category-pill ${category.toLowerCase()}`}>
+              {category}
+            </span>
+          ))}
+        </div>
+      </div>
+      
+      <p className="leadership-description">{leadership.description}</p>
+      
+      <div className="leadership-achievements">
+        {leadership.achievements.map((achievement, idx) => (
+          <div key={idx} className="achievement-item">
+            <span className="achievement-bullet">•</span>
+            <span className="achievement-text">{achievement}</span>
+          </div>
+        ))}
+      </div>
+    </motion.div>
+  );
+
+  return (
+    <section id="leadership" className="leadership-section">
+      <motion.div 
+        className="leadership-content"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+      >
+
+
+        <div className="leadership-grid-modern">
+          {leadershipData.map((leadership, index) => (
+            <LeadershipCard key={index} leadership={leadership} index={index} />
+          ))}
+        </div>
       </motion.div>
     </section>
   );
@@ -1005,8 +1294,23 @@ const WebsiteContent = () => {
             </div>
           </div>
           
+          {/* Section Divider */}
+          <div className="section-divider"></div>
+          
           {/* Projects Section */}
           <ProjectsContent />
+          
+          {/* Section Divider */}
+          <div className="section-divider"></div>
+          
+          {/* Skills Section */}
+          <SkillsContent />
+          
+          {/* Section Divider */}
+          <div className="section-divider"></div>
+          
+          {/* Leadership Section */}
+          <LeadershipContent />
           
           {/* Contact Section with Footer */}
           <section id="contact" className="contact-section">

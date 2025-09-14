@@ -1949,6 +1949,486 @@ section:nth-child(5){
   animation: messageSlide 0.3s ease forwards;
 }
 
+/* Skills Section Styles - Redesigned */
+.skills-section {
+  padding: 120px 40px;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.skills-content {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Section title removed - header navigation provides context */
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  gap: 3rem;
+  margin-bottom: 2rem;
+}
+
+.skills-category {
+  background: var(--card-background);
+  border-radius: 24px;
+  padding: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.category-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.category-icon {
+  font-size: 2rem;
+  padding: 0.75rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.skills-category.swe .category-icon {
+  background: rgba(175, 82, 222, 0.15);
+}
+
+.skills-category.finance .category-icon {
+  background: rgba(52, 199, 89, 0.15);
+}
+
+.skills-category h3 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin: 0;
+}
+
+.skills-category.swe h3 {
+  color: #AF52DE;
+}
+
+.skills-category.finance h3 {
+  color: #34C759;
+}
+
+.skills-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.skill-spotlight-card {
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.skill-card-content {
+  padding: 1.25rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.skill-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.skill-name {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--text-color);
+}
+
+.skill-projects {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  margin-top: auto;
+}
+
+.project-reference {
+  background: rgba(142, 142, 147, 0.2);
+  color: var(--text-color);
+  font-size: 0.7rem;
+  padding: 2px 6px;
+  border-radius: 8px;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  border: 1px solid rgba(142, 142, 147, 0.3);
+}
+
+.project-reference.swe:hover {
+  background: rgba(175, 82, 222, 0.3);
+  color: #AF52DE;
+  border-color: #AF52DE;
+}
+
+.project-reference.finance:hover {
+  background: rgba(52, 199, 89, 0.3);
+  color: #34C759;
+  border-color: #34C759;
+}
+
+.project-reference.more.swe {
+  background: rgba(175, 82, 222, 0.2);
+  color: #AF52DE;
+  border-color: #AF52DE;
+}
+
+.project-reference.more.finance {
+  background: rgba(52, 199, 89, 0.2);
+  color: #34C759;
+  border-color: #34C759;
+}
+
+/* Leadership Section Styles - Redesigned */
+.leadership-section {
+  padding: 120px 40px;
+  background-color: var(--card-background);
+  color: var(--text-color);
+}
+
+.leadership-content {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Section title removed - header navigation provides context */
+
+.leadership-grid-modern {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+}
+
+.leadership-card-modern {
+  background: var(--background-color);
+  border-radius: 24px;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.leadership-card-modern:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Hover states that show category differentiation */
+.leadership-card-modern:has(.category-pill.swe):hover {
+  box-shadow: 0 20px 40px rgba(175, 82, 222, 0.2);
+  border-color: rgba(175, 82, 222, 0.3);
+}
+
+.leadership-card-modern:has(.category-pill.financial):hover {
+  box-shadow: 0 20px 40px rgba(52, 199, 89, 0.2);
+  border-color: rgba(52, 199, 89, 0.3);
+}
+
+/* For cards with both categories (like PerkPal), show a mixed glow */
+.leadership-card-modern:has(.category-pill.swe):has(.category-pill.financial):hover {
+  box-shadow: 0 20px 40px rgba(175, 82, 222, 0.15), 0 20px 40px rgba(52, 199, 89, 0.15);
+  border-color: rgba(142, 142, 147, 0.3);
+}
+
+.leadership-card-modern:hover .category-pill.swe {
+  background: rgba(175, 82, 222, 0.2);
+  border-color: rgba(175, 82, 222, 0.4);
+}
+
+.leadership-card-modern:hover .category-pill.financial {
+  background: rgba(52, 199, 89, 0.2);
+  border-color: rgba(52, 199, 89, 0.4);
+}
+
+.leadership-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.leadership-icon-modern {
+  font-size: 1.5rem;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+.leadership-card-modern:hover .leadership-icon-modern {
+  transform: scale(1.1) rotate(5deg);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.leadership-titles {
+  flex: 1;
+  min-width: 0;
+}
+
+.leadership-titles h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin: 0 0 0.25rem 0;
+  line-height: 1.3;
+}
+
+.leadership-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.leadership-highlight {
+  background: rgba(0, 122, 255, 0.1);
+  color: var(--primary-color);
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  white-space: nowrap;
+  border: 1px solid rgba(0, 122, 255, 0.2);
+}
+
+.leadership-meta {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.leadership-period {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* Leadership uses the same category pills as projects for consistency */
+.leadership-categories {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.leadership-meta .category-pill {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.leadership-description {
+  font-size: 0.95rem;
+  color: var(--text-color);
+  margin-bottom: 1.25rem;
+  line-height: 1.5;
+}
+
+.leadership-achievements {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.achievement-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.achievement-bullet {
+  color: var(--primary-color);
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1.4;
+  flex-shrink: 0;
+}
+
+.achievement-text {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: var(--text-color);
+}
+
+.leadership-card-modern:hover .achievement-item {
+  transform: translateX(4px);
+}
+
+/* Responsive Design for Skills and Leadership */
+@media (max-width: 1024px) {
+  .skills-grid,
+  .leadership-grid-modern {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .skills-list {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .skills-section,
+  .leadership-section {
+    padding: 80px 20px;
+  }
+  
+  /* Section titles removed */
+  
+  .skills-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .skills-category {
+    padding: 1.25rem;
+  }
+  
+  .skills-list {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  
+  .skill-card-content {
+    padding: 1rem;
+  }
+  
+  .category-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    text-align: left;
+  }
+  
+  .category-icon {
+    align-self: center;
+  }
+  
+  .leadership-grid-modern {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .leadership-card-modern {
+    padding: 1.25rem;
+  }
+  
+  .leadership-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  
+  .leadership-icon-modern {
+    align-self: flex-start;
+  }
+  
+  .leadership-highlight {
+    align-self: flex-start;
+  }
+  
+  .leadership-meta {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .leadership-titles h3 {
+    font-size: 1.1rem;
+  }
+  
+  .achievement-item {
+    gap: 0.5rem;
+  }
+}
+
+/* Section Divider */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 20%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.1) 80%,
+    transparent 100%
+  );
+  margin: 60px auto;
+  max-width: 1200px;
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+.section-divider:hover {
+  opacity: 1;
+}
+
+[data-theme="dark"] .section-divider {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.15) 20%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0.15) 80%,
+    transparent 100%
+  );
+}
+
+@media (max-width: 480px) {
+  .skills-section,
+  .leadership-section {
+    padding: 60px 15px;
+  }
+  
+  .section-divider {
+    margin: 40px auto;
+  }
+  
+  .skills-category,
+  .leadership-card-modern {
+    padding: 1rem;
+  }
+  
+  .category-header {
+    padding-bottom: 0.75rem;
+  }
+  
+  .category-header h3 {
+    font-size: 1.4rem;
+  }
+  
+  .leadership-card-header {
+    gap: 0.5rem;
+  }
+  
+  .leadership-titles h3 {
+    font-size: 1rem;
+  }
+  
+  .leadership-subtitle {
+    font-size: 0.85rem;
+  }
+}
+
 .success-message {
   background: rgba(52, 199, 89, 0.1);
   color: #34C759;
