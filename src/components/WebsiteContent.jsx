@@ -17,8 +17,6 @@ import sunnyShot from '../images/sunny.png'
 import Dock from './Dock';
 import About from './About';
 import Skills from './Skills';
-import Projects from './Projects';
-import Leadership from './Leadership';
 import './Dock.css';
 import SpotlightCard from './SpotlightCard';
 import './SpotlightCard.css';
