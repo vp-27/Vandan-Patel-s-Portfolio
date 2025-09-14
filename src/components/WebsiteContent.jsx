@@ -15,6 +15,10 @@ import bluPrintShot from '../images/bluPrintShot.png'
 import perkpalShot from '../images/perkpal.png'
 import sunnyShot from '../images/sunny.png'
 import Dock from './Dock';
+import About from './About';
+import Skills from './Skills';
+import Projects from './Projects';
+import Leadership from './Leadership';
 import './Dock.css';
 import SpotlightCard from './SpotlightCard';
 import './SpotlightCard.css';
@@ -1229,6 +1233,16 @@ const WebsiteContent = () => {
         block: 'start'
       });
     }
+  };
+
+  const handleContactSubmit = (e) => {
+    e.preventDefault();
+    const name = e.target.name.value;
+    const email = e.target.email.value;
+    const message = e.target.message.value;
+    const subject = `Message from ${name}`;
+    const body = `From: ${email}\n\n${message}`;
+    window.location.href = `mailto:vrp77@scarletmail.rutgers.edu?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
 
   return (
