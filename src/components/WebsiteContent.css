@@ -1152,211 +1152,7 @@ section:nth-child(5){
   }
 }
 
-/* Skills Section */
-.skills {
-  padding: 120px 40px;
-  background-color: var(--background-color);
-  color: var(--text-color);
-}
-
-.skills h2 {
-  font-size: 3.5rem;
-  margin-bottom: 40px;
-  text-align: center;
-  color: var(--primary-color);
-  font-weight: 700;
-  letter-spacing: -0.03em;
-}
-
-.skills-content {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  gap: 20px;
-  padding: 30px;
-  border-radius: 20px;
-}
-
-.skills-categories {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2.5rem;
-  width: 100%;
-  padding: 1.5rem;
-}
-
-.skills-category {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.skills-category h3 {
-  color: var(--primary-color);
-  font-size: 1.8rem;
-  margin-bottom: 1rem;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  text-align: center;
-  position: relative;
-  padding-bottom: 10px;
-}
-
-.skills-category h3::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 3px;
-  background-color: var(--primary-color);
-  border-radius: 3px;
-}
-
-/* Modern skill cards with progress bars */
-.skills-list.modern {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.skill-card {
-  background: var(--card-background);
-  border-radius: 12px;
-  padding: 1rem 1.5rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.skill-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
-}
-
-.skill-header {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin-bottom: 8px;
-}
-
-.skill-header .skill-name {
-  font-weight: 600;
-  font-size: 1rem;
-  color: var(--text-color);
-  margin-bottom: 6px;
-}
-
-.skill-projects {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 8px;
-}
-
-.project-reference {
-  background-color: rgba(0, 122, 255, 0.1);
-  color: var(--primary-color);
-  font-size: 0.75rem;
-  padding: 3px 8px;
-  border-radius: 12px;
-  text-decoration: none;
-  transition: all 0.2s ease;
-  border: 1px solid rgba(0, 122, 255, 0.2);
-  white-space: nowrap;
-  cursor: pointer;
-}
-
-.project-reference:hover {
-  background-color: var(--primary-color);
-  color: white;
-  transform: translateY(-2px);
-}
-
-.skill-usage-bar {
-  display: none;
-}
-
-.usage-indicator {
-  display: none;
-}
-
-.fluency-level {
-  font-size: 0.85rem;
-  color: var(--primary-color);
-  font-weight: 500;
-  margin-top: 2px;
-}
-
-/* Certifications styling */
-.certifications-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.certification-card {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: var(--card-background);
-  border-radius: 12px;
-  padding: 1.2rem 1.5rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.3s ease;
-}
-
-.certification-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
-  border-color: var(--primary-color);
-}
-
-.certification-content {
-  display: flex;
-  flex-direction: column;
-}
-
-.certification-card h4 {
-  font-weight: 600;
-  font-size: 1.1rem;
-  margin-bottom: 4px;
-  color: var(--text-color);
-}
-
-.certification-date {
-  font-size: 0.9rem;
-  color: var(--primary-color);
-  font-weight: 500;
-}
-
-.certification-badge {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background: var(--primary-color);
-  color: white;
-  flex-shrink: 0;
-}
-
-.certification-details {
-  display: flex;
-  gap: 5px;
-  font-size: 0.85rem;
-  color: var(--text-color);
-  opacity: 0.8;
-}
-
-.certification-issuer {
-  color: var(--primary-color);
-}
+/* Old skills section styles removed - replaced with new clean design */
 
 /* Projects Section */
 .projects {
@@ -1949,145 +1745,189 @@ section:nth-child(5){
   animation: messageSlide 0.3s ease forwards;
 }
 
-/* Skills Section Styles - Redesigned */
+/* Skills Section - Clean & Minimal */
 .skills-section {
-  padding: 120px 40px;
-  background-color: var(--background-color);
-  color: var(--text-color);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  background: var(--background-color);
 }
 
-.skills-content {
-  max-width: 1400px;
+.skills-container {
+  max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
 }
 
-/* Section title removed - header navigation provides context */
-
-.skills-grid {
+.skills-content {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-  gap: 3rem;
-  margin-bottom: 2rem;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
 }
 
 .skills-category {
-  background: var(--card-background);
-  border-radius: 24px;
-  padding: 2rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.category-header {
   display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 2rem;
-  padding-bottom: 1rem;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  flex-direction: column;
+  gap: 32px;
 }
 
-.category-icon {
-  font-size: 2rem;
-  padding: 0.75rem;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.05);
+.category-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin: 0 0 24px 0;
+  letter-spacing: -0.02em;
 }
 
-.skills-category.swe .category-icon {
-  background: rgba(175, 82, 222, 0.15);
-}
-
-.skills-category.finance .category-icon {
-  background: rgba(52, 199, 89, 0.15);
-}
-
-.skills-category h3 {
-  font-size: 1.75rem;
-  font-weight: 600;
-  color: var(--text-color);
-  margin: 0;
-}
-
-.skills-category.swe h3 {
+.skills-category.technical .category-title {
   color: #AF52DE;
 }
 
-.skills-category.finance h3 {
+.skills-category.financial .category-title {
   color: #34C759;
 }
 
-.skills-list {
+.skills-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1rem;
+  gap: 16px;
 }
 
-.skill-spotlight-card {
+.skill-card {
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
   border-radius: 16px;
-  overflow: hidden;
-  transition: all 0.3s ease;
+  padding: 20px;
+  transition: all 0.2s ease;
+  cursor: default;
 }
 
-.skill-card-content {
-  padding: 1.25rem;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+.skill-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 
-.skill-header {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+.skills-category.technical .skill-card:hover {
+  border-color: #AF52DE;
+  box-shadow: 0 8px 24px rgba(175, 82, 222, 0.2);
+}
+
+.skills-category.financial .skill-card:hover {
+  border-color: #34C759;
+  box-shadow: 0 8px 24px rgba(52, 199, 89, 0.2);
+}
+
+[data-theme="dark"] .skill-card {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .skill-card:hover {
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .skill-name {
+  font-size: 1.1rem;
   font-weight: 600;
-  font-size: 1rem;
   color: var(--text-color);
+  margin: 0;
+  line-height: 1.4;
 }
 
-.skill-projects {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.375rem;
-  margin-top: auto;
+/* Mobile Responsive Design for Skills */
+@media (max-width: 768px) {
+  .skills-section {
+    padding: 60px 16px;
+    min-height: unset;
+  }
+  
+  .section-header {
+    margin-bottom: 50px;
+  }
+  
+  .section-header h2 {
+    font-size: 2.2rem;
+  }
+  
+  .section-header p {
+    font-size: 1rem;
+  }
+  
+  .skills-content {
+    grid-template-columns: 1fr;
+    gap: 50px;
+  }
+  
+  .category-header {
+    gap: 12px;
+  }
+  
+  .category-icon {
+    font-size: 2rem;
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+  }
+  
+  .category-title {
+    font-size: 1.6rem;
+  }
+  
+  .skill-card {
+    padding: 16px;
+  }
+  
+  .skill-name {
+    font-size: 1rem;
+  }
+  
+  .skill-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .skill-level {
+    font-size: 0.75rem;
+    padding: 3px 8px;
+  }
+  
+  .skill-experience {
+    font-size: 0.8rem;
+  }
 }
 
-.project-reference {
-  background: rgba(142, 142, 147, 0.2);
-  color: var(--text-color);
-  font-size: 0.7rem;
-  padding: 2px 6px;
-  border-radius: 8px;
-  white-space: nowrap;
-  transition: all 0.2s ease;
-  border: 1px solid rgba(142, 142, 147, 0.3);
-}
-
-.project-reference.swe:hover {
-  background: rgba(175, 82, 222, 0.3);
-  color: #AF52DE;
-  border-color: #AF52DE;
-}
-
-.project-reference.finance:hover {
-  background: rgba(52, 199, 89, 0.3);
-  color: #34C759;
-  border-color: #34C759;
-}
-
-.project-reference.more.swe {
-  background: rgba(175, 82, 222, 0.2);
-  color: #AF52DE;
-  border-color: #AF52DE;
-}
-
-.project-reference.more.finance {
-  background: rgba(52, 199, 89, 0.2);
-  color: #34C759;
-  border-color: #34C759;
+@media (max-width: 480px) {
+  .skills-section {
+    padding: 50px 12px;
+  }
+  
+  .section-header h2 {
+    font-size: 1.9rem;
+  }
+  
+  .skills-content {
+    gap: 40px;
+  }
+  
+  .skills-category {
+    gap: 24px;
+  }
+  
+  .category-icon {
+    font-size: 1.8rem;
+    width: 48px;
+    height: 48px;
+  }
+  
+  .category-title {
+    font-size: 1.4rem;
+  }
+  
+  .skill-card {
+    padding: 14px;
+  }
 }
 
 /* Leadership Section Styles - Redesigned */
@@ -2282,46 +2122,12 @@ section:nth-child(5){
     gap: 2rem;
   }
   
-  .skills-list {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  }
+
 }
 
 @media (max-width: 768px) {
-  .skills-section,
   .leadership-section {
     padding: 80px 20px;
-  }
-  
-  /* Section titles removed */
-  
-  .skills-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-  
-  .skills-category {
-    padding: 1.25rem;
-  }
-  
-  .skills-list {
-    grid-template-columns: 1fr;
-    gap: 0.75rem;
-  }
-  
-  .skill-card-content {
-    padding: 1rem;
-  }
-  
-  .category-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.75rem;
-    text-align: left;
-  }
-  
-  .category-icon {
-    align-self: center;
   }
   
   .leadership-grid-modern {
@@ -2394,7 +2200,6 @@ section:nth-child(5){
 }
 
 @media (max-width: 480px) {
-  .skills-section,
   .leadership-section {
     padding: 60px 15px;
   }
@@ -2403,17 +2208,8 @@ section:nth-child(5){
     margin: 40px auto;
   }
   
-  .skills-category,
   .leadership-card-modern {
     padding: 1rem;
-  }
-  
-  .category-header {
-    padding-bottom: 0.75rem;
-  }
-  
-  .category-header h3 {
-    font-size: 1.4rem;
   }
   
   .leadership-card-header {
@@ -2574,15 +2370,7 @@ section:nth-child(5){
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   }
 
-  .skills-list {
-    flex-direction: column;
-    align-items: center;
-  }
 
-  .skills-list .skill-item {
-    width: 80%;
-    text-align: center;
-  }
 
   .leadership-content {
     flex-direction: column;

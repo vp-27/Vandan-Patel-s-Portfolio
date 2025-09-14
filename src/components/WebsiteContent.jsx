@@ -683,117 +683,96 @@ const AboutContent = ({ aboutRef }) => {
   );
 };
 
-// Skills Content Component
+// Skills Content Component - Redesigned for Clean UI
 const SkillsContent = () => {
   const skillsData = {
-    swe: {
-      title: "Software Engineering",
-      icon: "💻",
+    technical: {
+      title: "Technical Skills",
+
       skills: [
-        { name: "React", projects: ["GrindSheet", "OroGenie", "Portfolio"] },
-        { name: "TypeScript", projects: ["GrindSheet", "Sunny"] },
-        { name: "Python", projects: ["Trading Bot", "Sunny", "OroGenie"] },
-        { name: "JavaScript", projects: ["All Projects"] },
-        { name: "Flask/FastAPI", projects: ["OroGenie", "Sunny"] },
-        { name: "SQL", projects: ["OroGenie"] },
-        { name: "WebSockets", projects: ["OroGenie"] },
-        { name: "Tailwind CSS", projects: ["GrindSheet"] },
-        { name: "Git/GitHub", projects: ["All Projects"] },
-        { name: "Vercel", projects: ["Portfolio", "OroGenie"] }
+        "React & Next.js",
+        "TypeScript", 
+        "Python",
+        "JavaScript/Node.js",
+        "Flask/FastAPI",
+        "SQL & Databases",
+        "Git & Version Control",
+        "Cloud Deployment"
       ]
     },
-    finance: {
+    financial: {
       title: "Financial Technology",
-      icon: "📊",
       skills: [
-        { name: "Alpaca API", projects: ["Trading Bot"] },
-        { name: "Yahoo Finance API", projects: ["OroGenie"] },
-        { name: "Risk Management", projects: ["Trading Bot"] },
-        { name: "Backtesting", projects: ["Trading Bot"] },
-        { name: "Financial Modeling", projects: ["Bender Trust"] },
-        { name: "TradingView API", projects: ["OroGenie"] },
-        { name: "Portfolio Analytics", projects: ["OroGenie"] },
-        { name: "Market Data Analysis", projects: ["Trading Bot", "OroGenie"] }
+        "Trading APIs",
+        "Risk Management",
+        "Market Data Analysis",
+        "Portfolio Analytics", 
+        "Financial Modeling",
+        "Backtesting Systems",
+        "Real-time Data Processing",
+        "Investment Strategy"
       ]
     }
   };
 
-  const getSkillCardClass = (type) => {
-    return type === 'swe' ? 'skill-card-swe' : 'skill-card-finance';
-  };
-
-  const getSpotlightColor = (type) => {
-    return type === 'swe' ? 'rgba(175, 82, 222, 0.25)' : 'rgba(52, 199, 89, 0.25)';
-  };
-
-  const SkillCard = ({ skill, index, type }) => (
+  const SkillCard = ({ skill, index, categoryType }) => (
     <motion.div
-      initial={{ opacity: 0, y: 40 }}
+      className={`skill-card ${categoryType}`}
+      initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-10%" }}
+      viewport={{ once: true, margin: "-20px" }}
       transition={{ 
-        duration: 0.7, 
-        delay: index * 0.1,
-        ease: [0.25, 0.46, 0.45, 0.94]
+        duration: 0.4, 
+        delay: index * 0.05,
+        ease: [0.4, 0, 0.2, 1]
+      }}
+      whileHover={{ 
+        y: -2,
+        transition: { duration: 0.2 }
       }}
     >
-      <SpotlightCard 
-        className={`skill-spotlight-card ${getSkillCardClass(type)}`}
-        spotlightColor={getSpotlightColor(type)}
-      >
-        <div className="skill-card-content">
-          <div className="skill-header">
-            <div className="skill-name">{skill.name}</div>
-          </div>
-          {skill.projects && (
-            <div className="skill-projects">
-              {skill.projects.slice(0, 2).map((project, idx) => (
-                <span key={idx} className={`project-reference ${type}`}>{project}</span>
-              ))}
-              {skill.projects.length > 2 && (
-                <span className={`project-reference more ${type}`}>+{skill.projects.length - 2}</span>
-              )}
-            </div>
-          )}
-        </div>
-      </SpotlightCard>
+      <h4 className="skill-name">{skill}</h4>
+    </motion.div>
+  );
+
+  const CategorySection = ({ type, category, index }) => (
+    <motion.div
+      className={`skills-category ${type}`}
+      initial={{ opacity: 0, x: index === 0 ? -30 : 30 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+    >
+      <h3 className="category-title">{category.title}</h3>
+      <div className="skills-grid">
+        {category.skills.map((skill, skillIndex) => (
+          <SkillCard 
+            key={skillIndex} 
+            skill={skill} 
+            index={skillIndex} 
+            categoryType={type}
+          />
+        ))}
+      </div>
     </motion.div>
   );
 
   return (
     <section id="skills" className="skills-section">
-      <motion.div 
-        className="skills-content"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
-      >
+      <div className="skills-container">
 
 
-        <div className="skills-grid">
-          {Object.entries(skillsData).map(([type, category], categoryIndex) => (
-            <motion.div
-              key={type}
-              className={`skills-category ${type}`}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: categoryIndex * 0.3 }}
-            >
-              <div className="category-header">
-                <span className="category-icon">{category.icon}</span>
-                <h3>{category.title}</h3>
-              </div>
-              <div className="skills-list">
-                {category.skills.map((skill, index) => (
-                  <SkillCard key={index} skill={skill} index={index} type={type} />
-                ))}
-              </div>
-            </motion.div>
+        <div className="skills-content">
+          {Object.entries(skillsData).map(([type, category], index) => (
+            <CategorySection 
+              key={type} 
+              type={type} 
+              category={category} 
+              index={index}
+            />
           ))}
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 };
