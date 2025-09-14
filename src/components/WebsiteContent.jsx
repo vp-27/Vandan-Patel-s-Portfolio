@@ -12,6 +12,8 @@ import resume from '../documents/resume.pdf'
 import orogenieShot from '../images/orogenieShot.png'
 import personalWebsiteShot from '../images/personalWebsiteShot.png'
 import bluPrintShot from '../images/bluPrintShot.png'
+import perkpalShot from '../images/perkpal.png'
+import sunnyShot from '../images/sunny.png'
 import Dock from './Dock';
 import './Dock.css';
 import SpotlightCard from './SpotlightCard';
@@ -669,7 +671,7 @@ const ProjectsContent = () => {
       id: 3,
       title: "Sunny – Live Insurance Co-Pilot",
       description: "Real-time insurance risk engine prototyped at Microsoft NYC. Processes 6+ live data sources and 43+ unique data points for dynamic quote generation.",
-      image: bluPrintShot,
+      image: sunnyShot,
       type: "cs", // Pure CS/Tech
       categories: ["SWE"],
       timeline: "Jun 2025",
@@ -693,12 +695,12 @@ const ProjectsContent = () => {
       id: 5,
       title: "PerkPal – Rutgers Shark Tank",
       description: "Rewards consolidation platform reaching top 6 finalists. Identified $2.4B+ opportunity in fragmented loyalty programs with technical proof-of-concept.",
-      image: personalWebsiteShot,
+      image: perkpalShot,
       type: "hybrid", // Business + Tech
       categories: ["Financial", "SWE"],
       timeline: "Mar 2025",
       technologies: ["React", "Selenium", "Business Development", "Market Research"],
-      link: null,
+      link: "https://perkpal.vercel.app/",
       github: "https://github.com/vp-27/perkpal"
     }
   ];
