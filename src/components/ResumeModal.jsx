@@ -39,11 +39,38 @@ const ResumeModal = ({ isOpen, onClose, onSelectResume }) => {
     onClose();
   };
 
+  const handleKeyDown = (e, resumeType) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleResumeSelect(resumeType);
+    }
+  };
+
+  // Handle escape key to close modal
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === 'Escape' && isOpen) {
+        onClose();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscape);
+      // Prevent body scroll when modal is open
+      document.body.style.overflow = 'hidden';
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen, onClose]);
+
   return (
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="resume-modal-backdrop"
+          className={`resume-modal-backdrop ${isDarkMode ? 'dark' : ''}`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -51,7 +78,7 @@ const ResumeModal = ({ isOpen, onClose, onSelectResume }) => {
           onClick={handleBackdropClick}
         >
           <motion.div
-            className={`resume-modal-content ${isDarkMode ? 'dark' : ''}`}
+            className="resume-modal-content"
             initial={{ opacity: 0, scale: 0.8, y: 50 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 50 }}
@@ -64,7 +91,7 @@ const ResumeModal = ({ isOpen, onClose, onSelectResume }) => {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="resume-modal-header">
-              <h2>Choose Resume Type</h2>
+              <h2>View Resume</h2>
               <button 
                 className="resume-modal-close"
                 onClick={onClose}
@@ -75,34 +102,37 @@ const ResumeModal = ({ isOpen, onClose, onSelectResume }) => {
             </div>
             
             <div className="resume-modal-body">
-              <p>Which resume would you like to view?</p>
               
               <div className="resume-options">
                 <motion.button
                   className="resume-option cs-option"
                   onClick={() => handleResumeSelect('cs')}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  transition={{ duration: 0.2 }}
+                  onKeyDown={(e) => handleKeyDown(e, 'cs')}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ duration: 0.15, ease: "easeOut" }}
+                  aria-label="Download Computer Science resume"
+                  type="button"
                 >
-                  <div className="resume-option-icon">💻</div>
+                  <div className="resume-option-icon cs-icon" aria-hidden="true"></div>
                   <div className="resume-option-content">
-                    <h3>Computer Science</h3>
-                    <p>Technical roles, software development, engineering positions</p>
+                    <h3>SWE</h3>
                   </div>
                 </motion.button>
 
                 <motion.button
                   className="resume-option finance-option"
                   onClick={() => handleResumeSelect('finance')}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  transition={{ duration: 0.2 }}
+                  onKeyDown={(e) => handleKeyDown(e, 'finance')}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ duration: 0.15, ease: "easeOut" }}
+                  aria-label="Download Finance resume"
+                  type="button"
                 >
-                  <div className="resume-option-icon">📊</div>
+                  <div className="resume-option-icon finance-icon" aria-hidden="true"></div>
                   <div className="resume-option-content">
-                    <h3>Finance</h3>
-                    <p>Financial roles, investment banking, consulting positions</p>
+                    <h3>Investments</h3>
                   </div>
                 </motion.button>
               </div>
