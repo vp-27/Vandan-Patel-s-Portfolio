@@ -1,0 +1,263 @@
+/* ResumeModal.css */
+.resume-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+.resume-modal-content {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  max-width: 500px;
+  width: 100%;
+  max-height: 90vh;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Dark mode support */
+.dark .resume-modal-content {
+  background: rgba(25, 25, 25, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.resume-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 24px 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.dark .resume-modal-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.resume-modal-header h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.dark .resume-modal-header h2 {
+  color: white;
+}
+
+.resume-modal-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+  color: #666;
+}
+
+.resume-modal-close:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.dark .resume-modal-close {
+  color: #ccc;
+}
+
+.dark .resume-modal-close:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.resume-modal-body {
+  padding: 24px;
+}
+
+.resume-modal-body p {
+  margin: 0 0 24px;
+  font-size: 16px;
+  color: #666;
+  text-align: center;
+}
+
+.dark .resume-modal-body p {
+  color: #ccc;
+}
+
+.resume-options {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.resume-option {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.dark .resume-option {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.resume-option:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border-color: rgba(0, 0, 0, 0.2);
+}
+
+.dark .resume-option:hover {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.cs-option:hover {
+  border-color: #3b82f6;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 197, 253, 0.1));
+}
+
+.finance-option:hover {
+  border-color: #10b981;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(110, 231, 183, 0.1));
+}
+
+.resume-option-icon {
+  font-size: 32px;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.05);
+  flex-shrink: 0;
+}
+
+.dark .resume-option-icon {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.cs-option .resume-option-icon {
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.finance-option .resume-option-icon {
+  background: rgba(16, 185, 129, 0.1);
+}
+
+.resume-option-content {
+  flex: 1;
+}
+
+.resume-option-content h3 {
+  margin: 0 0 4px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.dark .resume-option-content h3 {
+  color: white;
+}
+
+.resume-option-content p {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+  line-height: 1.4;
+}
+
+.dark .resume-option-content p {
+  color: #ccc;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .resume-modal-backdrop {
+    padding: 16px;
+  }
+  
+  .resume-modal-content {
+    max-width: 100%;
+    border-radius: 16px;
+  }
+  
+  .resume-modal-header {
+    padding: 20px 20px 12px;
+  }
+  
+  .resume-modal-header h2 {
+    font-size: 20px;
+  }
+  
+  .resume-modal-body {
+    padding: 20px;
+  }
+  
+  .resume-option {
+    padding: 16px;
+    gap: 12px;
+  }
+  
+  .resume-option-icon {
+    font-size: 28px;
+    width: 40px;
+    height: 40px;
+  }
+  
+  .resume-option-content h3 {
+    font-size: 16px;
+  }
+  
+  .resume-option-content p {
+    font-size: 13px;
+  }
+}
+
+/* Animation enhancements */
+.resume-option::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: left 0.5s ease;
+}
+
+.resume-option:hover::before {
+  left: 100%;
+}
+
+.dark .resume-option::before {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+}

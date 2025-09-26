@@ -20,6 +20,7 @@ import Skills from './Skills';
 import './Dock.css';
 import SpotlightCard from './SpotlightCard';
 import './SpotlightCard.css';
+import ResumeModal from './ResumeModal';
 
 // Header Component with Hamburger for Mobile
 function Header({ toggleTheme, darkMode, activeSection, onHeaderClick }) {
@@ -1113,13 +1114,30 @@ const WebsiteContent = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [aboutInView, setAboutInView] = useState(false);
+  const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
   const aboutRef = useRef(null);
+
+  // Modal handlers
+  const handleOpenResumeModal = () => {
+    setIsResumeModalOpen(true);
+  };
+
+  const handleCloseResumeModal = () => {
+    setIsResumeModalOpen(false);
+  };
+
+  const handleResumeSelect = (resumeType) => {
+    const resumeUrl = resumeType === 'cs' 
+      ? '/Vandan_Patel_ComputerScience_Resume.pdf' 
+      : '/Vandan_Patel_Finance_resume.pdf';
+    window.open(resumeUrl, '_blank');
+  };
 
   const dockItems = [
     {
       icon: <img src={finder} alt="Resume" loading="lazy" />,
       label: 'Find My Resume',
-      onClick: () => window.open(resume, '_blank'),
+      onClick: handleOpenResumeModal,
     },
     {
       icon: <img src="https://cdn.pixabay.com/photo/2022/01/30/13/33/github-6980894_960_720.png" alt="GitHub" />,
@@ -1327,6 +1345,13 @@ const WebsiteContent = () => {
           </section>
         </main>
       </div>
+
+      {/* Resume Selection Modal */}
+      <ResumeModal
+        isOpen={isResumeModalOpen}
+        onClose={handleCloseResumeModal}
+        onSelectResume={handleResumeSelect}
+      />
     </div>
   );
 };
